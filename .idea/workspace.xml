@@ -4,86 +4,76 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e451e572-73c3-41a4-bed3-3514cb140e58" name="Changes" comment="" />
+    <list default="true" id="12693cac-6fe3-4c69-a972-07598a984926" name="Changes" comment="fix the build">
+      <change beforePath="$PROJECT_DIR$/client/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="CopilotPersistence">
-    <persistenceIdMap>
-      <entry key="_/Users/pradatta.adhikary/Downloads/kashphool-new" value="3BJIljrfYwsrYVajKTEFychcIHk" />
-    </persistenceIdMap>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/node_modules/.pnpm/@types+react@19.2.1/node_modules/@types/react/index.d.ts" root0="SKIP_INSPECTION" />
+  <component name="GitToolBoxStore">
+    <option name="recentBranches">
+      <RecentBranches>
+        <option name="branchesForRepo">
+          <list>
+            <RecentBranchesForRepo>
+              <option name="branches">
+                <list>
+                  <RecentBranch>
+                    <option name="branchName" value="fix-build" />
+                    <option name="lastUsedInstant" value="1774225352" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="main" />
+                    <option name="lastUsedInstant" value="1774225220" />
+                  </RecentBranch>
+                </list>
+              </option>
+              <option name="repositoryRootUrl" value="file://$PROJECT_DIR$" />
+            </RecentBranchesForRepo>
+          </list>
+        </option>
+      </RecentBranches>
+    </option>
   </component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 0,
-  &quot;fromUser&quot;: false
-}</component>
-  <component name="ProjectId" id="3BJIljrfYwsrYVajKTEFychcIHk" />
-  <component name="ProjectViewState">
-    <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showLibraryContents" value="true" />
-  </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.go.formatter.settings.were.checked": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/pradatta.adhikary/Downloads/kashphool-new/client/public/images",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "pnpm",
-    "prettierjs.PrettierConfiguration.Package": "/Users/pradatta.adhikary/Downloads/kashphool-new/node_modules/prettier",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "ts.external.directory.path": "/Users/pradatta.adhikary/Downloads/kashphool-new/node_modules/typescript/lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Kashphool/kashphool.git",
+    "accountId": "d1d256db-34a8-4f57-921c-74b3f98ede71"
   }
 }]]></component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/client/public/images" />
-    </key>
-  </component>
-  <component name="SharedIndexes">
-    <attachedChunks>
-      <set>
-        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.32098.37" />
-        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-IU-253.32098.37" />
-      </set>
-    </attachedChunks>
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
+    "git-widget-placeholder": "main",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "ts.external.directory.path": "/Users/pradatta.adhikary/Work/kashphool/node_modules/typescript/lib"
+  }
+}]]></component>
   <component name="TaskManager">
-    <task active="true" id="Default" summary="Default task">
-      <changelist id="e451e572-73c3-41a4-bed3-3514cb140e58" name="Changes" comment="" />
-      <created>1774200899117</created>
-      <option name="number" value="Default" />
-      <option name="presentableId" value="Default" />
-      <updated>1774200899117</updated>
-      <workItem from="1774200900606" duration="6152000" />
-      <workItem from="1774217776541" duration="4745000" />
+    <task id="LOCAL-00001" summary="fix the build">
+      <option name="closed" value="true" />
+      <created>1774225861898</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1774225861898</updated>
     </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
-  </component>
-  <component name="github-copilot-workspace">
-    <instructionFileLocations>
-      <option value=".github/instructions" />
-    </instructionFileLocations>
-    <promptFileLocations>
-      <option value=".github/prompts" />
-    </promptFileLocations>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="fix the build" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix the build" />
   </component>
 </project>

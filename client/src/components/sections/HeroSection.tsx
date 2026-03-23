@@ -13,9 +13,9 @@ export default function HeroSection() {
   const { ref, isInView } = useInView();
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center overflow-hidden">
+    <section id="home" className="relative min-h-screen flex items-center overflow-hidden -mt-20">
       {/* Background Video */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 -top-20">
         <video
           autoPlay
           loop
