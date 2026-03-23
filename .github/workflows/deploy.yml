@@ -21,15 +21,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: github-pages
+          ref: gh-pages
           fetch-depth: 0
       
-      - name: Merge main into github-pages
+      - name: Merge main into gh-pages
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           git merge origin/main --no-edit
-          git push origin github-pages
+          git push origin gh-pages
 
       - name: Setup Node
         uses: actions/setup-node@v4
