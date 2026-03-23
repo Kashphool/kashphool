@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - github-pages
+      - main
 
 permissions:
   contents: write
@@ -21,15 +21,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: gh-pages
+          ref: github-pages
           fetch-depth: 0
       
-      - name: Merge main into gh-pages
+      - name: Merge main into github-pages
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           git merge origin/main --no-edit
-          git push origin gh-pages
+          git push origin github-pages
 
       - name: Setup Node
         uses: actions/setup-node@v4
