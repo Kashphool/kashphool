@@ -113,20 +113,17 @@ function EventCard({ event, index }: { event: Event; index: number }) {
             </div>
             <div className="flex items-center gap-3 text-ivory/60">
               <MapPin size={18} className="text-saffron/80 shrink-0" />
-              <span>
-                <a
-                  href={
-                    event.venue.googleMapsUrl ||
-                    `https://www.google.com/maps/search/?api=1&query=${event.venue.coordinates.lat},${event.venue.coordinates.lng}`
-                  }
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-saffron/80 hover:text-saffron transition-colors underline decoration-saffron/30 hover:decoration-saffron"
-                >
-                  {event.venue.name}
-                </a>
-                , {event.venue.address}
-              </span>
+              <a
+                href={
+                  event.venue.googleMapsUrl ||
+                  `https://www.google.com/maps/search/?api=1&query=${event.venue.coordinates.lat},${event.venue.coordinates.lng}`
+                }
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-saffron/80 hover:text-saffron transition-colors underline decoration-saffron/30 hover:decoration-saffron"
+              >
+                {event.venue.name}, {event.venue.address}
+              </a>
             </div>
           </div>
 
