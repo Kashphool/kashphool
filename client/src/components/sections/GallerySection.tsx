@@ -11,12 +11,12 @@ import { useState } from "react";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
 const galleryImages = [
-  { src: "https://kashphool.pradatta.dev/gallery/2025_1.jpg", alt: "Durga Puja 2025" },
-  { src: "https://kashphool.pradatta.dev/gallery/2025_2.jpg", alt: "Durga Puja 2025" },
-  { src: "https://kashphool.pradatta.dev/gallery/2025_3.jpg", alt: "Durga Puja 2025" },
-  { src: "https://kashphool.pradatta.dev/gallery/2025_4.jpg", alt: "Durga Puja 2025" },
-  { src: "https://kashphool.pradatta.dev/gallery/2025_5.jpg", alt: "Durga Puja 2025" },
-  { src: "https://kashphool.pradatta.dev/gallery/2025_6.jpg", alt: "Durga Puja 2025" },
+  { src: "/images/durga.png", alt: "Durga Puja Celebration" },
+  { src: "/images/saraswati.png", alt: "Saraswati Puja Celebration" },
+  { src: "/images/hero-bg.jpeg", alt: "Community Event" },
+  { src: "/images/about-logo.jpeg", alt: "Kashphool Organization" },
+  { src: "/images/mandala-pattern.webp", alt: "Traditional Art" },
+  { src: "/images/logo.png", alt: "Kashphool Logo" },
 ];
 
 export default function GallerySection() {
