@@ -175,17 +175,6 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
-    rollupOptions: {
-      output: {
-        // Add timestamp to asset filenames to bust cache
-        assetFileNames: (assetInfo) => {
-          if (assetInfo.name && assetInfo.name.endsWith('.css')) {
-            return `assets/[name]-[hash]-${Date.now()}.[ext]`;
-          }
-          return 'assets/[name]-[hash].[ext]';
-        },
-      },
-    },
   },
   envDir: path.resolve(import.meta.dirname),
   root: path.resolve(import.meta.dirname, "client"),

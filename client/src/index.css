@@ -53,7 +53,7 @@
   --color-saffron: oklch(0.78 0.14 75);
   --color-vermillion: oklch(0.55 0.2 25);
   --color-gold: oklch(0.75 0.12 85);
-  --color-ivory: oklch(0.96 0.01 90);
+  --color-ivory: #f7f5f0;
   --color-charcoal: oklch(0.18 0 0);
   --color-charcoal-light: oklch(0.22 0 0);
   --color-charcoal-lighter: oklch(0.28 0 0);
