@@ -5,6 +5,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { defineConfig, type Plugin, type ViteDevServer } from "vite";
 import { vitePluginManusRuntime } from "vite-plugin-manus-runtime";
+import { fixOklabScientificNotation } from "./vite-plugin-fix-oklab";
 
 // =============================================================================
 // Manus Debug Collector - Vite Plugin
@@ -155,7 +156,8 @@ const plugins = [
   tailwindcss(),
   jsxLocPlugin(),
   vitePluginManusRuntime(),
-  vitePluginManusDebugCollector()
+  vitePluginManusDebugCollector(),
+  fixOklabScientificNotation(), // Fix scientific notation in oklab colors
 ];
 
 export default defineConfig({
@@ -169,7 +171,23 @@ export default defineConfig({
   },
   css: {
     transformer: 'postcss',
-    // Disable lightningcss to prevent oklch -> oklab conversion
+    postcss: {
+      plugins: [],
+    },
+    lightningcss: {
+      // Disable color space conversions
+      targets: {
+        // Target browsers that support oklch natively
+        chrome: 111,
+        firefox: 113,
+        safari: 16.4,
+        edge: 111,
+      },
+      drafts: {
+        // Don't convert modern color syntax
+        customMedia: true,
+      },
+    },
   },
   envDir: path.resolve(import.meta.dirname),
   root: path.resolve(import.meta.dirname, "client"),
