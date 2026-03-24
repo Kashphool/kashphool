@@ -7,7 +7,7 @@
 */
 
 import { useInView } from "@/hooks/useInView";
-import { Heart, Mail, MapPin, Users } from "lucide-react";
+import { Heart, MapPin, Users } from "lucide-react";
 import { useState, useRef } from "react";
 import emailjs from '@emailjs/browser';
 import { IMAGES, EMAILJS_CONFIG, EMAIL_MESSAGE_TIMEOUT, EXTERNAL_LINKS } from "@/config";
@@ -149,9 +149,7 @@ export default function ContactSection() {
               <div className="h-[2px] w-20 bg-gradient-to-r from-saffron to-transparent mb-8" />
 
               <p className="text-ivory/70 text-lg leading-relaxed mb-8">
-                Your contribution helps us make a bigger impact. Every donation supports
-                our cultural events, community programs, and the preservation of our
-                Bengali heritage in North Kent. Thank you for your generous support!
+                Your contribution helps us make a bigger impact. Thank you for your generous support!
               </p>
 
               {/* Info Cards */}
@@ -192,7 +190,11 @@ export default function ContactSection() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-3 px-10 py-4 bg-gradient-to-r from-vermillion to-saffron text-ivory font-semibold text-lg rounded-sm tracking-wide hover:shadow-xl hover:shadow-vermillion/20 transition-all duration-300 hover:scale-105 group"
               >
-                <Heart size={20} className="group-hover:animate-pulse" />
+                <img 
+                  src="/images/lopay.png" 
+                  alt="LoPay" 
+                  className="w-5 h-5 object-contain group-hover:animate-pulse filter brightness-0 invert"
+                />
                 Donate Now
               </a>
             </div>

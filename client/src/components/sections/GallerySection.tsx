@@ -7,16 +7,16 @@
 */
 
 import { useInView } from "@/hooks/useInView";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
 const galleryImages = [
-  { src: "/images/durga.png", alt: "Durga Puja Celebration" },
-  { src: "/images/saraswati.png", alt: "Saraswati Puja Celebration" },
-  { src: "/images/hero-bg.jpeg", alt: "Community Event" },
-  { src: "/images/about-logo.jpeg", alt: "Kashphool Organization" },
-  { src: "/images/mandala-pattern.webp", alt: "Traditional Art" },
-  { src: "/images/logo.png", alt: "Kashphool Logo" },
+  { src: "/gallery/2025_1.jpg", alt: "Durga Puja 2025" },
+  { src: "/gallery/2025_2.jpg", alt: "Durga Puja 2025" },
+  { src: "/gallery/2025_3.jpg", alt: "Durga Puja 2025" },
+  { src: "/gallery/2025_4.jpg", alt: "Durga Puja 2025" },
+  { src: "/gallery/2025_5.jpg", alt: "Durga Puja 2025" },
+  { src: "/gallery/2025_6.jpg", alt: "Durga Puja 2025" },
 ];
 
 export default function GallerySection() {
@@ -33,6 +33,24 @@ export default function GallerySection() {
     setLightboxIndex((prev) =>
       prev !== null ? (prev + 1) % galleryImages.length : null
     );
+
+  // Keyboard navigation
+  useEffect(() => {
+    if (lightboxIndex === null) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') {
+        prevImage();
+      } else if (e.key === 'ArrowRight') {
+        nextImage();
+      } else if (e.key === 'Escape') {
+        closeLightbox();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [lightboxIndex]);
 
   return (
     <section id="gallery" className="relative py-24 md:py-32 overflow-hidden">

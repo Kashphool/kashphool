@@ -6,6 +6,7 @@
 */
 
 import { IMAGES } from "@/config";
+import { Mail, Instagram, Facebook, Youtube } from "lucide-react";
 
 const navLinks = [
   { label: "Home", href: "#home" },
@@ -27,7 +28,7 @@ export default function Footer() {
       <div className="h-[1px] bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
 
       <div className="container py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand */}
           <div>
             <div className="flex items-center gap-3 mb-4">
@@ -37,11 +38,11 @@ export default function Footer() {
               </span>
             </div>
             <p className="text-ivory/50 text-sm leading-relaxed max-w-xs">
-              An Indian Bengali Association based in North Kent, dedicated to preserving
-              and celebrating our rich cultural heritage.
+              An Indian Bengali Association based in North Kent, dedicated to
+              preserving and celebrating our rich cultural heritage.
             </p>
             <div className="mt-4">
-              <span className="text-3xl text-saffron/40 font-[var(--font-bengali)]">ॐ</span>
+              <span className="text-3xl text-saffron/40 font-[var(--font-bengali)]">❀</span>
             </div>
           </div>
 
@@ -52,11 +53,14 @@ export default function Footer() {
             </h4>
             <div className="h-[1px] w-12 bg-gold/30 mb-4" />
             <nav className="space-y-2.5">
-              {navLinks.map((link) => (
+              {navLinks.map(link => (
                 <a
                   key={link.href}
                   href={link.href}
-                  onClick={(e) => { e.preventDefault(); handleNavClick(link.href); }}
+                  onClick={e => {
+                    e.preventDefault();
+                    handleNavClick(link.href);
+                  }}
                   className="block text-ivory/50 hover:text-saffron transition-colors duration-300 text-sm"
                 >
                   {link.label}
@@ -71,9 +75,21 @@ export default function Footer() {
               Connect
             </h4>
             <div className="h-[1px] w-12 bg-gold/30 mb-4" />
-            <div className="space-y-3 text-ivory/50 text-sm">
+            <div className="space-y-4 text-ivory/50 text-sm">
               <p>North Kent, United Kingdom</p>
               <p>Established 2025</p>
+              
+              {/* Email */}
+              <div className="flex items-center gap-2">
+                <Mail size={16} className="text-saffron/80" />
+                <a 
+                  href="mailto:kashphoolbengaliassociation@gmail.com" 
+                  className="hover:text-saffron transition-colors break-all"
+                >
+                  kashphoolbengaliassociation@gmail.com
+                </a>
+              </div>
+
               <a
                 href="https://pay.lopay.com/request/906de5de-220b-4f34-bc56-776c0993ec32"
                 target="_blank"
@@ -81,6 +97,43 @@ export default function Footer() {
                 className="inline-block mt-3 text-saffron hover:text-gold transition-colors duration-300"
               >
                 Support Our Mission →
+              </a>
+            </div>
+          </div>
+
+          {/* Follow Us */}
+          <div>
+            <h4 className="font-[var(--font-display)] text-lg font-semibold text-ivory/90 mb-4">
+              Follow
+            </h4>
+            <div className="h-[1px] w-12 bg-gold/30 mb-4" />
+            <div className="flex gap-3">
+              <a
+                href="https://www.instagram.com/kashphoolutsav/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-ivory/50 hover:text-saffron transition-colors"
+                aria-label="Instagram"
+              >
+                <Instagram size={20} />
+              </a>
+              <a
+                href="https://www.facebook.com/share/1Fp7GKadQg/?mibextid=wwXIfr"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-ivory/50 hover:text-saffron transition-colors"
+                aria-label="Facebook"
+              >
+                <Facebook size={20} />
+              </a>
+              <a
+                href="https://www.youtube.com/@KashphoolUtsav"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-ivory/50 hover:text-saffron transition-colors"
+                aria-label="YouTube"
+              >
+                <Youtube size={20} />
               </a>
             </div>
           </div>

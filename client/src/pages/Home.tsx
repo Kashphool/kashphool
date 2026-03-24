@@ -9,6 +9,7 @@ import HeroSection from "@/components/sections/HeroSection";
 import AboutSection from "@/components/sections/AboutSection";
 import EventsSection from "@/components/sections/EventsSection";
 import GallerySection from "@/components/sections/GallerySection";
+import SponsorsSection from "@/components/sections/SponsorsSection";
 import ContactSection from "@/components/sections/ContactSection";
 import SectionDivider from "@/components/shared/SectionDivider";
 
@@ -24,6 +25,8 @@ export default function Home() {
       <SectionDivider withAccent />
       <GallerySection />
       <SectionDivider />
+      <SponsorsSection />
+      <SectionDivider withAccent />
       <ContactSection />
       <Footer />
     </div>

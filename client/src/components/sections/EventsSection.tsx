@@ -7,38 +7,60 @@
 */
 
 import { useInView } from "@/hooks/useInView";
-import { Calendar, Clock, MapPin, Timer } from "lucide-react";
-import { IMAGES } from "@/config";
-import type { EventData } from "@/types";
+import { Calendar, MapPin } from "lucide-react";
+import type { Event } from "@/types";
+import { useState, useEffect } from "react";
 
-const events: EventData[] = [
-  {
-    title: "Saraswati Puja",
-    description:
-      "Join us for the annual Saraswati Puja, a celebration of the goddess Saraswati, the goddess of knowledge and music.",
-    date: "January 23, 2026",
-    dateLabel: "JAN 23",
-    time: "10:00 AM - 8:00 PM",
-    location: "Elite Venue, Dartford",
-    duration: "10 hours",
-    image: IMAGES.SARASWATI,
-  },
-  {
-    title: "Durga Puja",
-    description:
-      "Experience the grandeur of Durga Puja, our most celebrated festival honoring Goddess Durga's victory over evil.",
-    date: "October 10, 2026",
-    dateLabel: "OCT 10",
-    time: "9:00 AM - 10:00 PM",
-    location: "Elite Venue, Dartford",
-    duration: "13 hours",
-    image: IMAGES.DURGA,
-  },
-];
+// Helper function to format date
+const formatDate = (dateStr: string): string => {
+  const date = new Date(dateStr);
+  return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+};
 
-function EventCard({ event, index }: { event: EventData; index: number }) {
+// Helper function to format date label (e.g., "JAN 23")
+const formatDateLabel = (dateStr: string): string => {
+  const date = new Date(dateStr);
+  const month = date.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
+  const day = date.getDate();
+  return `${month} ${day}`;
+};
+
+// Helper function to format date range
+const formatDateRange = (start: string, end: string): string => {
+  const startDate = new Date(start);
+  const endDate = new Date(end);
+  const startMonth = startDate.toLocaleDateString('en-US', { month: 'long' });
+  const endMonth = endDate.toLocaleDateString('en-US', { month: 'long' });
+  const startYear = startDate.getFullYear();
+  const endYear = endDate.getFullYear();
+  
+  // Same month and year - show month for both dates
+  if (startMonth === endMonth && startYear === endYear) {
+    return `${startMonth} ${startDate.getDate()} - ${endMonth} ${endDate.getDate()}, ${startYear}`;
+  }
+  
+  // Different months, same year
+  if (startYear === endYear) {
+    return `${startMonth} ${startDate.getDate()} - ${endMonth} ${endDate.getDate()}, ${startYear}`;
+  }
+  
+  // Different years
+  return `${startMonth} ${startDate.getDate()}, ${startYear} - ${endMonth} ${endDate.getDate()}, ${endYear}`;
+};
+
+function EventCard({ event, index }: { event: Event; index: number }) {
   const { ref, isInView } = useInView();
   const isEven = index % 2 === 0;
+
+  // Format date display
+  const dateDisplay = event.date.type === 'range' && event.date.end
+    ? formatDateRange(event.date.start, event.date.end)
+    : formatDate(event.date.start);
+  
+  // Format date label for badge - show range for range-type events
+  const dateLabel = event.date.type === 'range' && event.date.end
+    ? `${formatDateLabel(event.date.start)} - ${formatDateLabel(event.date.end)}`
+    : formatDateLabel(event.date.start);
 
   return (
     <div
@@ -56,7 +78,7 @@ function EventCard({ event, index }: { event: EventData; index: number }) {
           <div className="relative overflow-hidden rounded-sm">
             <img
               src={event.image}
-              alt={event.title}
+              alt={event.name}
               className="w-full h-[400px] md:h-[500px] object-cover transition-transform duration-700 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-charcoal/60 to-transparent" />
@@ -64,7 +86,7 @@ function EventCard({ event, index }: { event: EventData; index: number }) {
             {/* Date Badge */}
             <div className="absolute top-4 left-4 bg-charcoal/90 backdrop-blur-sm border border-gold/30 px-4 py-2 rounded-sm">
               <div className="font-[var(--font-display)] text-saffron font-bold text-lg tracking-wide">
-                {event.dateLabel}
+                {dateLabel}
               </div>
             </div>
           </div>
@@ -77,7 +99,7 @@ function EventCard({ event, index }: { event: EventData; index: number }) {
       >
         <div className="space-y-5">
           <h3 className="font-[var(--font-display)] text-3xl md:text-4xl font-bold text-gold-gradient">
-            {event.title}
+            {event.name}
           </h3>
           <p className="text-ivory/70 text-lg leading-relaxed">
             {event.description}
@@ -87,23 +109,54 @@ function EventCard({ event, index }: { event: EventData; index: number }) {
           <div className="space-y-3 pt-4">
             <div className="flex items-center gap-3 text-ivory/60">
               <Calendar size={18} className="text-saffron/80 shrink-0" />
-              <span>{event.date}</span>
-            </div>
-            {event.duration && (
-              <div className="flex items-center gap-3 text-ivory/60">
-                <Timer size={18} className="text-saffron/80 shrink-0" />
-                <span>Duration: {event.duration}</span>
-              </div>
-            )}
-            <div className="flex items-center gap-3 text-ivory/60">
-              <Clock size={18} className="text-saffron/80 shrink-0" />
-              <span>{event.time}</span>
+              <span>{dateDisplay}</span>
             </div>
             <div className="flex items-center gap-3 text-ivory/60">
               <MapPin size={18} className="text-saffron/80 shrink-0" />
-              <span>{event.location}</span>
+              <span>
+                <a
+                  href={
+                    event.venue.googleMapsUrl ||
+                    `https://www.google.com/maps/search/?api=1&query=${event.venue.coordinates.lat},${event.venue.coordinates.lng}`
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-saffron/80 hover:text-saffron transition-colors underline decoration-saffron/30 hover:decoration-saffron"
+                >
+                  {event.venue.name}
+                </a>
+                , {event.venue.address}
+              </span>
             </div>
           </div>
+
+          {/* Pre-Registration Button */}
+          {event.registrationUrl && (
+            <div className="pt-6">
+              <a
+                href={event.registrationUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-saffron to-gold text-charcoal font-semibold rounded-sm hover:shadow-lg hover:shadow-saffron/20 transition-all duration-300 hover:scale-105"
+              >
+                Pre-Registration
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M7 7h10v10" />
+                  <path d="M7 17 17 7" />
+                </svg>
+              </a>
+            </div>
+          )}
 
           {/* Decorative gold line */}
           <div className="h-[1px] w-24 bg-gradient-to-r from-gold/50 to-transparent mt-6" />
@@ -115,12 +168,28 @@ function EventCard({ event, index }: { event: EventData; index: number }) {
 
 export default function EventsSection() {
   const { ref, isInView } = useInView();
+  const [events, setEvents] = useState<Event[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Load events from JSON file
+    fetch('/data/events.json')
+      .then(response => response.json())
+      .then((data: Event[]) => {
+        setEvents(data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Failed to load events:', error);
+        setLoading(false);
+      });
+  }, []);
 
   return (
     <section id="events" className="relative py-24 md:py-32 overflow-hidden">
       {/* Background mandala decoration */}
       <div className="absolute left-[-15%] top-1/4 w-[400px] h-[400px] opacity-[0.03] animate-slow-spin pointer-events-none">
-        <img src={IMAGES.MANDALA} alt="" className="w-full h-full object-contain" />
+        <img src="/images/mandala-pattern.webp" alt="" className="w-full h-full object-contain" />
       </div>
 
       <div className="container relative z-10">
@@ -142,11 +211,17 @@ export default function EventsSection() {
         </div>
 
         {/* Events */}
-        <div className="space-y-24">
-          {events.map((event, i) => (
-            <EventCard key={event.title} event={event} index={i} />
-          ))}
-        </div>
+        {loading ? (
+          <div className="text-center">
+            <p className="text-ivory/50">Loading events...</p>
+          </div>
+        ) : (
+          <div className="space-y-24">
+            {events.map((event, i) => (
+              <EventCard key={event.id} event={event} index={i} />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

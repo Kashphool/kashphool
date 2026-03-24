@@ -1,0 +1,42 @@
+[
+  {
+    "id": "durga-puja-2025",
+    "name": "Durga Puja 2025",
+    "description": "Join us for the grand celebration of Durga Puja, featuring traditional rituals, cultural performances, and authentic Bengali cuisine.",
+    "date": {
+      "type": "range",
+      "start": "2025-10-08",
+      "end": "2025-10-12"
+    },
+    "venue": {
+      "name": "Dartford Community Center",
+      "address": "Dartford, Kent",
+      "coordinates": {
+        "lat": 51.4462,
+        "lng": 0.2186
+      },
+      "googleMapsUrl": "https://maps.app.goo.gl/BfTtfLUXpeVHqYV29"
+    },
+    "image": "/images/durga.png",
+    "registrationUrl": "https://example.com/register/durga-puja-2025"
+  },
+  {
+    "id": "saraswati-puja-2026",
+    "name": "Saraswati Puja 2026",
+    "description": "Celebrate the goddess of knowledge and arts with prayers, cultural programs, and community gathering.",
+    "date": {
+      "type": "single",
+      "start": "2026-02-14"
+    },
+    "venue": {
+      "name": "Dartford Community Center",
+      "address": "Dartford, Kent",
+      "coordinates": {
+        "lat": 51.4462,
+        "lng": 0.2186
+      },
+      "googleMapsUrl": "https://maps.app.goo.gl/BfTtfLUXpeVHqYV29"
+    },
+    "image": "/images/saraswati.png"
+  }
+]
