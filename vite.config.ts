@@ -171,30 +171,13 @@ export default defineConfig({
   },
   css: {
     transformer: 'postcss',
-    postcss: {
-      plugins: [],
-    },
-    lightningcss: {
-      // Disable color space conversions
-      targets: {
-        // Target browsers that support oklch natively
-        chrome: 111,
-        firefox: 113,
-        safari: 16.4,
-        edge: 111,
-      },
-      drafts: {
-        // Don't convert modern color syntax
-        customMedia: true,
-      },
-    },
   },
-  envDir: path.resolve(import.meta.dirname),
-  root: path.resolve(import.meta.dirname, "client"),
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
   },
+  envDir: path.resolve(import.meta.dirname),
+  root: path.resolve(import.meta.dirname, "client"),
   server: {
     port: 3000,
     strictPort: false, // Will find next available port if 3000 is busy
