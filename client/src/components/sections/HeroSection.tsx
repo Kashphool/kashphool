@@ -13,7 +13,7 @@ export default function HeroSection() {
   const { ref, isInView } = useInView();
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center overflow-hidden -mt-20">
+    <section id="home" className="relative min-h-screen flex items-start overflow-hidden -mt-20">
       {/* Background Video */}
       <div className="absolute inset-0 -top-20">
         <video
@@ -37,7 +37,7 @@ export default function HeroSection() {
       {/*</div>*/}
 
       {/* Content */}
-      <div ref={ref} className="container relative z-10 pt-24 pb-16">
+      <div ref={ref} className="container relative z-10 pt-32 md:pt-40 lg:pt-48 pb-16">
         <div className="max-w-2xl">
           {/* Gold accent line */}
           <div

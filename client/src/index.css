@@ -283,6 +283,11 @@
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
+  overscroll-behavior-y: none; /* Prevent overscroll bounce */
+}
+
+body {
+  overscroll-behavior-y: none; /* Prevent overscroll bounce on body too */
 }
 
 /* Custom scrollbar */
