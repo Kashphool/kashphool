@@ -41,7 +41,7 @@ export default function Navbar() {
           : "bg-transparent"
       }`}
     >
-      <div className="container flex items-center justify-between h-18 md:h-20">
+      <div className="container flex items-center justify-between h-16 md:h-20">
         {/* Logo */}
         <a
           href="#home"
