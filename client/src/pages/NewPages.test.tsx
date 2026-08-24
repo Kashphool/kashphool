@@ -1,9 +1,11 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
+import { Router } from "wouter";
 import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
 import SponsorsSection from "@/components/sections/SponsorsSection";
 import Constitution from "./Constitution";
+import NotFound from "./NotFound";
 import Sponsors from "./Sponsors";
 
 const renderedText = (html: string) => html.replace(/<[^>]+>/g, "");
@@ -16,6 +18,22 @@ describe("Constitution page", () => {
     expect(html).toContain('data="/documents/constitution/Kashphool - North Kent Bengali Association Constitution v1.0.pdf"');
     expect(html).toContain('href="/documents/constitution/Kashphool - North Kent Bengali Association Constitution v1.0.pdf"');
     expect(html).toContain("download");
+  });
+});
+
+describe("Not found page", () => {
+  it("uses Kashphool branding and gives visitors clear recovery routes", () => {
+    const html = renderToStaticMarkup(
+      <Router ssrPath="/missing">
+        <NotFound />
+      </Router>,
+    );
+    const text = renderedText(html);
+
+    expect(text).toContain("This page has wandered");
+    expect(html).toContain('src="/images/logo.png"');
+    expect(html).toContain('href="/"');
+    expect(html).toContain('href="/#contact"');
   });
 });
 
