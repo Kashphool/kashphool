@@ -9,19 +9,16 @@ import { IMAGES } from "@/config";
 import { Mail, Instagram, Facebook, Youtube } from "lucide-react";
 
 const navLinks = [
-  { label: "Home", href: "#home" },
-  { label: "About", href: "#about" },
-  { label: "Events", href: "#events" },
-  { label: "Gallery", href: "#gallery" },
-  { label: "Contact", href: "#contact" },
+  { label: "Home", href: "/" },
+  { label: "About", href: "/#about" },
+  { label: "Events", href: "/#events" },
+  { label: "Gallery", href: "/#gallery" },
+  { label: "Sponsor Us", href: "/sponsors" },
+  { label: "Constitution", href: "/constitution" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 export default function Footer() {
-  const handleNavClick = (href: string) => {
-    const el = document.querySelector(href);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
-  };
-
   return (
     <footer className="relative border-t border-gold/10">
       {/* Top gold line */}
@@ -57,10 +54,6 @@ export default function Footer() {
                 <a
                   key={link.href}
                   href={link.href}
-                  onClick={e => {
-                    e.preventDefault();
-                    handleNavClick(link.href);
-                  }}
                   className="block text-ivory/50 hover:text-saffron transition-colors duration-300 text-sm"
                 >
                   {link.label}
@@ -83,10 +76,10 @@ export default function Footer() {
               <div className="flex items-center gap-2">
                 <Mail size={16} className="text-saffron/80" />
                 <a 
-                  href="mailto:kashphoolbengaliassociation@gmail.com" 
+                  href="mailto:info@kashphool.co.uk"
                   className="hover:text-saffron transition-colors break-all"
                 >
-                  kashphoolbengaliassociation@gmail.com
+                  info@kashphool.co.uk
                 </a>
               </div>
 

@@ -12,8 +12,33 @@ import GallerySection from "@/components/sections/GallerySection";
 import SponsorsSection from "@/components/sections/SponsorsSection";
 import ContactSection from "@/components/sections/ContactSection";
 import SectionDivider from "@/components/shared/SectionDivider";
+import { useEffect } from "react";
+
+type HashTarget = Pick<Element, "scrollIntoView">;
+
+export function scrollToHashTarget(
+  hash: string,
+  findElement: (id: string) => HashTarget | null = (id) => document.getElementById(id),
+) {
+  const targetId = decodeURIComponent(hash.replace(/^#/, ""));
+  if (!targetId) return false;
+
+  const target = findElement(targetId);
+  if (!target) return false;
+
+  target.scrollIntoView({ block: "start" });
+  return true;
+}
 
 export default function Home() {
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => {
+      scrollToHashTarget(window.location.hash);
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
+
   return (
     <div className="min-h-screen bg-charcoal text-ivory">
       <Navbar />

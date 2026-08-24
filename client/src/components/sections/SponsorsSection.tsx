@@ -7,6 +7,7 @@
 
 import { useInView } from "@/hooks/useInView";
 import { useState, useEffect } from "react";
+import { ArrowRight } from "lucide-react";
 
 interface Sponsor {
   id: string;
@@ -115,6 +116,18 @@ export default function SponsorsSection() {
               );
             })
           )}
+        </div>
+
+        <div className="mt-12 text-center">
+          <p className="mx-auto max-w-xl text-ivory/50">
+            Interested in connecting your organisation with our growing community?
+          </p>
+          <a
+            href="/sponsors"
+            className="mt-6 inline-flex items-center gap-2 rounded bg-gradient-to-r from-saffron to-gold px-7 py-3.5 font-semibold text-charcoal transition-all hover:scale-[1.02] hover:shadow-lg hover:shadow-saffron/20"
+          >
+            Partner with Us <ArrowRight aria-hidden="true" size={18} />
+          </a>
         </div>
       </div>
     </section>
