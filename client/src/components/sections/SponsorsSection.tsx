@@ -49,7 +49,7 @@ export default function SponsorsSection() {
             }`}
           >
             <span className="text-saffron/80 text-sm font-medium tracking-[0.3em] uppercase">
-              Our Partners
+              Our Partners &
             </span>
             <h2 className="font-[var(--font-display)] text-4xl md:text-5xl lg:text-6xl font-bold mt-3 mb-4">
               <span className="text-gold-gradient">Sponsors</span>

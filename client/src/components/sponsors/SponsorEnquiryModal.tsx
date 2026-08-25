@@ -14,12 +14,20 @@ import { useEffect, useRef, useState } from "react";
 interface SponsorEnquiryModalProps {
   open: boolean;
   tier: string | null;
+  tierDetails?: {
+    name: string;
+    guide: string;
+    guidePrefix?: string;
+    guideSuffix?: string;
+    description: string;
+  } | null;
   onOpenChange: (open: boolean) => void;
 }
 
 export default function SponsorEnquiryModal({
   open,
   tier,
+  tierDetails,
   onOpenChange,
 }: SponsorEnquiryModalProps) {
   const formRef = useRef<HTMLFormElement>(null);
@@ -100,9 +108,24 @@ export default function SponsorEnquiryModal({
                 : "Tell us how you would like to partner with Kashphool."}
             </DialogDescription>
           </DialogHeader>
-          {tier && (
-            <div className="mt-5 inline-flex rounded-full border border-gold/25 bg-charcoal/40 px-3 py-1.5 text-sm font-semibold text-gold">
-              Selected: {tier}
+          {tierDetails && (
+            <div className="mt-5 rounded-sm border border-gold/25 bg-charcoal/40 p-4 sm:p-5">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-saffron/80">
+                Selected sponsorship package
+              </p>
+              <div className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                <h3 className="font-[var(--font-display)] text-2xl font-semibold text-ivory sm:text-3xl">
+                  {tierDetails.name}
+                </h3>
+                <p className="font-semibold text-gold">
+                  {tierDetails.guidePrefix && `${tierDetails.guidePrefix} `}
+                  {tierDetails.guide}
+                  {tierDetails.guideSuffix && ` ${tierDetails.guideSuffix}`}
+                </p>
+              </div>
+              <p className="mt-2 text-sm leading-relaxed text-ivory/55">
+                {tierDetails.description}
+              </p>
             </div>
           )}
         </div>

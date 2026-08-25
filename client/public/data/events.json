@@ -1,8 +1,10 @@
-[
-  {
+{
+  "nextEventId": "durga-puja-2026",
+  "events": [
+    {
     "id": "durga-puja-2026",
-    "name": "Durga Puja 2026",
-    "description": "Join us for the grand celebration of Durga Puja, featuring traditional rituals, cultural performances, and authentic Bengali cuisine.",
+    "name": "Durga Pujo 2026",
+    "description": "Join us for the grand celebration of Durga Pujo, featuring traditional rituals, cultural performances, and authentic Bengali cuisine.",
     "date": {
       "type": "range",
       "start": "2026-10-17",
@@ -17,7 +19,14 @@
       },
       "googleMapsUrl": "https://maps.app.goo.gl/BfTtfLUXpeVHqYV29"
     },
+    "stallOpeningHours": [
+      { "date": "2026-10-17", "start": "12:00", "end": "20:00", "optionalStart": "15:00" },
+      { "date": "2026-10-18", "start": "12:00", "end": "20:00", "optionalStart": "15:00" },
+      { "date": "2026-10-19", "start": "16:00", "end": "20:00" },
+      { "date": "2026-10-20", "start": "15:00", "end": "19:00" }
+    ],
     "image": "/images/durga.png",
     "registrationUrl": "https://forms.gle/CNjcjDsE31LT9rPF7"
-  }
-]
+    }
+  ]
+}

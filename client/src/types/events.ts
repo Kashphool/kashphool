@@ -26,6 +26,17 @@ export interface Event {
   venue: EventVenue;
   image: string;
   registrationUrl?: string; // Optional registration/ticket link
+  stallOpeningHours?: Array<{
+    date: string; // ISO date format: YYYY-MM-DD
+    start: string; // 24-hour time format: HH:mm
+    end: string; // 24-hour time format: HH:mm
+    optionalStart?: string; // Optional alternative start in 24-hour time format: HH:mm
+  }>;
+}
+
+export interface EventCollection {
+  nextEventId: string;
+  events: Event[];
 }
 
 export interface EventData {

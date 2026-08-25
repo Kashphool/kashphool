@@ -8,45 +8,14 @@
 
 import { useInView } from "@/hooks/useInView";
 import { Calendar, MapPin } from "lucide-react";
-import type { Event } from "@/types";
+import type { Event, EventCollection } from "@/types";
 import { useState, useEffect } from "react";
-
-// Helper function to format date
-const formatDate = (dateStr: string): string => {
-  const date = new Date(dateStr);
-  return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-};
-
-// Helper function to format date label (e.g., "JAN 23")
-const formatDateLabel = (dateStr: string): string => {
-  const date = new Date(dateStr);
-  const month = date.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
-  const day = date.getDate();
-  return `${month} ${day}`;
-};
-
-// Helper function to format date range
-const formatDateRange = (start: string, end: string): string => {
-  const startDate = new Date(start);
-  const endDate = new Date(end);
-  const startMonth = startDate.toLocaleDateString('en-US', { month: 'long' });
-  const endMonth = endDate.toLocaleDateString('en-US', { month: 'long' });
-  const startYear = startDate.getFullYear();
-  const endYear = endDate.getFullYear();
-  
-  // Same month and year - show month for both dates
-  if (startMonth === endMonth && startYear === endYear) {
-    return `${startMonth} ${startDate.getDate()} - ${endMonth} ${endDate.getDate()}, ${startYear}`;
-  }
-  
-  // Different months, same year
-  if (startYear === endYear) {
-    return `${startMonth} ${startDate.getDate()} - ${endMonth} ${endDate.getDate()}, ${startYear}`;
-  }
-  
-  // Different years
-  return `${startMonth} ${startDate.getDate()}, ${startYear} - ${endMonth} ${endDate.getDate()}, ${endYear}`;
-};
+import {
+  formatEventDate,
+  formatEventDateBadge,
+  formatEventDateRange,
+} from "@/lib/eventPresentation";
+import { getNextEvent } from "@/lib/eventData";
 
 function EventCard({ event, index }: { event: Event; index: number }) {
   const { ref, isInView } = useInView();
@@ -54,13 +23,13 @@ function EventCard({ event, index }: { event: Event; index: number }) {
 
   // Format date display
   const dateDisplay = event.date.type === 'range' && event.date.end
-    ? formatDateRange(event.date.start, event.date.end)
-    : formatDate(event.date.start);
+    ? formatEventDateRange(event.date.start, event.date.end)
+    : formatEventDate(event.date.start);
   
   // Format date label for badge - show range for range-type events
   const dateLabel = event.date.type === 'range' && event.date.end
-    ? `${formatDateLabel(event.date.start)} - ${formatDateLabel(event.date.end)}`
-    : formatDateLabel(event.date.start);
+    ? formatEventDateBadge(event.date.start, event.date.end)
+    : formatEventDateBadge(event.date.start);
 
   return (
     <div
@@ -172,8 +141,8 @@ export default function EventsSection() {
     // Load events from JSON file
     fetch('/data/events.json')
       .then(response => response.json())
-      .then((data: Event[]) => {
-        setEvents(data);
+      .then((data: EventCollection) => {
+        setEvents([getNextEvent(data)]);
         setLoading(false);
       })
       .catch(error => {

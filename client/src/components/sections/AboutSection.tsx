@@ -56,9 +56,9 @@ export default function AboutSection() {
             }`}
           >
             <p className="text-ivory/80 text-lg leading-relaxed">
-              Kashphool is an Indian Bengali Association based in North Kent,
-              dedicated to preserving and celebrating our rich cultural
-              heritage. We are a vibrant community organization that brings
+              Kashphool is a Bengali cultural and community association based in
+              North Kent, dedicated to preserving and celebrating our rich
+              cultural heritage. We are a vibrant community organisation that brings
               together Bengali families and friends to honor our traditions and
               create lasting connections.
             </p>
@@ -66,7 +66,7 @@ export default function AboutSection() {
               Established in 2025, Kashphool organizes various Hindu festivals
               and community events throughout the year. Our mission is to keep
               our cultural traditions alive while building a strong, supportive
-              community in North Kent. We celebrated our first Durga Puja in
+              community in North Kent. We celebrated our first Durga Pujo in
               2025, marking a significant milestone in our journey.
             </p>
             <p className="text-ivory/70 text-lg leading-relaxed">

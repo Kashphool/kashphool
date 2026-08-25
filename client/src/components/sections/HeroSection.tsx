@@ -63,8 +63,8 @@ export default function HeroSection() {
               isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
           >
-            An Indian Bengali Association in North Kent, dedicated to preserving
-            and celebrating our rich cultural heritage.
+            A Bengali cultural and community association in North Kent,
+            celebrating heritage, connection and community.
           </p>
 
           {/* CTA Buttons */}

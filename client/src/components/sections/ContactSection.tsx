@@ -159,7 +159,7 @@ export default function ContactSection() {
                   <div>
                     <h4 className="text-ivory/90 font-medium mb-1">Community Events</h4>
                     <p className="text-ivory/50 text-sm">
-                      Fund our Durga Puja, Saraswati Puja, and other cultural celebrations
+                      Fund our Durga Pujo, Saraswati Pujo, and other cultural celebrations
                     </p>
                   </div>
                 </div>

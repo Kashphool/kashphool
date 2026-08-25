@@ -35,8 +35,8 @@ export default function Footer() {
               </span>
             </div>
             <p className="text-ivory/50 text-sm leading-relaxed max-w-xs">
-              An Indian Bengali Association based in North Kent, dedicated to
-              preserving and celebrating our rich cultural heritage.
+              A Bengali cultural and community association in North Kent,
+              celebrating heritage, connection and community.
             </p>
             <div className="mt-4">
               <span className="text-3xl text-saffron/40 font-[var(--font-bengali)]">❀</span>

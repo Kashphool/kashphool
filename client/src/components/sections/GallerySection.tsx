@@ -11,12 +11,12 @@ import { useState, useEffect } from "react";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
 const galleryImages = [
-  { src: "/gallery/2025_1.jpg", alt: "Durga Puja 2025" },
-  { src: "/gallery/2025_2.jpg", alt: "Durga Puja 2025" },
-  { src: "/gallery/2025_3.jpg", alt: "Durga Puja 2025" },
-  { src: "/gallery/2025_4.jpg", alt: "Durga Puja 2025" },
-  { src: "/gallery/2025_5.jpg", alt: "Durga Puja 2025" },
-  { src: "/gallery/2025_6.jpg", alt: "Durga Puja 2025" },
+  { src: "/gallery/2025_1.jpg", alt: "Durga Pujo 2025" },
+  { src: "/gallery/2025_2.jpg", alt: "Durga Pujo 2025" },
+  { src: "/gallery/2025_3.jpg", alt: "Durga Pujo 2025" },
+  { src: "/gallery/2025_4.jpg", alt: "Durga Pujo 2025" },
+  { src: "/gallery/2025_5.jpg", alt: "Durga Pujo 2025" },
+  { src: "/gallery/2025_6.jpg", alt: "Durga Pujo 2025" },
 ];
 
 export default function GallerySection() {

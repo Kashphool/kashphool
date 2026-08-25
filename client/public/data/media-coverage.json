@@ -1,0 +1,39 @@
+{
+  "year": 2025,
+  "intro": "Coverage of Kashphool's 2025 Durga Pujo across Bengali television and print media.",
+  "items": [
+    {
+      "id": "tv9-bangla-2025",
+      "type": "video",
+      "featured": true,
+      "outlet": "TV9 Bangla",
+      "title": "Kashphool's first Sharodotsav in Kent",
+      "src": "/sponsors/media/videos/tv9-bangla-kashphool-durga-pujo-2025.mp4",
+      "poster": "/sponsors/media/photos/tv9-bangla-kashphool-durga-pujo-2025-poster.jpg"
+    },
+    {
+      "id": "bartaman-2025",
+      "type": "article",
+      "outlet": "Bartaman",
+      "title": "Kashphool's first Durga Pujo in North Kent",
+      "previewImage": "/sponsors/media/photos/bartaman-kashphool-durga-pujo-2025-preview.jpg",
+      "fullImage": "/sponsors/media/photos/bartaman-kashphool-durga-pujo-2025-full.jpg"
+    },
+    {
+      "id": "republic-bangla-2025",
+      "type": "video",
+      "outlet": "Republic Bangla",
+      "title": "Durga Pujo celebrations in North Kent",
+      "src": "/sponsors/media/videos/republic-bangla-kashphool-durga-pujo-2025.mp4",
+      "poster": "/sponsors/media/photos/republic-bangla-kashphool-durga-pujo-2025-poster.jpg"
+    },
+    {
+      "id": "nktv-bangla-2025",
+      "type": "video",
+      "outlet": "NKTv Bangla",
+      "title": "Bengali Pujo celebrations in England",
+      "src": "/sponsors/media/videos/nktv-bangla-kashphool-durga-pujo-2025.mp4",
+      "poster": "/sponsors/media/photos/nktv-bangla-kashphool-durga-pujo-2025-poster.jpg"
+    }
+  ]
+}
