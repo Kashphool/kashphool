@@ -194,8 +194,8 @@ export default function Sponsors() {
                 Sponsorship <span className="text-gold-gradient">tiers</span>
               </h2>
               <p className="mt-5 text-lg text-ivory/55">
-                Choose a clear package or speak with us about shaping a bespoke
-                partnership around your goals.
+                Choose a package or speak with us about shaping a bespoke
+                partnership around your preferences.
               </p>
             </div>
             <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
