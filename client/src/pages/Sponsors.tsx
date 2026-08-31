@@ -30,10 +30,16 @@ import sponsors from "../../public/data/sponsors.json";
 
 const featuredEvent = getNextEvent(eventData as EventCollection);
 
-const sponsorPhotos = Array.from(
-  { length: 6 },
-  (_, index) => `/sponsors/media/photos/2025_${index + 1}.jpg`,
-);
+const sponsorPhotos = [
+  ...Array.from(
+    { length: 6 },
+    (_, index) => `/sponsors/media/photos/2025_${index + 1}.jpg`,
+  ),
+  "/sponsors/media/photos/2025_07.jpg",
+  "/sponsors/media/photos/2025_08.jpg",
+  "/sponsors/media/photos/2025_09.jpg",
+  "/sponsors/media/photos/2025_10.jpg",
+];
 
 const eventTypes = [
   {
@@ -354,12 +360,17 @@ export default function Sponsors() {
                         <span
                           className="shrink-0 text-ivory/45"
                           aria-describedby={
-                            hours.optionalStart ? "optional-stall-start" : undefined
+                            hours.optionalStart
+                              ? "optional-stall-start"
+                              : undefined
                           }
                         >
                           {formatEventTimeRange(hours.start, hours.end)}
                           {hours.optionalStart && (
-                            <sup aria-hidden="true" className="ml-0.5 text-saffron">
+                            <sup
+                              aria-hidden="true"
+                              className="ml-0.5 text-saffron"
+                            >
                               *
                             </sup>
                           )}
@@ -371,8 +382,8 @@ export default function Sponsors() {
                         id="optional-stall-start"
                         className="border-t border-gold/10 pt-2 text-xs leading-relaxed text-ivory/50"
                       >
-                        <span className="text-saffron">*</span> Optional start from{" "}
-                        {formatEventTime(optionalStart)} on{" "}
+                        <span className="text-saffron">*</span> Optional start
+                        from {formatEventTime(optionalStart)} on{" "}
                         {optionalStartDays}.
                       </p>
                     )}
@@ -484,7 +495,7 @@ export default function Sponsors() {
                   className="aspect-video h-full w-full object-cover"
                 >
                   <source
-                    src="/sponsors/media/videos/hero-bg.mp4"
+                    src="/sponsors/media/videos/IMG_3151.MOV"
                     type="video/mp4"
                   />
                   Your browser does not support video playback.
@@ -503,11 +514,11 @@ export default function Sponsors() {
               </div>
             </div>
             <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-6">
-              {sponsorPhotos.map((photo, index) => (
+              {sponsorPhotos.slice(4).map((photo, index) => (
                 <img
                   key={`strip-${photo}`}
                   src={photo}
-                  alt={`Community celebration moment ${index + 1}`}
+                  alt={`Community celebration moment ${index + 5}`}
                   loading="lazy"
                   className="aspect-square w-full rounded-sm border border-gold/10 object-cover"
                 />

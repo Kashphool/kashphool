@@ -2,6 +2,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import { Router } from "wouter";
 import Footer from "@/components/layout/Footer";
+import GallerySection from "@/components/sections/GallerySection";
 import Navbar from "@/components/layout/Navbar";
 import SponsorsSection from "@/components/sections/SponsorsSection";
 import { getNextEvent } from "@/lib/eventData";
@@ -42,6 +43,29 @@ describe("Not found page", () => {
 });
 
 describe("Sponsors page", () => {
+  it("renders all ten sponsor celebration photos once", () => {
+    const html = renderToStaticMarkup(<Sponsors />);
+
+    for (let index = 1; index <= 10; index += 1) {
+      const suffix = index >= 7 ? String(index).padStart(2, "0") : index;
+      const filename = `2025_${suffix}.jpg`;
+      const imageTag = new RegExp(
+        `<img[^>]*src="/sponsors/media/photos/${filename}"`,
+        "g",
+      );
+
+      expect(html.match(imageTag)).toHaveLength(1);
+    }
+  });
+
+  it("keeps the six-photo lower strip compact on desktop", () => {
+    const html = renderToStaticMarkup(<Sponsors />);
+
+    expect(html).toContain(
+      'class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-6"',
+    );
+  });
+
   it("shows event media and event formats", () => {
     const html = renderToStaticMarkup(<Sponsors />);
 
@@ -214,6 +238,14 @@ describe("Sponsors page", () => {
     expect(text).toContain("A dedicated promotional or information presence at the event");
     expect(text).toContain("Distribution of QR codes, offers, subscriptions or service-related promotional material");
     expect(text).toContain("Branding on complimentary lunch and dinner coupons distributed to visitors");
+  });
+});
+
+describe("Gallery section", () => {
+  it("includes the seventh 2025 celebration photo", () => {
+    const html = renderToStaticMarkup(<GallerySection />);
+
+    expect(html).toContain('src="/gallery/2025_07.jpg"');
   });
 });
 

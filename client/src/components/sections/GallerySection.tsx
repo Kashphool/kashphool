@@ -17,6 +17,9 @@ const galleryImages = [
   { src: "/gallery/2025_4.jpg", alt: "Durga Pujo 2025" },
   { src: "/gallery/2025_5.jpg", alt: "Durga Pujo 2025" },
   { src: "/gallery/2025_6.jpg", alt: "Durga Pujo 2025" },
+  { src: "/gallery/2025_07.jpg", alt: "Durga Pujo 2025" },
+  { src: "/gallery/2025_08.jpg", alt: "Durga Pujo 2025" },
+  { src: "/gallery/2025_09.jpg", alt: "Durga Pujo 2025" },
 ];
 
 export default function GallerySection() {
