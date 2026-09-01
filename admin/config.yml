@@ -14,13 +14,703 @@ media_folder: "assets/uploads"
 public_folder: "/assets/uploads"
 
 collections:
-  - name: "website"
-    label: "Website Content"
-    editor:
-      preview: false
+  - name: "pages"
+    label: "Website Pages"
+    description: "Edit the homepage and supporting public pages."
+    files:
+      - name: "home_page"
+        label: "Home Page"
+        file: "client/public/data/home-page.json"
+        format: "json"
+        fields:
+          - label: "Hero"
+            name: "hero"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Welcome", name: "welcome", widget: "string" }
+              - { label: "Organisation name", name: "name", widget: "hidden" }
+              - { label: "Description", name: "description", widget: "text" }
+              - { label: "Events CTA", name: "eventsCta", widget: "string" }
+              - { label: "About CTA", name: "aboutCta", widget: "string" }
+          - label: "About"
+            name: "about"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+              - { label: "Heading", name: "heading", widget: "string" }
+              - label: "Paragraphs"
+                name: "paragraphs"
+                widget: "list"
+                field: { label: "Paragraph", name: "paragraph", widget: "text" }
+              - label: "Statistics"
+                name: "stats"
+                widget: "list"
+                collapsed: true
+                summary: "{{fields.value}} — {{fields.label}}"
+                min: 3
+                max: 3
+                fields:
+                  - { label: "Value", name: "value", widget: "string" }
+                  - { label: "Label", name: "label", widget: "string" }
+          - label: "Events section"
+            name: "events"
+            widget: "object"
+            fields:
+              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+              - { label: "Heading", name: "heading", widget: "string" }
+              - { label: "Loading state", name: "loading", widget: "hidden" }
+              - {
+                  label: "Registration CTA",
+                  name: "registrationCta",
+                  widget: "string",
+                }
+          - label: "Gallery section"
+            name: "gallery"
+            widget: "object"
+            fields:
+              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+              - { label: "Heading", name: "heading", widget: "string" }
+              - { label: "Introduction", name: "intro", widget: "text" }
+          - label: "Sponsors section"
+            name: "sponsors"
+            widget: "object"
+            fields:
+              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+              - { label: "Heading", name: "heading", widget: "string" }
+              - { label: "Introduction", name: "intro", widget: "text" }
+              - { label: "Loading state", name: "loading", widget: "hidden" }
+              - { label: "Prompt", name: "prompt", widget: "text" }
+              - { label: "CTA", name: "cta", widget: "string" }
+          - label: "Contact section"
+            name: "contact"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+              - { label: "Heading", name: "heading", widget: "string" }
+              - label: "Contact form copy"
+                name: "form"
+                widget: "object"
+                fields:
+                  - { label: "Name label", name: "nameLabel", widget: "string" }
+                  - {
+                      label: "Name placeholder",
+                      name: "namePlaceholder",
+                      widget: "string",
+                    }
+                  - {
+                      label: "Email label",
+                      name: "emailLabel",
+                      widget: "string",
+                    }
+                  - {
+                      label: "Email placeholder",
+                      name: "emailPlaceholder",
+                      widget: "string",
+                    }
+                  - {
+                      label: "Message label",
+                      name: "messageLabel",
+                      widget: "string",
+                    }
+                  - {
+                      label: "Message placeholder",
+                      name: "messagePlaceholder",
+                      widget: "string",
+                    }
+                  - { label: "Submit label", name: "submit", widget: "string" }
+                  - {
+                      label: "Submitting state",
+                      name: "submitting",
+                      widget: "hidden",
+                    }
+              - {
+                  label: "Support eyebrow",
+                  name: "supportEyebrow",
+                  widget: "string",
+                }
+              - {
+                  label: "Support heading",
+                  name: "supportHeading",
+                  widget: "string",
+                }
+              - {
+                  label: "Support introduction",
+                  name: "supportIntro",
+                  widget: "text",
+                }
+              - label: "Support cards"
+                name: "supportCards"
+                widget: "list"
+                collapsed: true
+                summary: "{{fields.title}}"
+                min: 3
+                max: 3
+                fields:
+                  - { label: "Title", name: "title", widget: "string" }
+                  - {
+                      label: "Description",
+                      name: "description",
+                      widget: "text",
+                    }
+              - { label: "Donate CTA", name: "donateCta", widget: "string" }
+      - name: "constitution_page"
+        label: "Constitution Page"
+        editor:
+          preview: false
+        file: "client/public/data/constitution-page.json"
+        format: "json"
+        fields:
+          - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+          - { label: "Heading prefix", name: "headingPrefix", widget: "string" }
+          - { label: "Heading accent", name: "headingAccent", widget: "string" }
+          - { label: "Introduction", name: "intro", widget: "text" }
+          - { label: "Document title", name: "documentTitle", widget: "string" }
+          - {
+              label: "Document description",
+              name: "documentDescription",
+              widget: "text",
+            }
+          - { label: "Open label", name: "openLabel", widget: "string" }
+          - { label: "Download label", name: "downloadLabel", widget: "string" }
+          - { label: "PDF", name: "pdf", widget: "file" }
+          - { label: "Fallback message", name: "fallback", widget: "string" }
+          - {
+              label: "Fallback link label",
+              name: "fallbackLinkLabel",
+              widget: "string",
+            }
+      - name: "not_found_page"
+        label: "Not Found Page"
+        editor:
+          preview: false
+        file: "client/public/data/not-found-page.json"
+        format: "json"
+        fields:
+          - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+          - { label: "Heading prefix", name: "headingPrefix", widget: "string" }
+          - { label: "Heading accent", name: "headingAccent", widget: "string" }
+          - { label: "Description", name: "description", widget: "text" }
+          - { label: "Home label", name: "homeLabel", widget: "string" }
+          - { label: "Contact label", name: "contactLabel", widget: "string" }
+          - { label: "Identity line", name: "identityLine", widget: "string" }
+
+  - name: "events"
+    label: "Events"
+    description: "Manage upcoming events, dates, venue details and daily stall hours."
+    files:
+      - name: "events"
+        label: "Events"
+        file: "client/public/data/events.json"
+        format: "json"
+        fields:
+          - { label: "Next event ID", name: "nextEventId", widget: "string" }
+          - label: "Events"
+            name: "events"
+            widget: "list"
+            collapsed: true
+            summary: "{{fields.name}} — {{fields.date.start}}"
+            fields:
+              - { label: "ID", name: "id", widget: "string" }
+              - { label: "Name", name: "name", widget: "string" }
+              - { label: "Description", name: "description", widget: "text" }
+              - label: "Date"
+                name: "date"
+                widget: "object"
+                fields:
+                  - {
+                      label: "Type",
+                      name: "type",
+                      widget: "select",
+                      options: ["single", "range"],
+                    }
+                  - {
+                      label: "Start",
+                      name: "start",
+                      widget: "datetime",
+                      format: "YYYY-MM-DD",
+                      date_format: "DD/MM/YYYY",
+                      time_format: false,
+                    }
+                  - {
+                      label: "End",
+                      name: "end",
+                      widget: "datetime",
+                      format: "YYYY-MM-DD",
+                      date_format: "DD/MM/YYYY",
+                      time_format: false,
+                      required: false,
+                    }
+              - label: "Venue"
+                name: "venue"
+                widget: "object"
+                fields:
+                  - { label: "Name", name: "name", widget: "string" }
+                  - { label: "Address", name: "address", widget: "text" }
+                  - label: "Coordinates"
+                    name: "coordinates"
+                    widget: "object"
+                    fields:
+                      - { label: "Latitude", name: "lat", widget: "number" }
+                      - { label: "Longitude", name: "lng", widget: "number" }
+                  - {
+                      label: "Google Maps URL",
+                      name: "googleMapsUrl",
+                      widget: "string",
+                      required: false,
+                    }
+              - label: "Stall opening hours"
+                name: "stallOpeningHours"
+                widget: "list"
+                collapsed: true
+                summary: "{{fields.date}} · {{fields.start}}–{{fields.end}}"
+                required: false
+                fields:
+                  - {
+                      label: "Date",
+                      name: "date",
+                      widget: "datetime",
+                      format: "YYYY-MM-DD",
+                      date_format: "DD/MM/YYYY",
+                      time_format: false,
+                    }
+                  - {
+                      label: "Start",
+                      name: "start",
+                      widget: "string",
+                      pattern:
+                        [
+                          '^([01]\d|2[0-3]):[0-5]\d$',
+                          "Use 24-hour HH:mm, for example 15:00",
+                        ],
+                    }
+                  - {
+                      label: "End",
+                      name: "end",
+                      widget: "string",
+                      pattern:
+                        [
+                          '^([01]\d|2[0-3]):[0-5]\d$',
+                          "Use 24-hour HH:mm, for example 15:00",
+                        ],
+                    }
+                  - {
+                      label: "Optional start",
+                      name: "optionalStart",
+                      widget: "string",
+                      pattern:
+                        [
+                          '^([01]\d|2[0-3]):[0-5]\d$',
+                          "Use 24-hour HH:mm, for example 15:00",
+                        ],
+                      required: false,
+                    }
+              - { label: "Image", name: "image", widget: "image" }
+              - {
+                  label: "Registration URL",
+                  name: "registrationUrl",
+                  widget: "string",
+                  required: false,
+                }
+
+  - name: "sponsors"
+    label: "Sponsors"
+    description: "Manage current sponsors and all content on the sponsorship page."
+    files:
+      - name: "sponsors"
+        label: "Sponsors"
+        editor:
+          preview: false
+        file: "client/public/data/sponsors.json"
+        format: "json"
+        fields:
+          - label: "Sponsors"
+            name: "sponsors"
+            widget: "list"
+            collapsed: true
+            summary: "{{fields.name}}"
+            fields:
+              - { label: "ID", name: "id", widget: "string" }
+              - { label: "Name", name: "name", widget: "string" }
+              - { label: "Logo", name: "logo", widget: "image" }
+              - {
+                  label: "Website URL",
+                  name: "website",
+                  widget: "string",
+                  required: false,
+                }
+      - name: "sponsor_page"
+        label: "Sponsor Page"
+        file: "client/public/data/sponsor-page.json"
+        format: "json"
+        fields:
+          - label: "Hero"
+            name: "hero"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+              - {
+                  label: "Heading prefix",
+                  name: "headingPrefix",
+                  widget: "string",
+                }
+              - {
+                  label: "Heading accent",
+                  name: "headingAccent",
+                  widget: "string",
+                }
+              - { label: "Description", name: "description", widget: "text" }
+              - { label: "CTA", name: "cta", widget: "string" }
+          - label: "Highlights"
+            name: "highlights"
+            widget: "list"
+            min: 4
+            max: 4
+            fields:
+              - { label: "Value", name: "value", widget: "string" }
+              - { label: "Label", name: "label", widget: "string" }
+          - label: "Tiers section"
+            name: "tiersSection"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+              - {
+                  label: "Heading prefix",
+                  name: "headingPrefix",
+                  widget: "string",
+                }
+              - {
+                  label: "Heading accent",
+                  name: "headingAccent",
+                  widget: "string",
+                }
+              - { label: "Introduction", name: "intro", widget: "text" }
+          - label: "Sponsorship tiers"
+            name: "tiers"
+            widget: "list"
+            collapsed: true
+            summary: "{{fields.name}} — {{fields.guide}}"
+            min: 4
+            max: 4
+            fields:
+              - { label: "Name", name: "name", widget: "string" }
+              - { label: "Guide", name: "guide", widget: "string" }
+              - {
+                  label: "Guide prefix",
+                  name: "guidePrefix",
+                  widget: "string",
+                  required: false,
+                }
+              - {
+                  label: "Guide suffix",
+                  name: "guideSuffix",
+                  widget: "string",
+                  required: false,
+                }
+              - { label: "Description", name: "description", widget: "text" }
+              - label: "Benefits"
+                name: "benefits"
+                widget: "list"
+                field: { label: "Benefit", name: "benefit", widget: "text" }
+              - {
+                  label: "Featured layout",
+                  name: "featured",
+                  widget: "hidden",
+                  required: false,
+                }
+              - {
+                  label: "Badge",
+                  name: "badge",
+                  widget: "hidden",
+                  required: false,
+                }
+              - {
+                  label: "Enquiry label",
+                  name: "enquiryLabel",
+                  widget: "string",
+                }
+          - label: "Bespoke partnerships"
+            name: "bespoke"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Heading", name: "heading", widget: "string" }
+              - { label: "Introduction", name: "intro", widget: "text" }
+              - label: "Possibilities"
+                name: "possibilities"
+                widget: "list"
+                field:
+                  { label: "Possibility", name: "possibility", widget: "text" }
+              - { label: "CTA", name: "cta", widget: "string" }
+          - label: "Event information"
+            name: "eventInfo"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+              - {
+                  label: "Heading suffix",
+                  name: "headingSuffix",
+                  widget: "string",
+                }
+              - { label: "Dates label", name: "datesLabel", widget: "string" }
+              - { label: "Venue label", name: "venueLabel", widget: "string" }
+              - {
+                  label: "Stall hours label",
+                  name: "stallHoursLabel",
+                  widget: "string",
+                }
+              - {
+                  label: "Stall hours fallback",
+                  name: "stallHoursFallback",
+                  widget: "string",
+                }
+              - { label: "Email label", name: "emailLabel", widget: "string" }
+              - {
+                  label: "Map link label",
+                  name: "mapLinkLabel",
+                  widget: "string",
+                }
+              - {
+                  label: "Optional start prefix",
+                  name: "optionalStartPrefix",
+                  widget: "string",
+                }
+          - label: "Sponsors section"
+            name: "sponsors"
+            widget: "object"
+            fields:
+              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+              - { label: "Heading", name: "heading", widget: "string" }
+              - { label: "Introduction", name: "intro", widget: "text" }
+          - label: "Past celebrations"
+            name: "pastCelebrations"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+              - {
+                  label: "Heading prefix",
+                  name: "headingPrefix",
+                  widget: "string",
+                }
+              - {
+                  label: "Heading accent",
+                  name: "headingAccent",
+                  widget: "string",
+                }
+              - { label: "Introduction", name: "intro", widget: "text" }
+              - { label: "Video", name: "video", widget: "file" }
+              - { label: "Poster", name: "poster", widget: "image" }
+              - label: "Photos"
+                name: "photos"
+                widget: "list"
+                collapsed: true
+                summary: "{{fields.alt}}"
+                min: 1
+                max: 10
+                fields:
+                  - { label: "Image", name: "image", widget: "image" }
+                  - { label: "Alternative text", name: "alt", widget: "string" }
+                  - {
+                      label: "Caption",
+                      name: "caption",
+                      widget: "text",
+                      required: false,
+                    }
+          - label: "Event types section"
+            name: "eventTypesSection"
+            widget: "object"
+            fields:
+              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+              - {
+                  label: "Heading prefix",
+                  name: "headingPrefix",
+                  widget: "string",
+                }
+              - {
+                  label: "Heading accent",
+                  name: "headingAccent",
+                  widget: "string",
+                }
+              - { label: "Introduction", name: "intro", widget: "text" }
+          - label: "Event types"
+            name: "eventTypes"
+            widget: "list"
+            min: 3
+            max: 3
+            fields:
+              - { label: "Icon", name: "icon", widget: "hidden" }
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Description", name: "description", widget: "text" }
+          - label: "Final CTA"
+            name: "finalCta"
+            widget: "object"
+            fields:
+              - {
+                  label: "Heading prefix",
+                  name: "headingPrefix",
+                  widget: "string",
+                }
+              - {
+                  label: "Heading accent",
+                  name: "headingAccent",
+                  widget: "string",
+                }
+              - { label: "Description", name: "description", widget: "text" }
+              - { label: "Button label", name: "button", widget: "string" }
+          - label: "Enquiry modal"
+            name: "enquiryModal"
+            widget: "object"
+            fields:
+              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+              - {
+                  label: "Tier title prefix",
+                  name: "tierTitlePrefix",
+                  widget: "string",
+                }
+              - {
+                  label: "General title",
+                  name: "generalTitle",
+                  widget: "string",
+                }
+              - {
+                  label: "Tier description",
+                  name: "tierDescription",
+                  widget: "text",
+                }
+              - {
+                  label: "General description",
+                  name: "generalDescription",
+                  widget: "text",
+                }
+              - {
+                  label: "Selected package label",
+                  name: "selectedPackageLabel",
+                  widget: "string",
+                }
+              - { label: "Name label", name: "nameLabel", widget: "string" }
+              - {
+                  label: "Name placeholder",
+                  name: "namePlaceholder",
+                  widget: "string",
+                }
+              - { label: "Email label", name: "emailLabel", widget: "string" }
+              - {
+                  label: "Email placeholder",
+                  name: "emailPlaceholder",
+                  widget: "string",
+                }
+              - {
+                  label: "Message label",
+                  name: "messageLabel",
+                  widget: "string",
+                }
+              - {
+                  label: "Message placeholder",
+                  name: "messagePlaceholder",
+                  widget: "string",
+                }
+              - { label: "Submit label", name: "submit", widget: "string" }
+              - {
+                  label: "Submitting state",
+                  name: "submitting",
+                  widget: "hidden",
+                }
+
+  - name: "media"
+    label: "Gallery & Media"
+    description: "Manage the public gallery and the fixed media-coverage layout."
+    files:
+      - name: "gallery"
+        label: "Gallery"
+        file: "client/public/data/gallery.json"
+        format: "json"
+        fields:
+          - label: "Images"
+            name: "images"
+            widget: "list"
+            collapsed: true
+            summary: "{{fields.alt}}"
+            min: 1
+            max: 9
+            fields:
+              - { label: "Image", name: "image", widget: "image" }
+              - { label: "Alternative text", name: "alt", widget: "string" }
+              - {
+                  label: "Caption",
+                  name: "caption",
+                  widget: "text",
+                  required: false,
+                }
+      - name: "media_coverage"
+        label: "Media Coverage"
+        file: "client/public/data/media-coverage.json"
+        format: "json"
+        fields:
+          - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+          - { label: "Heading prefix", name: "headingPrefix", widget: "string" }
+          - { label: "Heading accent", name: "headingAccent", widget: "string" }
+          - { label: "Year", name: "year", widget: "number" }
+          - { label: "Introduction", name: "intro", widget: "text" }
+          - label: "Featured video"
+            name: "featuredVideo"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Media type", name: "type", widget: "hidden" }
+              - { label: "ID", name: "id", widget: "string" }
+              - { label: "Outlet", name: "outlet", widget: "string" }
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Video", name: "src", widget: "file" }
+              - { label: "Poster", name: "poster", widget: "image" }
+          - label: "Article"
+            name: "article"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Media type", name: "type", widget: "hidden" }
+              - { label: "ID", name: "id", widget: "string" }
+              - { label: "Outlet", name: "outlet", widget: "string" }
+              - { label: "Title", name: "title", widget: "string" }
+              - {
+                  label: "Preview image",
+                  name: "previewImage",
+                  widget: "image",
+                }
+              - { label: "Full image", name: "fullImage", widget: "image" }
+          - label: "Supporting videos"
+            name: "supportingVideos"
+            widget: "list"
+            collapsed: true
+            summary: "{{fields.outlet}} — {{fields.title}}"
+            min: 2
+            max: 2
+            fields:
+              - { label: "Media type", name: "type", widget: "hidden" }
+              - { label: "ID", name: "id", widget: "string" }
+              - { label: "Outlet", name: "outlet", widget: "string" }
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Video", name: "src", widget: "file" }
+              - { label: "Poster", name: "poster", widget: "image" }
+          - {
+              label: "Article link label",
+              name: "articleLinkLabel",
+              widget: "string",
+            }
+
+  - name: "shared"
+    label: "Shared Content"
+    description: "Edit navigation, footer, contact details and external links used across the site."
     files:
       - name: "site_content"
         label: "Shared Site Content"
+        editor:
+          preview: false
         file: "client/public/data/site-content.json"
         format: "json"
         fields:
@@ -171,646 +861,3 @@ collections:
               - { label: "Instagram URL", name: "instagram", widget: "string" }
               - { label: "Facebook URL", name: "facebook", widget: "string" }
               - { label: "YouTube URL", name: "youtube", widget: "string" }
-
-      - name: "home_page"
-        label: "Home Page"
-        file: "client/public/data/home-page.json"
-        format: "json"
-        fields:
-          - label: "Hero"
-            name: "hero"
-            widget: "object"
-            fields:
-              - { label: "Welcome", name: "welcome", widget: "string" }
-              - { label: "Organisation name", name: "name", widget: "hidden" }
-              - { label: "Description", name: "description", widget: "text" }
-              - { label: "Events CTA", name: "eventsCta", widget: "string" }
-              - { label: "About CTA", name: "aboutCta", widget: "string" }
-          - label: "About"
-            name: "about"
-            widget: "object"
-            fields:
-              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
-              - { label: "Heading", name: "heading", widget: "string" }
-              - label: "Paragraphs"
-                name: "paragraphs"
-                widget: "list"
-                field: { label: "Paragraph", name: "paragraph", widget: "text" }
-              - label: "Statistics"
-                name: "stats"
-                widget: "list"
-                min: 3
-                max: 3
-                fields:
-                  - { label: "Value", name: "value", widget: "string" }
-                  - { label: "Label", name: "label", widget: "string" }
-          - label: "Events section"
-            name: "events"
-            widget: "object"
-            fields:
-              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
-              - { label: "Heading", name: "heading", widget: "string" }
-              - { label: "Loading state", name: "loading", widget: "hidden" }
-              - {
-                  label: "Registration CTA",
-                  name: "registrationCta",
-                  widget: "string",
-                }
-          - label: "Gallery section"
-            name: "gallery"
-            widget: "object"
-            fields:
-              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
-              - { label: "Heading", name: "heading", widget: "string" }
-              - { label: "Introduction", name: "intro", widget: "text" }
-          - label: "Sponsors section"
-            name: "sponsors"
-            widget: "object"
-            fields:
-              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
-              - { label: "Heading", name: "heading", widget: "string" }
-              - { label: "Introduction", name: "intro", widget: "text" }
-              - { label: "Loading state", name: "loading", widget: "hidden" }
-              - { label: "Prompt", name: "prompt", widget: "text" }
-              - { label: "CTA", name: "cta", widget: "string" }
-          - label: "Contact section"
-            name: "contact"
-            widget: "object"
-            fields:
-              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
-              - { label: "Heading", name: "heading", widget: "string" }
-              - label: "Contact form copy"
-                name: "form"
-                widget: "object"
-                fields:
-                  - { label: "Name label", name: "nameLabel", widget: "string" }
-                  - {
-                      label: "Name placeholder",
-                      name: "namePlaceholder",
-                      widget: "string",
-                    }
-                  - {
-                      label: "Email label",
-                      name: "emailLabel",
-                      widget: "string",
-                    }
-                  - {
-                      label: "Email placeholder",
-                      name: "emailPlaceholder",
-                      widget: "string",
-                    }
-                  - {
-                      label: "Message label",
-                      name: "messageLabel",
-                      widget: "string",
-                    }
-                  - {
-                      label: "Message placeholder",
-                      name: "messagePlaceholder",
-                      widget: "string",
-                    }
-                  - { label: "Submit label", name: "submit", widget: "string" }
-                  - {
-                      label: "Submitting state",
-                      name: "submitting",
-                      widget: "hidden",
-                    }
-              - {
-                  label: "Support eyebrow",
-                  name: "supportEyebrow",
-                  widget: "string",
-                }
-              - {
-                  label: "Support heading",
-                  name: "supportHeading",
-                  widget: "string",
-                }
-              - {
-                  label: "Support introduction",
-                  name: "supportIntro",
-                  widget: "text",
-                }
-              - label: "Support cards"
-                name: "supportCards"
-                widget: "list"
-                min: 3
-                max: 3
-                fields:
-                  - { label: "Title", name: "title", widget: "string" }
-                  - {
-                      label: "Description",
-                      name: "description",
-                      widget: "text",
-                    }
-              - { label: "Donate CTA", name: "donateCta", widget: "string" }
-
-      - name: "events"
-        label: "Events"
-        file: "client/public/data/events.json"
-        format: "json"
-        fields:
-          - { label: "Next event ID", name: "nextEventId", widget: "string" }
-          - label: "Events"
-            name: "events"
-            widget: "list"
-            fields:
-              - { label: "ID", name: "id", widget: "string" }
-              - { label: "Name", name: "name", widget: "string" }
-              - { label: "Description", name: "description", widget: "text" }
-              - label: "Date"
-                name: "date"
-                widget: "object"
-                fields:
-                  - {
-                      label: "Type",
-                      name: "type",
-                      widget: "select",
-                      options: ["single", "range"],
-                    }
-                  - {
-                      label: "Start",
-                      name: "start",
-                      widget: "datetime",
-                      format: "YYYY-MM-DD",
-                      date_format: "DD/MM/YYYY",
-                      time_format: false,
-                    }
-                  - {
-                      label: "End",
-                      name: "end",
-                      widget: "datetime",
-                      format: "YYYY-MM-DD",
-                      date_format: "DD/MM/YYYY",
-                      time_format: false,
-                      required: false,
-                    }
-              - label: "Venue"
-                name: "venue"
-                widget: "object"
-                fields:
-                  - { label: "Name", name: "name", widget: "string" }
-                  - { label: "Address", name: "address", widget: "text" }
-                  - label: "Coordinates"
-                    name: "coordinates"
-                    widget: "object"
-                    fields:
-                      - { label: "Latitude", name: "lat", widget: "number" }
-                      - { label: "Longitude", name: "lng", widget: "number" }
-                  - {
-                      label: "Google Maps URL",
-                      name: "googleMapsUrl",
-                      widget: "string",
-                      required: false,
-                    }
-              - label: "Stall opening hours"
-                name: "stallOpeningHours"
-                widget: "list"
-                required: false
-                fields:
-                  - {
-                      label: "Date",
-                      name: "date",
-                      widget: "datetime",
-                      format: "YYYY-MM-DD",
-                      date_format: "DD/MM/YYYY",
-                      time_format: false,
-                    }
-                  - {
-                      label: "Start",
-                      name: "start",
-                      widget: "string",
-                      pattern:
-                        [
-                          '^([01]\d|2[0-3]):[0-5]\d$',
-                          "Use 24-hour HH:mm, for example 15:00",
-                        ],
-                    }
-                  - {
-                      label: "End",
-                      name: "end",
-                      widget: "string",
-                      pattern:
-                        [
-                          '^([01]\d|2[0-3]):[0-5]\d$',
-                          "Use 24-hour HH:mm, for example 15:00",
-                        ],
-                    }
-                  - {
-                      label: "Optional start",
-                      name: "optionalStart",
-                      widget: "string",
-                      pattern:
-                        [
-                          '^([01]\d|2[0-3]):[0-5]\d$',
-                          "Use 24-hour HH:mm, for example 15:00",
-                        ],
-                      required: false,
-                    }
-              - { label: "Image", name: "image", widget: "image" }
-              - {
-                  label: "Registration URL",
-                  name: "registrationUrl",
-                  widget: "string",
-                  required: false,
-                }
-
-      - name: "gallery"
-        label: "Gallery"
-        file: "client/public/data/gallery.json"
-        format: "json"
-        fields:
-          - label: "Images"
-            name: "images"
-            widget: "list"
-            min: 1
-            max: 9
-            fields:
-              - { label: "Image", name: "image", widget: "image" }
-              - { label: "Alternative text", name: "alt", widget: "string" }
-              - {
-                  label: "Caption",
-                  name: "caption",
-                  widget: "text",
-                  required: false,
-                }
-
-      - name: "sponsors"
-        label: "Sponsors"
-        file: "client/public/data/sponsors.json"
-        format: "json"
-        fields:
-          - label: "Sponsors"
-            name: "sponsors"
-            widget: "list"
-            fields:
-              - { label: "ID", name: "id", widget: "string" }
-              - { label: "Name", name: "name", widget: "string" }
-              - { label: "Logo", name: "logo", widget: "image" }
-              - {
-                  label: "Website URL",
-                  name: "website",
-                  widget: "string",
-                  required: false,
-                }
-
-      - name: "sponsor_page"
-        label: "Sponsor Page"
-        file: "client/public/data/sponsor-page.json"
-        format: "json"
-        fields:
-          - label: "Hero"
-            name: "hero"
-            widget: "object"
-            fields:
-              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
-              - {
-                  label: "Heading prefix",
-                  name: "headingPrefix",
-                  widget: "string",
-                }
-              - {
-                  label: "Heading accent",
-                  name: "headingAccent",
-                  widget: "string",
-                }
-              - { label: "Description", name: "description", widget: "text" }
-              - { label: "CTA", name: "cta", widget: "string" }
-          - label: "Highlights"
-            name: "highlights"
-            widget: "list"
-            min: 4
-            max: 4
-            fields:
-              - { label: "Value", name: "value", widget: "string" }
-              - { label: "Label", name: "label", widget: "string" }
-          - label: "Tiers section"
-            name: "tiersSection"
-            widget: "object"
-            fields:
-              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
-              - {
-                  label: "Heading prefix",
-                  name: "headingPrefix",
-                  widget: "string",
-                }
-              - {
-                  label: "Heading accent",
-                  name: "headingAccent",
-                  widget: "string",
-                }
-              - { label: "Introduction", name: "intro", widget: "text" }
-          - label: "Sponsorship tiers"
-            name: "tiers"
-            widget: "list"
-            min: 4
-            max: 4
-            fields:
-              - { label: "Name", name: "name", widget: "string" }
-              - { label: "Guide", name: "guide", widget: "string" }
-              - {
-                  label: "Guide prefix",
-                  name: "guidePrefix",
-                  widget: "string",
-                  required: false,
-                }
-              - {
-                  label: "Guide suffix",
-                  name: "guideSuffix",
-                  widget: "string",
-                  required: false,
-                }
-              - { label: "Description", name: "description", widget: "text" }
-              - label: "Benefits"
-                name: "benefits"
-                widget: "list"
-                field: { label: "Benefit", name: "benefit", widget: "text" }
-              - {
-                  label: "Featured layout",
-                  name: "featured",
-                  widget: "hidden",
-                  required: false,
-                }
-              - {
-                  label: "Badge",
-                  name: "badge",
-                  widget: "hidden",
-                  required: false,
-                }
-              - {
-                  label: "Enquiry label",
-                  name: "enquiryLabel",
-                  widget: "string",
-                }
-          - label: "Bespoke partnerships"
-            name: "bespoke"
-            widget: "object"
-            fields:
-              - { label: "Heading", name: "heading", widget: "string" }
-              - { label: "Introduction", name: "intro", widget: "text" }
-              - label: "Possibilities"
-                name: "possibilities"
-                widget: "list"
-                field:
-                  { label: "Possibility", name: "possibility", widget: "text" }
-              - { label: "CTA", name: "cta", widget: "string" }
-          - label: "Event information"
-            name: "eventInfo"
-            widget: "object"
-            fields:
-              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
-              - {
-                  label: "Heading suffix",
-                  name: "headingSuffix",
-                  widget: "string",
-                }
-              - { label: "Dates label", name: "datesLabel", widget: "string" }
-              - { label: "Venue label", name: "venueLabel", widget: "string" }
-              - {
-                  label: "Stall hours label",
-                  name: "stallHoursLabel",
-                  widget: "string",
-                }
-              - {
-                  label: "Stall hours fallback",
-                  name: "stallHoursFallback",
-                  widget: "string",
-                }
-              - { label: "Email label", name: "emailLabel", widget: "string" }
-              - {
-                  label: "Map link label",
-                  name: "mapLinkLabel",
-                  widget: "string",
-                }
-              - {
-                  label: "Optional start prefix",
-                  name: "optionalStartPrefix",
-                  widget: "string",
-                }
-          - label: "Sponsors section"
-            name: "sponsors"
-            widget: "object"
-            fields:
-              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
-              - { label: "Heading", name: "heading", widget: "string" }
-              - { label: "Introduction", name: "intro", widget: "text" }
-          - label: "Past celebrations"
-            name: "pastCelebrations"
-            widget: "object"
-            fields:
-              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
-              - {
-                  label: "Heading prefix",
-                  name: "headingPrefix",
-                  widget: "string",
-                }
-              - {
-                  label: "Heading accent",
-                  name: "headingAccent",
-                  widget: "string",
-                }
-              - { label: "Introduction", name: "intro", widget: "text" }
-              - { label: "Video", name: "video", widget: "file" }
-              - { label: "Poster", name: "poster", widget: "image" }
-              - label: "Photos"
-                name: "photos"
-                widget: "list"
-                min: 1
-                max: 10
-                fields:
-                  - { label: "Image", name: "image", widget: "image" }
-                  - { label: "Alternative text", name: "alt", widget: "string" }
-                  - {
-                      label: "Caption",
-                      name: "caption",
-                      widget: "text",
-                      required: false,
-                    }
-          - label: "Event types section"
-            name: "eventTypesSection"
-            widget: "object"
-            fields:
-              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
-              - {
-                  label: "Heading prefix",
-                  name: "headingPrefix",
-                  widget: "string",
-                }
-              - {
-                  label: "Heading accent",
-                  name: "headingAccent",
-                  widget: "string",
-                }
-              - { label: "Introduction", name: "intro", widget: "text" }
-          - label: "Event types"
-            name: "eventTypes"
-            widget: "list"
-            min: 3
-            max: 3
-            fields:
-              - { label: "Icon", name: "icon", widget: "hidden" }
-              - { label: "Title", name: "title", widget: "string" }
-              - { label: "Description", name: "description", widget: "text" }
-          - label: "Final CTA"
-            name: "finalCta"
-            widget: "object"
-            fields:
-              - {
-                  label: "Heading prefix",
-                  name: "headingPrefix",
-                  widget: "string",
-                }
-              - {
-                  label: "Heading accent",
-                  name: "headingAccent",
-                  widget: "string",
-                }
-              - { label: "Description", name: "description", widget: "text" }
-              - { label: "Button label", name: "button", widget: "string" }
-          - label: "Enquiry modal"
-            name: "enquiryModal"
-            widget: "object"
-            fields:
-              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
-              - {
-                  label: "Tier title prefix",
-                  name: "tierTitlePrefix",
-                  widget: "string",
-                }
-              - {
-                  label: "General title",
-                  name: "generalTitle",
-                  widget: "string",
-                }
-              - {
-                  label: "Tier description",
-                  name: "tierDescription",
-                  widget: "text",
-                }
-              - {
-                  label: "General description",
-                  name: "generalDescription",
-                  widget: "text",
-                }
-              - {
-                  label: "Selected package label",
-                  name: "selectedPackageLabel",
-                  widget: "string",
-                }
-              - { label: "Name label", name: "nameLabel", widget: "string" }
-              - {
-                  label: "Name placeholder",
-                  name: "namePlaceholder",
-                  widget: "string",
-                }
-              - { label: "Email label", name: "emailLabel", widget: "string" }
-              - {
-                  label: "Email placeholder",
-                  name: "emailPlaceholder",
-                  widget: "string",
-                }
-              - {
-                  label: "Message label",
-                  name: "messageLabel",
-                  widget: "string",
-                }
-              - {
-                  label: "Message placeholder",
-                  name: "messagePlaceholder",
-                  widget: "string",
-                }
-              - { label: "Submit label", name: "submit", widget: "string" }
-              - {
-                  label: "Submitting state",
-                  name: "submitting",
-                  widget: "hidden",
-                }
-
-      - name: "media_coverage"
-        label: "Media Coverage"
-        file: "client/public/data/media-coverage.json"
-        format: "json"
-        fields:
-          - { label: "Eyebrow", name: "eyebrow", widget: "string" }
-          - { label: "Heading prefix", name: "headingPrefix", widget: "string" }
-          - { label: "Heading accent", name: "headingAccent", widget: "string" }
-          - { label: "Year", name: "year", widget: "number" }
-          - { label: "Introduction", name: "intro", widget: "text" }
-          - label: "Featured video"
-            name: "featuredVideo"
-            widget: "object"
-            fields:
-              - { label: "Media type", name: "type", widget: "hidden" }
-              - { label: "ID", name: "id", widget: "string" }
-              - { label: "Outlet", name: "outlet", widget: "string" }
-              - { label: "Title", name: "title", widget: "string" }
-              - { label: "Video", name: "src", widget: "file" }
-              - { label: "Poster", name: "poster", widget: "image" }
-          - label: "Article"
-            name: "article"
-            widget: "object"
-            fields:
-              - { label: "Media type", name: "type", widget: "hidden" }
-              - { label: "ID", name: "id", widget: "string" }
-              - { label: "Outlet", name: "outlet", widget: "string" }
-              - { label: "Title", name: "title", widget: "string" }
-              - {
-                  label: "Preview image",
-                  name: "previewImage",
-                  widget: "image",
-                }
-              - { label: "Full image", name: "fullImage", widget: "image" }
-          - label: "Supporting videos"
-            name: "supportingVideos"
-            widget: "list"
-            min: 2
-            max: 2
-            fields:
-              - { label: "Media type", name: "type", widget: "hidden" }
-              - { label: "ID", name: "id", widget: "string" }
-              - { label: "Outlet", name: "outlet", widget: "string" }
-              - { label: "Title", name: "title", widget: "string" }
-              - { label: "Video", name: "src", widget: "file" }
-              - { label: "Poster", name: "poster", widget: "image" }
-          - {
-              label: "Article link label",
-              name: "articleLinkLabel",
-              widget: "string",
-            }
-
-      - name: "constitution_page"
-        label: "Constitution Page"
-        file: "client/public/data/constitution-page.json"
-        format: "json"
-        fields:
-          - { label: "Eyebrow", name: "eyebrow", widget: "string" }
-          - { label: "Heading prefix", name: "headingPrefix", widget: "string" }
-          - { label: "Heading accent", name: "headingAccent", widget: "string" }
-          - { label: "Introduction", name: "intro", widget: "text" }
-          - { label: "Document title", name: "documentTitle", widget: "string" }
-          - {
-              label: "Document description",
-              name: "documentDescription",
-              widget: "text",
-            }
-          - { label: "Open label", name: "openLabel", widget: "string" }
-          - { label: "Download label", name: "downloadLabel", widget: "string" }
-          - { label: "PDF", name: "pdf", widget: "file" }
-          - { label: "Fallback message", name: "fallback", widget: "string" }
-          - {
-              label: "Fallback link label",
-              name: "fallbackLinkLabel",
-              widget: "string",
-            }
-
-      - name: "not_found_page"
-        label: "Not Found Page"
-        file: "client/public/data/not-found-page.json"
-        format: "json"
-        fields:
-          - { label: "Eyebrow", name: "eyebrow", widget: "string" }
-          - { label: "Heading prefix", name: "headingPrefix", widget: "string" }
-          - { label: "Heading accent", name: "headingAccent", widget: "string" }
-          - { label: "Description", name: "description", widget: "text" }
-          - { label: "Home label", name: "homeLabel", widget: "string" }
-          - { label: "Contact label", name: "contactLabel", widget: "string" }
-          - { label: "Identity line", name: "identityLine", widget: "string" }

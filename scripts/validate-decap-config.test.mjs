@@ -15,7 +15,9 @@ const sourceConfig = parse(
 );
 
 function findDocument(config, name) {
-  return config.collections[0].files.find(document => document.name === name);
+  return config.collections
+    .flatMap(collection => collection.files ?? [])
+    .find(document => document.name === name);
 }
 
 function findField(fields, name) {
@@ -103,6 +105,82 @@ test("accepts the complete production schema", async () => {
   const result = await runValidator(completeBaseline());
 
   assert.equal(result.status, 0, result.stderr);
+});
+
+test("organises documents into clear editorial collections", () => {
+  const actualGroups = Object.fromEntries(
+    sourceConfig.collections.map(collection => [
+      collection.name,
+      collection.files.map(document => document.name),
+    ])
+  );
+
+  assert.deepEqual(actualGroups, {
+    pages: ["home_page", "constitution_page", "not_found_page"],
+    events: ["events"],
+    sponsors: ["sponsors", "sponsor_page"],
+    media: ["gallery", "media_coverage"],
+    shared: ["site_content"],
+  });
+});
+
+test("long repeatable sections open collapsed with recognisable summaries", () => {
+  const summaries = [
+    ["home_page", ["about", "stats"], "{{fields.value}} — {{fields.label}}"],
+    ["home_page", ["contact", "supportCards"], "{{fields.title}}"],
+    ["events", ["events"], "{{fields.name}} — {{fields.date.start}}"],
+    [
+      "events",
+      ["events", "stallOpeningHours"],
+      "{{fields.date}} · {{fields.start}}–{{fields.end}}",
+    ],
+    ["gallery", ["images"], "{{fields.alt}}"],
+    ["sponsors", ["sponsors"], "{{fields.name}}"],
+    ["sponsor_page", ["tiers"], "{{fields.name}} — {{fields.guide}}"],
+    ["sponsor_page", ["pastCelebrations", "photos"], "{{fields.alt}}"],
+    [
+      "media_coverage",
+      ["supportingVideos"],
+      "{{fields.outlet}} — {{fields.title}}",
+    ],
+  ];
+
+  for (const [documentName, fieldPath, summary] of summaries) {
+    const field = findFieldAtPath(sourceConfig, documentName, fieldPath);
+    assert.equal(
+      field.collapsed,
+      true,
+      `${documentName}.${fieldPath.join(".")}`
+    );
+    assert.equal(
+      field.summary,
+      summary,
+      `${documentName}.${fieldPath.join(".")}`
+    );
+  }
+});
+
+test("long page sections open collapsed so editors can scan the form", () => {
+  const sections = [
+    ["home_page", ["hero"]],
+    ["home_page", ["about"]],
+    ["home_page", ["contact"]],
+    ["sponsor_page", ["hero"]],
+    ["sponsor_page", ["tiersSection"]],
+    ["sponsor_page", ["bespoke"]],
+    ["sponsor_page", ["eventInfo"]],
+    ["sponsor_page", ["pastCelebrations"]],
+    ["media_coverage", ["featuredVideo"]],
+    ["media_coverage", ["article"]],
+  ];
+
+  for (const [documentName, fieldPath] of sections) {
+    assert.equal(
+      findFieldAtPath(sourceConfig, documentName, fieldPath).collapsed,
+      true,
+      `${documentName}.${fieldPath.join(".")}`
+    );
+  }
 });
 
 test("schema-projected JSON round trips preserve code-controlled fields", async () => {
@@ -245,7 +323,7 @@ test("rejects an extra collection that exposes design controls", async () => {
   assertRejected(await runValidator(config), /collections/);
 });
 
-test("rejects an extra document in the website collection", async () => {
+test("rejects an extra document in an editorial collection", async () => {
   const config = completeBaseline();
   config.collections[0].files.push({
     name: "design",
@@ -255,7 +333,7 @@ test("rejects an extra document in the website collection", async () => {
     fields: [{ label: "Background", name: "background", widget: "image" }],
   });
 
-  assertRejected(await runValidator(config), /website\.files/);
+  assertRejected(await runValidator(config), /collections/);
 });
 
 test("rejects changed document file and format metadata", async () => {

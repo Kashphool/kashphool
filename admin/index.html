@@ -5,8 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex" />
     <title>Kashphool Content Manager</title>
+    <link rel="icon" href="/images/favicon.ico" />
+    <link rel="stylesheet" href="/admin/admin.css" />
   </head>
-  <body>
-    <script src="https://unpkg.com/decap-cms@3.16.0/dist/decap-cms.js"></script>
+  <body class="cms-page">
+    <header class="cms-brandbar">
+      <a
+        class="cms-brand"
+        href="/admin/"
+        aria-label="Kashphool Content Manager"
+      >
+        <img src="/images/logo.png" alt="" />
+        <span><strong>Kashphool</strong><small>Content Manager</small></span>
+      </a>
+      <nav aria-label="Content manager links">
+        <a href="/admin/contacts.html">Contacts &amp; leads</a>
+        <a href="/admin/guide.html">Editing guide</a>
+        <a href="/" target="_blank" rel="noreferrer"
+          >View website <span aria-hidden="true">↗</span></a
+        >
+      </nav>
+    </header>
+    <main id="nc-root"></main>
+    <noscript
+      >You need JavaScript enabled to use the Kashphool Content
+      Manager.</noscript
+    >
+    <script
+      defer
+      src="https://unpkg.com/decap-cms@3.16.0/dist/decap-cms.js"
+    ></script>
+    <script defer src="/admin/previews.js"></script>
   </body>
 </html>

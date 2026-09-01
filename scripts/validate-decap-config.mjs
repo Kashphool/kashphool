@@ -400,26 +400,55 @@ assert.equal(config.public_folder, "/assets/uploads");
 assert.equal(config.publish_mode, undefined);
 assert.equal(config.local_backend, undefined);
 
+const collectionManifest = {
+  pages: ["home_page", "constitution_page", "not_found_page"],
+  events: ["events"],
+  sponsors: ["sponsors", "sponsor_page"],
+  media: ["gallery", "media_coverage"],
+  shared: ["site_content"],
+};
+
 assert.deepEqual(
-  config.collections.map(collection => collection.name),
-  ["website"],
-  "collections: expected exact collection names"
-);
-const websiteCollection = config.collections[0];
-assert.equal(
-  websiteCollection.editor?.preview,
-  false,
-  "website.editor.preview"
+  Object.fromEntries(
+    config.collections.map(collection => [
+      collection.name,
+      collection.files?.map(document => document.name) ?? [],
+    ])
+  ),
+  collectionManifest,
+  "collections: expected exact editorial groups and documents"
 );
 
+for (const collection of config.collections) {
+  assert.ok(
+    collection.description?.trim(),
+    `${collection.name}.description must guide editors`
+  );
+}
+
+const documents = config.collections.flatMap(collection => collection.files);
+const previewDocuments = new Set([
+  "home_page",
+  "events",
+  "sponsor_page",
+  "gallery",
+  "media_coverage",
+]);
+
+for (const document of documents) {
+  assert.equal(
+    document.editor?.preview !== false,
+    previewDocuments.has(document.name),
+    `${document.name}.editor.preview`
+  );
+}
+
 const expectedDocumentNames = Object.keys(documentManifest).sort();
-const actualDocumentNames = websiteCollection.files
-  .map(document => document.name)
-  .sort();
+const actualDocumentNames = documents.map(document => document.name).sort();
 assert.deepEqual(
   actualDocumentNames,
   expectedDocumentNames,
-  "website.files: expected exact document names"
+  "collections: expected exact document names"
 );
 
 function collectFields(documentName, fields) {
@@ -451,7 +480,7 @@ function collectFields(documentName, fields) {
 
 const fieldsByFullPath = new Map();
 
-for (const document of websiteCollection.files) {
+for (const document of documents) {
   const specification = documentManifest[document.name];
   assert.ok(specification, `${document.name}: unexpected document`);
   assert.equal(document.file, specification.file, `${document.name}.file`);

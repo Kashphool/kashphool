@@ -21,10 +21,12 @@ const UPLOADS_DIRECTORY = path.join(PROJECT_ROOT, "assets", "uploads");
 
 const contentTypes: Record<string, string> = {
   ".avif": "image/avif",
+  ".css": "text/css; charset=utf-8",
   ".gif": "image/gif",
   ".html": "text/html; charset=utf-8",
   ".jpeg": "image/jpeg",
   ".jpg": "image/jpeg",
+  ".js": "text/javascript; charset=utf-8",
   ".json": "application/json; charset=utf-8",
   ".mov": "video/quicktime",
   ".mp4": "video/mp4",
@@ -147,15 +149,23 @@ function vitePluginDecapDevAssets(): Plugin {
           return;
         }
 
-        if (
-          requestPath === "/admin/" ||
-          requestPath === "/admin/index.html"
-        ) {
+        if (requestPath === "/admin/" || requestPath === "/admin/index.html") {
           directory = ADMIN_DIRECTORY;
           relativePath = "index.html";
         } else if (requestPath === "/admin/config.yml") {
           directory = ADMIN_DIRECTORY;
           relativePath = "config.yml";
+        } else if (requestPath.startsWith("/admin/")) {
+          directory = ADMIN_DIRECTORY;
+          try {
+            relativePath = decodeURIComponent(
+              requestPath.slice("/admin/".length)
+            );
+          } catch {
+            res.statusCode = 400;
+            res.end();
+            return;
+          }
         } else if (requestPath.startsWith("/assets/uploads/")) {
           directory = UPLOADS_DIRECTORY;
           try {

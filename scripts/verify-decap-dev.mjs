@@ -117,6 +117,25 @@ try {
     );
   }
 
+  const adminAssets = [
+    ["/admin/guide.html", /^text\/html/],
+    ["/admin/contacts.html", /^text\/html/],
+    ["/admin/admin.css", /^text\/css/],
+    ["/admin/guide.css", /^text\/css/],
+    ["/admin/previews.js", /^(application|text)\/javascript/],
+    ["/admin/preview.css", /^text\/css/],
+    ["/admin/assets/guide-home.jpg", /^image\/jpeg/],
+  ];
+  for (const [pathname, expectedContentType] of adminAssets) {
+    const response = await fetch(`${baseUrl}${pathname}`);
+    assert.equal(response.status, 200, `${pathname} should be served locally`);
+    assert.match(
+      response.headers.get("content-type") ?? "",
+      expectedContentType,
+      `${pathname} should have the correct content type`
+    );
+  }
+
   const configResponse = await fetch(`${baseUrl}/admin/config.yml`);
   assert.equal(configResponse.status, 200);
   assert.match(
