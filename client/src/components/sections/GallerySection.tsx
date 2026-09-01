@@ -9,18 +9,9 @@
 import { useInView } from "@/hooks/useInView";
 import { useState, useEffect } from "react";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import { galleryContent, homePageContent } from "@/content";
 
-const galleryImages = [
-  { src: "/gallery/2025_1.jpg", alt: "Durga Pujo 2025" },
-  { src: "/gallery/2025_2.jpg", alt: "Durga Pujo 2025" },
-  { src: "/gallery/2025_3.jpg", alt: "Durga Pujo 2025" },
-  { src: "/gallery/2025_4.jpg", alt: "Durga Pujo 2025" },
-  { src: "/gallery/2025_5.jpg", alt: "Durga Pujo 2025" },
-  { src: "/gallery/2025_6.jpg", alt: "Durga Pujo 2025" },
-  { src: "/gallery/2025_07.jpg", alt: "Durga Pujo 2025" },
-  { src: "/gallery/2025_08.jpg", alt: "Durga Pujo 2025" },
-  { src: "/gallery/2025_09.jpg", alt: "Durga Pujo 2025" },
-];
+const galleryImages = galleryContent.images;
 
 export default function GallerySection() {
   const { ref, isInView } = useInView();
@@ -29,11 +20,13 @@ export default function GallerySection() {
   const openLightbox = (index: number) => setLightboxIndex(index);
   const closeLightbox = () => setLightboxIndex(null);
   const prevImage = () =>
-    setLightboxIndex((prev) =>
-      prev !== null ? (prev - 1 + galleryImages.length) % galleryImages.length : null
+    setLightboxIndex(prev =>
+      prev !== null
+        ? (prev - 1 + galleryImages.length) % galleryImages.length
+        : null
     );
   const nextImage = () =>
-    setLightboxIndex((prev) =>
+    setLightboxIndex(prev =>
       prev !== null ? (prev + 1) % galleryImages.length : null
     );
 
@@ -42,17 +35,17 @@ export default function GallerySection() {
     if (lightboxIndex === null) return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft') {
+      if (e.key === "ArrowLeft") {
         prevImage();
-      } else if (e.key === 'ArrowRight') {
+      } else if (e.key === "ArrowRight") {
         nextImage();
-      } else if (e.key === 'Escape') {
+      } else if (e.key === "Escape") {
         closeLightbox();
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [lightboxIndex]);
 
   return (
@@ -69,13 +62,15 @@ export default function GallerySection() {
             }`}
           >
             <span className="text-saffron/80 text-sm font-medium tracking-[0.3em] uppercase">
-              Memories
+              {homePageContent.gallery.eyebrow}
             </span>
             <h2 className="font-[var(--font-display)] text-4xl md:text-5xl lg:text-6xl font-bold mt-3 mb-4">
-              <span className="text-gold-gradient">Photo Gallery</span>
+              <span className="text-gold-gradient">
+                {homePageContent.gallery.heading}
+              </span>
             </h2>
             <p className="text-ivory/50 text-lg mt-4">
-              Memories from our past events
+              {homePageContent.gallery.intro}
             </p>
             <div className="h-[2px] w-20 bg-gradient-to-r from-transparent via-saffron to-transparent mx-auto mt-6" />
           </div>
@@ -89,7 +84,9 @@ export default function GallerySection() {
               <div
                 key={index}
                 className={`group relative overflow-hidden rounded-sm cursor-pointer transition-all duration-700 ${
-                  isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+                  isInView
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-12"
                 }`}
                 style={{ transitionDelay: `${delay}ms` }}
                 onClick={() => openLightbox(index)}
@@ -97,7 +94,7 @@ export default function GallerySection() {
                 {/* Image */}
                 <div className="aspect-[4/3] overflow-hidden">
                   <img
-                    src={image.src}
+                    src={image.image}
                     alt={image.alt}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     loading="lazy"
@@ -109,7 +106,7 @@ export default function GallerySection() {
                   <div className="p-5 w-full">
                     <div className="h-[1px] w-12 bg-gold/60 mb-3 transition-all duration-500 group-hover:w-20" />
                     <p className="text-ivory/90 font-medium text-sm tracking-wide">
-                      {image.alt}
+                      {image.caption ?? image.alt}
                     </p>
                   </div>
                 </div>
@@ -138,13 +135,19 @@ export default function GallerySection() {
 
           {/* Navigation */}
           <button
-            onClick={(e) => { e.stopPropagation(); prevImage(); }}
+            onClick={e => {
+              e.stopPropagation();
+              prevImage();
+            }}
             className="absolute left-4 md:left-8 text-ivory/60 hover:text-saffron transition-colors z-10"
           >
             <ChevronLeft size={36} />
           </button>
           <button
-            onClick={(e) => { e.stopPropagation(); nextImage(); }}
+            onClick={e => {
+              e.stopPropagation();
+              nextImage();
+            }}
             className="absolute right-4 md:right-8 text-ivory/60 hover:text-saffron transition-colors z-10"
           >
             <ChevronRight size={36} />
@@ -152,16 +155,18 @@ export default function GallerySection() {
 
           {/* Image */}
           <img
-            src={galleryImages[lightboxIndex].src}
+            src={galleryImages[lightboxIndex].image}
             alt={galleryImages[lightboxIndex].alt}
             className="max-w-full max-h-[85vh] object-contain rounded-sm shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
+            onClick={e => e.stopPropagation()}
           />
 
           {/* Caption */}
           <div className="absolute bottom-8 text-center">
             <p className="text-ivory/70 text-sm tracking-wide">
-              {galleryImages[lightboxIndex].alt} — {lightboxIndex + 1} / {galleryImages.length}
+              {galleryImages[lightboxIndex].caption ??
+                galleryImages[lightboxIndex].alt}{" "}
+              — {lightboxIndex + 1} / {galleryImages.length}
             </p>
           </div>
         </div>

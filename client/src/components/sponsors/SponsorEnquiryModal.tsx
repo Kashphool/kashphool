@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/dialog";
 import { EMAILJS_CONFIG, EMAIL_MESSAGE_TIMEOUT } from "@/config";
 import { buildSponsorEnquiryMessage } from "@/lib/sponsorEnquiry";
+import { sponsorPageContent } from "@/content";
 import emailjs from "@emailjs/browser";
 import { Send } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -30,6 +31,7 @@ export default function SponsorEnquiryModal({
   tierDetails,
   onOpenChange,
 }: SponsorEnquiryModalProps) {
+  const { enquiryModal } = sponsorPageContent;
   const formRef = useRef<HTMLFormElement>(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -60,7 +62,7 @@ export default function SponsorEnquiryModal({
         EMAILJS_CONFIG.SERVICE_ID,
         EMAILJS_CONFIG.TEMPLATE_ID,
         formRef.current!,
-        { publicKey: EMAILJS_CONFIG.PUBLIC_KEY },
+        { publicKey: EMAILJS_CONFIG.PUBLIC_KEY }
       )
       .then(
         () => {
@@ -71,12 +73,12 @@ export default function SponsorEnquiryModal({
           setNote("");
           setTimeout(() => setSentMessage(""), EMAIL_MESSAGE_TIMEOUT);
         },
-        (error) => {
+        error => {
           setIsLoading(false);
           setSentMessage("Failed to send your enquiry. Please try again.");
           setTimeout(() => setSentMessage(""), EMAIL_MESSAGE_TIMEOUT);
           console.error("EmailJS Error:", error);
-        },
+        }
       );
   };
 
@@ -87,31 +89,33 @@ export default function SponsorEnquiryModal({
       <DialogContent
         showCloseButton={!isLoading}
         className="max-h-[calc(100vh-2rem)] overflow-y-auto border-gold/20 bg-charcoal-light p-0 text-ivory shadow-2xl shadow-black/50 sm:max-w-xl"
-        onEscapeKeyDown={(event) => {
+        onEscapeKeyDown={event => {
           if (isLoading) event.preventDefault();
         }}
-        onPointerDownOutside={(event) => {
+        onPointerDownOutside={event => {
           if (isLoading) event.preventDefault();
         }}
       >
         <div className="border-b border-gold/10 bg-gradient-to-r from-gold/10 via-transparent to-saffron/5 px-6 py-6 sm:px-8">
           <DialogHeader>
             <span className="text-xs font-semibold uppercase tracking-[0.24em] text-saffron/80">
-              Sponsorship enquiry
+              {enquiryModal.eyebrow}
             </span>
             <DialogTitle className="font-[var(--font-display)] text-3xl leading-tight text-ivory sm:text-4xl">
-              {tier ? `Enquire about ${tier}` : "Start a conversation"}
+              {tier
+                ? `${enquiryModal.tierTitlePrefix} ${tier}`
+                : enquiryModal.generalTitle}
             </DialogTitle>
             <DialogDescription className="pt-1 leading-relaxed text-ivory/55">
               {tier
-                ? "Tell us a little about your organisation and what you would like to discuss."
-                : "Tell us how you would like to partner with Kashphool."}
+                ? enquiryModal.tierDescription
+                : enquiryModal.generalDescription}
             </DialogDescription>
           </DialogHeader>
           {tierDetails && (
             <div className="mt-5 rounded-sm border border-gold/25 bg-charcoal/40 p-4 sm:p-5">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-saffron/80">
-                Selected sponsorship package
+                {enquiryModal.selectedPackageLabel}
               </p>
               <div className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1">
                 <h3 className="font-[var(--font-display)] text-2xl font-semibold text-ivory sm:text-3xl">
@@ -130,58 +134,71 @@ export default function SponsorEnquiryModal({
           )}
         </div>
 
-        <form ref={formRef} onSubmit={handleSubmit} className="space-y-5 px-6 pb-7 sm:px-8 sm:pb-8">
+        <form
+          ref={formRef}
+          onSubmit={handleSubmit}
+          className="space-y-5 px-6 pb-7 sm:px-8 sm:pb-8"
+        >
           <input type="hidden" name="message" value={emailMessage} />
 
           <div>
-            <label htmlFor="sponsor-name" className="mb-2 block text-sm tracking-wide text-ivory/65">
-              Your name
+            <label
+              htmlFor="sponsor-name"
+              className="mb-2 block text-sm tracking-wide text-ivory/65"
+            >
+              {enquiryModal.nameLabel}
             </label>
             <input
               id="sponsor-name"
               type="text"
               name="name"
               value={name}
-              onChange={(event) => setName(event.target.value)}
+              onChange={event => setName(event.target.value)}
               autoComplete="name"
               required
               disabled={isLoading}
-              placeholder="Enter your name"
+              placeholder={enquiryModal.namePlaceholder}
               className="w-full rounded-sm border border-gold/15 bg-charcoal/60 px-4 py-3 text-ivory/90 outline-none transition-all placeholder:text-ivory/30 focus:border-saffron/50 focus:ring-1 focus:ring-saffron/20 disabled:opacity-60"
             />
           </div>
 
           <div>
-            <label htmlFor="sponsor-email" className="mb-2 block text-sm tracking-wide text-ivory/65">
-              Email address
+            <label
+              htmlFor="sponsor-email"
+              className="mb-2 block text-sm tracking-wide text-ivory/65"
+            >
+              {enquiryModal.emailLabel}
             </label>
             <input
               id="sponsor-email"
               type="email"
               name="email"
               value={email}
-              onChange={(event) => setEmail(event.target.value)}
+              onChange={event => setEmail(event.target.value)}
               autoComplete="email"
               required
               disabled={isLoading}
-              placeholder="Enter your email"
+              placeholder={enquiryModal.emailPlaceholder}
               className="w-full rounded-sm border border-gold/15 bg-charcoal/60 px-4 py-3 text-ivory/90 outline-none transition-all placeholder:text-ivory/30 focus:border-saffron/50 focus:ring-1 focus:ring-saffron/20 disabled:opacity-60"
             />
           </div>
 
           <div>
-            <label htmlFor="sponsor-note" className="mb-2 block text-sm tracking-wide text-ivory/65">
-              Message
+            <label
+              htmlFor="sponsor-note"
+              className="mb-2 block text-sm tracking-wide text-ivory/65"
+            >
+              {enquiryModal.messageLabel}
             </label>
             <textarea
               id="sponsor-note"
               name="visitor_message"
               value={note}
-              onChange={(event) => setNote(event.target.value)}
+              onChange={event => setNote(event.target.value)}
               rows={5}
               required
               disabled={isLoading}
-              placeholder="Tell us what you would like to discuss..."
+              placeholder={enquiryModal.messagePlaceholder}
               className="w-full resize-none rounded-sm border border-gold/15 bg-charcoal/60 px-4 py-3 text-ivory/90 outline-none transition-all placeholder:text-ivory/30 focus:border-saffron/50 focus:ring-1 focus:ring-saffron/20 disabled:opacity-60"
             />
           </div>
@@ -206,7 +223,7 @@ export default function SponsorEnquiryModal({
             className="inline-flex w-full items-center justify-center gap-2 rounded-sm bg-gradient-to-r from-saffron to-gold px-6 py-3.5 font-semibold text-charcoal transition-all hover:scale-[1.01] hover:shadow-lg hover:shadow-saffron/20 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <Send aria-hidden="true" size={17} />
-            {isLoading ? "Sending..." : "Send enquiry"}
+            {isLoading ? enquiryModal.submitting : enquiryModal.submit}
           </button>
         </form>
       </DialogContent>

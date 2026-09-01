@@ -2,4 +2,5 @@
  * Centralized type exports
  */
 
-export * from './events';
+export * from "./events";
+export * from "./content";

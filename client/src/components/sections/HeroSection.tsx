@@ -8,12 +8,16 @@
 
 import { useInView } from "@/hooks/useInView";
 import { IMAGES } from "@/config";
+import { homePageContent } from "@/content";
 
 export default function HeroSection() {
   const { ref, isInView } = useInView();
 
   return (
-    <section id="home" className="relative min-h-screen flex items-start overflow-hidden -mt-16 md:-mt-20">
+    <section
+      id="home"
+      className="relative min-h-screen flex items-start overflow-hidden -mt-16 md:-mt-20"
+    >
       {/* Background Video */}
       <div className="absolute inset-0 -top-16 md:-top-20">
         <video
@@ -37,7 +41,10 @@ export default function HeroSection() {
       {/*</div>*/}
 
       {/* Content */}
-      <div ref={ref} className="container relative z-10 pt-44 sm:pt-48 md:pt-52 lg:pt-48 pb-16">
+      <div
+        ref={ref}
+        className="container relative z-10 pt-44 sm:pt-48 md:pt-52 lg:pt-48 pb-16"
+      >
         <div className="max-w-2xl">
           {/* Gold accent line */}
           <div
@@ -52,9 +59,11 @@ export default function HeroSection() {
               isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
           >
-            <span className="text-ivory">Welcome to</span>
+            <span className="text-ivory">{homePageContent.hero.welcome}</span>
             <br />
-            <span className="text-gold-gradient">Kashphool</span>
+            <span className="text-gold-gradient">
+              {homePageContent.hero.name}
+            </span>
           </h1>
 
           {/* Subtitle */}
@@ -63,8 +72,7 @@ export default function HeroSection() {
               isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
           >
-            A Bengali cultural and community association in North Kent,
-            celebrating heritage, connection and community.
+            {homePageContent.hero.description}
           </p>
 
           {/* CTA Buttons */}
@@ -75,17 +83,27 @@ export default function HeroSection() {
           >
             <a
               href="#events"
-              onClick={(e) => { e.preventDefault(); document.querySelector("#events")?.scrollIntoView({ behavior: "smooth" }); }}
+              onClick={e => {
+                e.preventDefault();
+                document
+                  .querySelector("#events")
+                  ?.scrollIntoView({ behavior: "smooth" });
+              }}
               className="px-8 py-3.5 bg-gradient-to-r from-saffron to-gold text-charcoal font-semibold rounded tracking-wide hover:shadow-xl hover:shadow-saffron/20 transition-all duration-300 hover:scale-105"
             >
-              Upcoming Events
+              {homePageContent.hero.eventsCta}
             </a>
             <a
               href="#about"
-              onClick={(e) => { e.preventDefault(); document.querySelector("#about")?.scrollIntoView({ behavior: "smooth" }); }}
+              onClick={e => {
+                e.preventDefault();
+                document
+                  .querySelector("#about")
+                  ?.scrollIntoView({ behavior: "smooth" });
+              }}
               className="px-8 py-3.5 border border-gold/40 text-gold hover:bg-gold/10 font-semibold rounded tracking-wide transition-all duration-300"
             >
-              Learn More
+              {homePageContent.hero.aboutCta}
             </a>
           </div>
         </div>

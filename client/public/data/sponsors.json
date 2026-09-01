@@ -1,8 +1,10 @@
-[
-  {
-    "id": "dartford-borough-council",
-    "name": "Dartford Borough Council",
-    "logo": "/sponsors/dartford_logo.jpg",
-    "website": "https://www.dartford.gov.uk"
-  }
-]
+{
+  "sponsors": [
+    {
+      "id": "dartford-borough-council",
+      "name": "Dartford Borough Council",
+      "logo": "/assets/uploads/sponsor-dartford-borough-council.jpg",
+      "website": "https://www.dartford.gov.uk"
+    }
+  ]
+}

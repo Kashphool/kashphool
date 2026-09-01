@@ -6,16 +6,19 @@
 */
 
 import { IMAGES } from "@/config";
+import { siteContent } from "@/content";
 import { Mail, Instagram, Facebook, Youtube } from "lucide-react";
 
+const footerContent = siteContent.footer;
+const navLabels = footerContent.navigation;
 const navLinks = [
-  { label: "Home", href: "/" },
-  { label: "About", href: "/#about" },
-  { label: "Events", href: "/#events" },
-  { label: "Gallery", href: "/#gallery" },
-  { label: "Sponsor Us", href: "/sponsors" },
-  { label: "Constitution", href: "/constitution" },
-  { label: "Contact", href: "/#contact" },
+  { label: navLabels.home.label, href: "/" },
+  { label: navLabels.about.label, href: "/#about" },
+  { label: navLabels.events.label, href: "/#events" },
+  { label: navLabels.gallery.label, href: "/#gallery" },
+  { label: navLabels.sponsors.label, href: "/sponsors" },
+  { label: navLabels.constitution.label, href: "/constitution" },
+  { label: navLabels.contact.label, href: "/#contact" },
 ];
 
 export default function Footer() {
@@ -35,18 +38,19 @@ export default function Footer() {
               </span>
             </div>
             <p className="text-ivory/50 text-sm leading-relaxed max-w-xs">
-              A Bengali cultural and community association in North Kent,
-              celebrating heritage, connection and community.
+              {footerContent.description}
             </p>
             <div className="mt-4">
-              <span className="text-3xl text-saffron/40 font-[var(--font-bengali)]">❀</span>
+              <span className="text-3xl text-saffron/40 font-[var(--font-bengali)]">
+                ❀
+              </span>
             </div>
           </div>
 
           {/* Quick Links */}
           <div>
             <h4 className="font-[var(--font-display)] text-lg font-semibold text-ivory/90 mb-4">
-              Quick Links
+              {footerContent.quickLinksHeading}
             </h4>
             <div className="h-[1px] w-12 bg-gold/30 mb-4" />
             <nav className="space-y-2.5">
@@ -65,31 +69,31 @@ export default function Footer() {
           {/* Contact Info */}
           <div>
             <h4 className="font-[var(--font-display)] text-lg font-semibold text-ivory/90 mb-4">
-              Connect
+              {footerContent.connectHeading}
             </h4>
             <div className="h-[1px] w-12 bg-gold/30 mb-4" />
             <div className="space-y-4 text-ivory/50 text-sm">
-              <p>North Kent, United Kingdom</p>
-              <p>Established 2025</p>
-              
+              <p>{footerContent.location}</p>
+              <p>{footerContent.established}</p>
+
               {/* Email */}
               <div className="flex items-center gap-2">
                 <Mail size={16} className="text-saffron/80" />
-                <a 
-                  href="mailto:info@kashphool.co.uk"
+                <a
+                  href={`mailto:${footerContent.email}`}
                   className="hover:text-saffron transition-colors break-all"
                 >
-                  info@kashphool.co.uk
+                  {footerContent.email}
                 </a>
               </div>
 
               <a
-                href="https://pay.lopay.com/request/906de5de-220b-4f34-bc56-776c0993ec32"
+                href={siteContent.links.donate}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-block mt-3 text-saffron hover:text-gold transition-colors duration-300"
               >
-                Support Our Mission →
+                {footerContent.supportLabel}
               </a>
             </div>
           </div>
@@ -97,12 +101,12 @@ export default function Footer() {
           {/* Follow Us */}
           <div>
             <h4 className="font-[var(--font-display)] text-lg font-semibold text-ivory/90 mb-4">
-              Follow
+              {footerContent.followHeading}
             </h4>
             <div className="h-[1px] w-12 bg-gold/30 mb-4" />
             <div className="flex gap-3">
               <a
-                href="https://www.instagram.com/kashphoolutsav/"
+                href={siteContent.links.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-ivory/50 hover:text-saffron transition-colors"
@@ -111,7 +115,7 @@ export default function Footer() {
                 <Instagram size={20} />
               </a>
               <a
-                href="https://www.facebook.com/share/1Fp7GKadQg/?mibextid=wwXIfr"
+                href={siteContent.links.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-ivory/50 hover:text-saffron transition-colors"
@@ -120,7 +124,7 @@ export default function Footer() {
                 <Facebook size={20} />
               </a>
               <a
-                href="https://www.youtube.com/@KashphoolUtsav"
+                href={siteContent.links.youtube}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-ivory/50 hover:text-saffron transition-colors"
@@ -135,10 +139,11 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="mt-12 pt-8 border-t border-gold/10 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-ivory/30 text-xs tracking-wide">
-            © {new Date().getFullYear()} Kashphool. All rights reserved.
+            © {new Date().getFullYear()} Kashphool.{" "}
+            {footerContent.copyrightSuffix}
           </p>
           <p className="text-ivory/20 text-xs tracking-wide">
-            Preserving Bengali Heritage in North Kent
+            {footerContent.closingLine}
           </p>
         </div>
       </div>

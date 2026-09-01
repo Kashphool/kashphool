@@ -1,9 +1,10 @@
 # Kashphool
 
 ## Overview
+
 An Indian Bengali Association based in North Kent, dedicated to preserving and celebrating our rich cultural heritage through festivals, events, and community programs.
 
-**Live Site:** [kashphool.pradatta.dev](https://kashphool.pradatta.dev)
+**Live Site:** [kashphool.co.uk](https://kashphool.co.uk)
 
 ---
 
@@ -36,34 +37,46 @@ client/
 ## 🚀 Running Locally
 
 ### Prerequisites
-- Node.js 18+ installed
+
+- Node.js 20 installed
 - pnpm package manager (`npm install -g pnpm`)
 
 ### Setup Steps
+
 1. **Clone the repository**
+
    ```bash
-   git clone https://github.com/PradattaA/kashphool.git
+   git clone https://github.com/Kashphool/kashphool.git
    cd kashphool
    ```
 
 2. **Install dependencies**
+
    ```bash
    pnpm install
    ```
 
 3. **Start development server**
+
    ```bash
    pnpm dev
    ```
 
 4. **Open in browser**
-   - Navigate to `http://localhost:5173`
+   - Website: `http://localhost:3000/`
+   - Content manager: `http://localhost:3000/admin/`
    - The site will hot-reload on file changes
 
 ### Build for Production
+
 ```bash
 pnpm build
 ```
+
+The build first runs the deterministic CMS content validator. You can run its
+date, ID, media-type, size and asset-path checks directly with
+`pnpm check:content`.
+
 Output will be in `dist/` folder.
 
 ---
@@ -73,6 +86,7 @@ Output will be in `dist/` folder.
 ### Workflow
 
 1. **Create a new branch**
+
    ```bash
    git checkout -b feature/your-feature-name
    # or
@@ -85,12 +99,14 @@ Output will be in `dist/` folder.
    - Follow existing code style
 
 3. **Commit your changes**
+
    ```bash
    git add .
    git commit -m "Description of your changes"
    ```
 
 4. **Push to GitHub**
+
    ```bash
    git push origin feature/your-feature-name
    ```
@@ -107,6 +123,7 @@ Output will be in `dist/` folder.
    - **Auto-deployment will trigger automatically**
 
 ### Branch Naming Convention
+
 - `feature/` - New features (e.g., `feature/add-sponsors-section`)
 - `fix/` - Bug fixes (e.g., `fix/gallery-navigation`)
 - `docs/` - Documentation updates (e.g., `docs/update-readme`)
@@ -117,80 +134,54 @@ Output will be in `dist/` folder.
 ## 🚢 Deployment
 
 ### Automatic Deployment
-- **Trigger**: Merge to `main` branch
+
+- **Trigger**: Push to `main` (including merged pull requests and direct CMS commits)
 - **Platform**: GitHub Pages
-- **Domain**: kashphool.pradatta.dev
+- **Domain**: kashphool.co.uk
 - **Build**: Vite production build
-- **Deploy Branch**: `gh-pages`
+- **Deployment source**: GitHub Pages artifact (`dist/public`)
 
 ### Deployment Process
-1. Code is merged to `main` branch
+
+1. Code is pushed to `main`, either through a merged pull request or a direct CMS commit
 2. GitHub Actions workflow automatically triggers
 3. Project is built using `pnpm build`
-4. Built files are deployed to `gh-pages` branch
-5. GitHub Pages serves the site from `gh-pages`
-6. Changes are live at kashphool.pradatta.dev
+4. The built `dist/public` directory is uploaded as a GitHub Pages artifact
+5. GitHub Pages publishes that artifact
+6. Changes are live at kashphool.co.uk
 
 **Note:** Always test changes locally before creating a PR to avoid deployment issues.
 
 ---
 
-## 📊 Dynamic Data Management
+## 📊 Content Management
 
-### Adding New Events
-1. Edit `client/public/data/events.json`
-2. Add event object with required fields:
-   ```json
-   {
-     "id": "event-id",
-     "name": "Event Name",
-     "description": "Event description",
-     "date": {
-       "type": "single" | "range",
-       "start": "YYYY-MM-DD",
-       "end": "YYYY-MM-DD"
-     },
-     "venue": {
-       "name": "Venue Name",
-       "address": "Address",
-       "coordinates": { "lat": 0, "lng": 0 },
-       "googleMapsUrl": "https://maps.app.goo.gl/..."
-     },
-     "image": "/images/image.png",
-     "registrationUrl": "https://..."
-   }
-   ```
+Authenticated editors manage website copy, events, stall hours, sponsors,
+gallery images and bounded media slots through Decap CMS at `/admin/`.
 
-### Adding Gallery Photos
-1. Add photos to `client/public/gallery/`
-2. Update `GallerySection.tsx` to include new photo paths
-3. Photos support lightbox and keyboard navigation (Arrow keys, Escape)
+- Local filesystem CMS: `http://localhost:3000/admin/` (no GitHub login;
+  saves update the working tree)
+- Authentication and account setup: [Decap CMS authentication setup](docs/decap-cms-setup.md)
+- Source content: `client/public/data/*.json`
+- Uploaded CMS media: `assets/uploads/`
 
-### Adding Sponsors
-1. Add sponsor logo to `client/public/sponsors/`
-2. Edit `client/public/data/sponsors.json`
-3. Add sponsor object with required fields:
-   ```json
-   {
-     "id": "sponsor-id",
-     "name": "Sponsor Name",
-     "logo": "/sponsors/logo.jpg",
-     "website": "https://sponsor-website.com"
-   }
-   ```
-   Note: `website` field is optional. If provided, the sponsor logo becomes clickable.
+Developers may still edit the JSON files directly. The external OAuth login was
+observed during setup, but the deployed public `/admin/` Save-to-`main` flow
+remains pending as recorded in the setup guide.
 
 ---
 
 ## 🎨 Design System
 
 ### Color Palette
+
 - **Charcoal** - Primary background (`oklch(0.15 0 0)`)
 - **Ivory** - Primary text (`oklch(0.95 0 0)`)
 - **Saffron** - Accent color (`oklch(0.72 0.15 70)`)
 - **Gold** - Secondary accent (`oklch(0.75 0.12 85)`)
 
 ### Key Features
+
 - Gradient text effects (`.text-gold-gradient`)
 - Sacred geometry patterns (mandala, alpona)
 - Smooth scroll animations
@@ -201,7 +192,7 @@ Output will be in `dist/` folder.
 
 ## 📦 Tech Stack
 
-- **Framework**: React 18 + TypeScript
+- **Framework**: React 19 + TypeScript
 - **Build Tool**: Vite
 - **Styling**: Tailwind CSS
 - **UI Components**: shadcn/ui
@@ -211,5 +202,5 @@ Output will be in `dist/` folder.
 
 ---
 
-**Last Updated:** March 24, 2026  
+**Last Updated:** August 31, 2026
 **Maintained By:** Kashphool Development Team

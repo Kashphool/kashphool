@@ -8,8 +8,8 @@
 
 import { useInView } from "@/hooks/useInView";
 import { Calendar, MapPin } from "lucide-react";
-import type { Event, EventCollection } from "@/types";
-import { useState, useEffect } from "react";
+import type { Event } from "@/types";
+import { eventsContent, homePageContent } from "@/content";
 import {
   formatEventDate,
   formatEventDateBadge,
@@ -22,14 +22,16 @@ function EventCard({ event, index }: { event: Event; index: number }) {
   const isEven = index % 2 === 0;
 
   // Format date display
-  const dateDisplay = event.date.type === 'range' && event.date.end
-    ? formatEventDateRange(event.date.start, event.date.end)
-    : formatEventDate(event.date.start);
-  
+  const dateDisplay =
+    event.date.type === "range" && event.date.end
+      ? formatEventDateRange(event.date.start, event.date.end)
+      : formatEventDate(event.date.start);
+
   // Format date label for badge - show range for range-type events
-  const dateLabel = event.date.type === 'range' && event.date.end
-    ? formatEventDateBadge(event.date.start, event.date.end)
-    : formatEventDateBadge(event.date.start);
+  const dateLabel =
+    event.date.type === "range" && event.date.end
+      ? formatEventDateBadge(event.date.start, event.date.end)
+      : formatEventDateBadge(event.date.start);
 
   return (
     <div
@@ -39,9 +41,7 @@ function EventCard({ event, index }: { event: Event; index: number }) {
       }`}
     >
       {/* Image */}
-      <div
-        className={`lg:col-span-5 ${isEven ? "lg:order-1" : "lg:order-2"}`}
-      >
+      <div className={`lg:col-span-5 ${isEven ? "lg:order-1" : "lg:order-2"}`}>
         <div className="relative group">
           <div className="absolute -inset-3 bg-gradient-to-br from-saffron/20 to-gold/10 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           <div className="relative overflow-hidden rounded-sm">
@@ -63,9 +63,7 @@ function EventCard({ event, index }: { event: Event; index: number }) {
       </div>
 
       {/* Content */}
-      <div
-        className={`lg:col-span-7 ${isEven ? "lg:order-2" : "lg:order-1"}`}
-      >
+      <div className={`lg:col-span-7 ${isEven ? "lg:order-2" : "lg:order-1"}`}>
         <div className="space-y-5">
           <h3 className="font-[var(--font-display)] text-3xl md:text-4xl font-bold text-gold-gradient">
             {event.name}
@@ -105,7 +103,7 @@ function EventCard({ event, index }: { event: Event; index: number }) {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-saffron to-gold text-charcoal font-semibold rounded-sm hover:shadow-lg hover:shadow-saffron/20 transition-all duration-300 hover:scale-105"
               >
-                Pre-Registration
+                {homePageContent.events.registrationCta}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -134,28 +132,17 @@ function EventCard({ event, index }: { event: Event; index: number }) {
 
 export default function EventsSection() {
   const { ref, isInView } = useInView();
-  const [events, setEvents] = useState<Event[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    // Load events from JSON file
-    fetch('/data/events.json')
-      .then(response => response.json())
-      .then((data: EventCollection) => {
-        setEvents([getNextEvent(data)]);
-        setLoading(false);
-      })
-      .catch(error => {
-        console.error('Failed to load events:', error);
-        setLoading(false);
-      });
-  }, []);
+  const events = [getNextEvent(eventsContent)];
 
   return (
     <section id="events" className="relative py-24 md:py-32 overflow-hidden">
       {/* Background mandala decoration */}
       <div className="absolute left-[-15%] top-1/4 w-[400px] h-[400px] opacity-[0.03] animate-slow-spin pointer-events-none">
-        <img src="/images/mandala-pattern.webp" alt="" className="w-full h-full object-contain" />
+        <img
+          src="/images/mandala-pattern.webp"
+          alt=""
+          className="w-full h-full object-contain"
+        />
       </div>
 
       <div className="container relative z-10">
@@ -167,27 +154,23 @@ export default function EventsSection() {
             }`}
           >
             <span className="text-saffron/80 text-sm font-medium tracking-[0.3em] uppercase">
-              Celebrations
+              {homePageContent.events.eyebrow}
             </span>
             <h2 className="font-[var(--font-display)] text-4xl md:text-5xl lg:text-6xl font-bold mt-3 mb-6">
-              <span className="text-gold-gradient">Upcoming Events</span>
+              <span className="text-gold-gradient">
+                {homePageContent.events.heading}
+              </span>
             </h2>
             <div className="h-[2px] w-20 bg-gradient-to-r from-transparent via-saffron to-transparent mx-auto" />
           </div>
         </div>
 
         {/* Events */}
-        {loading ? (
-          <div className="text-center">
-            <p className="text-ivory/50">Loading events...</p>
-          </div>
-        ) : (
-          <div className="space-y-24">
-            {events.map((event, i) => (
-              <EventCard key={event.id} event={event} index={i} />
-            ))}
-          </div>
-        )}
+        <div className="space-y-24">
+          {events.map((event, i) => (
+            <EventCard key={event.id} event={event} index={i} />
+          ))}
+        </div>
       </div>
     </section>
   );

@@ -7,19 +7,20 @@ export const IMAGES = {
   // Hero Section
   HERO_BG_VIDEO: "/images/hero-bg.mp4",
   HERO_BG_FALLBACK: "/images/hero-bg.jpeg",
-  
+
   // Patterns & Decorations
   MANDALA: "/images/mandala-pattern.webp",
-  ALPONA: "https://d2xsxph8kpxj0f.cloudfront.net/310519663392152998/RGaxbZP4MmYNRADFjnNWxk/alpona-pattern-YEn9zVMGcPwxUQxhYY9iVg.webp",
-  
+  ALPONA:
+    "https://d2xsxph8kpxj0f.cloudfront.net/310519663392152998/RGaxbZP4MmYNRADFjnNWxk/alpona-pattern-YEn9zVMGcPwxUQxhYY9iVg.webp",
+
   // Logos
   LOGO: "/images/logo.png",
   ABOUT_LOGO: "/images/about-logo.jpeg",
-  
+
   // Events
   SARASWATI: "/images/saraswati.png",
-  DURGA: "/images/durga.png",
-  
+  DURGA: "/assets/uploads/event-durga-pujo.png",
+
   // Gallery - Base URL pattern
   GALLERY_BASE: "https://kashphool.pradatta.dev/gallery",
 } as const;
