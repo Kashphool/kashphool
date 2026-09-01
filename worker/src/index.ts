@@ -1,5 +1,9 @@
 import type { WorkerEnv } from "./contracts";
+import { handleAdminLeads } from "./routes/admin-leads";
 import { handlePublicEnquiry } from "./routes/public-enquiries";
+
+const ADMIN_LEAD_DETAIL_PATTERN =
+  /^\/api\/admin\/leads\/[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 const securityHeaders = (requestId: string): Headers =>
   new Headers({
@@ -33,6 +37,13 @@ const worker = {
         return errorResponse("method_not_allowed", 405, { allow: "POST" });
       }
       return handlePublicEnquiry(request, env);
+    }
+
+    if (
+      pathname === "/api/admin/leads" ||
+      ADMIN_LEAD_DETAIL_PATTERN.test(pathname)
+    ) {
+      return handleAdminLeads(request, env);
     }
 
     if (pathname === "/api/admin" || pathname.startsWith("/api/admin/")) {

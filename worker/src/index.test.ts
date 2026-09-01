@@ -51,6 +51,49 @@ const executionContext = {
 const fetchWorker = (request: Request): Promise<Response> =>
   worker.fetch(request, env, executionContext);
 
+const adminDatabase = {
+  prepare(query: string) {
+    const statement = {
+      bind() {
+        return statement;
+      },
+      first() {
+        return Promise.resolve(
+          query.includes("WHERE id = ?")
+            ? null
+            : {
+                all_count: 0,
+                contact_count: 0,
+                sponsorship_count: 0,
+                failed_count: 0,
+              }
+        );
+      },
+      all() {
+        return Promise.resolve({ results: [] });
+      },
+    };
+    return statement;
+  },
+} as unknown as D1Database;
+
+const localAdminEnv = {
+  ...env,
+  DB: adminDatabase,
+  ENVIRONMENT: "development",
+  LOCAL_ADMIN_TOKEN: "local-admin-token",
+} satisfies WorkerEnv;
+
+const fetchLocalAdmin = (path: string, method = "GET"): Promise<Response> =>
+  worker.fetch(
+    new Request(`http://localhost:8787${path}`, {
+      method,
+      headers: { "X-Kashphool-Local-Admin": "local-admin-token" },
+    }),
+    localAdminEnv,
+    executionContext
+  );
+
 describe("Worker router", () => {
   it("accepts a public enquiry without authentication", async () => {
     const response = await fetchWorker(
@@ -83,7 +126,7 @@ describe("Worker router", () => {
     });
   });
 
-  it.each(["/api/enquiries/", "/api/anything-else", "/api/admin/leads"])(
+  it.each(["/api/enquiries/", "/api/anything-else"])(
     "returns 404 for the unimplemented route %s",
     async pathname => {
       const response = await fetchWorker(
@@ -107,5 +150,51 @@ describe("Worker router", () => {
     expect(response.headers.get("x-request-id")).toMatch(
       /^[0-9a-f]{8}-[0-9a-f-]{27}$/i
     );
+  });
+
+  it("routes the exact admin list path through protected read handling", async () => {
+    const response = await fetchLocalAdmin("/api/admin/leads");
+
+    expect(response.status).toBe(200);
+    await expect(response.json()).resolves.toEqual({
+      items: [],
+      nextCursor: null,
+      totals: { all: 0, contact: 0, sponsorship: 0, failed: 0 },
+    });
+    expect(response.headers.get("cache-control")).toBe("no-store");
+  });
+
+  it("requires authentication on the exact admin list path", async () => {
+    const response = await fetchWorker(
+      new Request("https://kashphool.co.uk/api/admin/leads")
+    );
+
+    expect(response.status).toBe(401);
+  });
+
+  it("routes an exact UUID detail path and returns 404 when absent", async () => {
+    const response = await fetchLocalAdmin(
+      "/api/admin/leads/d95f48a8-bd88-4c57-bf02-306f75ccdd4a"
+    );
+
+    expect(response.status).toBe(404);
+    expect(response.headers.get("cache-control")).toBe("no-store");
+  });
+
+  it("returns 405 for authenticated writes to the admin list path", async () => {
+    const response = await fetchLocalAdmin("/api/admin/leads", "POST");
+
+    expect(response.status).toBe(405);
+    expect(response.headers.get("allow")).toBe("GET");
+  });
+
+  it.each([
+    "/api/admin/leads/",
+    "/api/admin/leads/not-a-uuid",
+    "/api/admin/leads/d95f48a8-bd88-4c57-bf02-306f75ccdd4a/extra",
+  ])("does not route the inexact admin path %s", async pathname => {
+    const response = await fetchLocalAdmin(pathname);
+
+    expect(response.status).toBe(404);
   });
 });
