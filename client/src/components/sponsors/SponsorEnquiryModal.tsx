@@ -5,12 +5,25 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { EMAILJS_CONFIG, EMAIL_MESSAGE_TIMEOUT } from "@/config";
+import TurnstileWidget from "@/components/shared/TurnstileWidget";
 import { buildSponsorEnquiryMessage } from "@/lib/sponsorEnquiry";
+import {
+  EnquirySubmissionError,
+  submitEnquiry,
+  type EnquiryErrorCategory,
+} from "@/lib/enquiryApi";
 import { sponsorPageContent } from "@/content";
-import emailjs from "@emailjs/browser";
 import { Send } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+
+const EMAIL_MESSAGE_TIMEOUT = 3000;
+
+const failureMessages: Record<EnquiryErrorCategory, string> = {
+  verification: "Verification failed. Please try again.",
+  validation: "Please check your details and try again.",
+  temporary: "Failed to send your enquiry. Please try again.",
+  unknown: "Failed to send your enquiry. Please try again.",
+};
 
 interface SponsorEnquiryModalProps {
   open: boolean;
@@ -33,11 +46,15 @@ export default function SponsorEnquiryModal({
 }: SponsorEnquiryModalProps) {
   const { enquiryModal } = sponsorPageContent;
   const formRef = useRef<HTMLFormElement>(null);
+  const idempotencyKeyRef = useRef<string | null>(null);
+  const resetChallengeRef = useRef<(() => void) | null>(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [note, setNote] = useState("");
   const [sentMessage, setSentMessage] = useState("");
+  const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
 
   useEffect(() => {
     if (open) {
@@ -45,41 +62,68 @@ export default function SponsorEnquiryModal({
       setEmail("");
       setNote("");
       setSentMessage("");
+      setHasError(false);
+      setTurnstileToken(null);
+      idempotencyKeyRef.current = null;
     }
   }, [open, tier]);
+
+  const handleTokenChange = useCallback((token: string | null) => {
+    setTurnstileToken(token);
+  }, []);
+
+  const handleResetReady = useCallback((reset: (() => void) | null) => {
+    resetChallengeRef.current = reset;
+  }, []);
+
+  const handleVerificationFailure = useCallback(() => {
+    setHasError(true);
+    setSentMessage(failureMessages.verification);
+  }, []);
 
   const handleOpenChange = (nextOpen: boolean) => {
     if (!isLoading) onOpenChange(nextOpen);
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    if (!turnstileToken) return;
+
     setIsLoading(true);
     setSentMessage("");
+    setHasError(false);
+    const idempotencyKey = idempotencyKeyRef.current ?? crypto.randomUUID();
+    idempotencyKeyRef.current = idempotencyKey;
 
-    emailjs
-      .sendForm(
-        EMAILJS_CONFIG.SERVICE_ID,
-        EMAILJS_CONFIG.TEMPLATE_ID,
-        formRef.current!,
-        { publicKey: EMAILJS_CONFIG.PUBLIC_KEY }
-      )
-      .then(
-        () => {
-          setIsLoading(false);
-          setSentMessage("Your sponsorship enquiry has been sent!");
-          setName("");
-          setEmail("");
-          setNote("");
-          setTimeout(() => setSentMessage(""), EMAIL_MESSAGE_TIMEOUT);
-        },
-        error => {
-          setIsLoading(false);
-          setSentMessage("Failed to send your enquiry. Please try again.");
-          setTimeout(() => setSentMessage(""), EMAIL_MESSAGE_TIMEOUT);
-          console.error("EmailJS Error:", error);
-        }
-      );
+    try {
+      await submitEnquiry({
+        type: "sponsorship",
+        name: name.trim(),
+        email: email.trim(),
+        message: buildSponsorEnquiryMessage({ name, note, tier }),
+        sponsorshipTier: tier,
+        sourcePage: "sponsors",
+        turnstileToken,
+        idempotencyKey,
+      });
+      idempotencyKeyRef.current = null;
+      setName("");
+      setEmail("");
+      setNote("");
+      setHasError(false);
+      setSentMessage("Your sponsorship enquiry has been sent!");
+    } catch (error) {
+      const category =
+        error instanceof EnquirySubmissionError ? error.category : "unknown";
+      if (category !== "temporary") idempotencyKeyRef.current = null;
+      setHasError(true);
+      setSentMessage(failureMessages[category]);
+    } finally {
+      setIsLoading(false);
+      setTurnstileToken(null);
+      resetChallengeRef.current?.();
+      setTimeout(() => setSentMessage(""), EMAIL_MESSAGE_TIMEOUT);
+    }
   };
 
   const emailMessage = buildSponsorEnquiryMessage({ name, note, tier });
@@ -203,12 +247,18 @@ export default function SponsorEnquiryModal({
             />
           </div>
 
+          <TurnstileWidget
+            onTokenChange={handleTokenChange}
+            onFailure={handleVerificationFailure}
+            onResetReady={handleResetReady}
+          />
+
           {sentMessage && (
             <div
               role="status"
               aria-live="polite"
               className={`rounded-sm border p-3 text-center font-medium ${
-                sentMessage.startsWith("Failed")
+                hasError
                   ? "border-red-500/30 bg-red-500/10 text-red-400"
                   : "border-green-500/30 bg-green-500/10 text-green-400"
               }`}
@@ -219,7 +269,7 @@ export default function SponsorEnquiryModal({
 
           <button
             type="submit"
-            disabled={isLoading}
+            disabled={isLoading || !turnstileToken}
             className="inline-flex w-full items-center justify-center gap-2 rounded-sm bg-gradient-to-r from-saffron to-gold px-6 py-3.5 font-semibold text-charcoal transition-all hover:scale-[1.01] hover:shadow-lg hover:shadow-saffron/20 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <Send aria-hidden="true" size={17} />

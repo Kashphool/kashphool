@@ -8,43 +8,88 @@
 
 import { useInView } from "@/hooks/useInView";
 import { Heart, MapPin, Users } from "lucide-react";
-import { useState, useRef } from "react";
-import emailjs from "@emailjs/browser";
-import { IMAGES, EMAILJS_CONFIG, EMAIL_MESSAGE_TIMEOUT } from "@/config";
+import { useCallback, useRef, useState } from "react";
+import { IMAGES } from "@/config";
 import { homePageContent, siteContent } from "@/content";
+import TurnstileWidget from "@/components/shared/TurnstileWidget";
+import {
+  EnquirySubmissionError,
+  submitEnquiry,
+  type EnquiryErrorCategory,
+} from "@/lib/enquiryApi";
+
+const EMAIL_MESSAGE_TIMEOUT = 3000;
+
+const failureMessages: Record<EnquiryErrorCategory, string> = {
+  verification: "Verification failed. Please try again.",
+  validation: "Please check your details and try again.",
+  temporary: "Failed to send message. Please try again.",
+  unknown: "Failed to send message. Please try again.",
+};
 
 export default function ContactSection() {
   const { ref, isInView } = useInView();
   const { ref: ref2, isInView: isInView2 } = useInView();
   const formRef = useRef<HTMLFormElement>(null);
+  const idempotencyKeyRef = useRef<string | null>(null);
+  const resetChallengeRef = useRef<(() => void) | null>(null);
   const [sentMessage, setSentMessage] = useState("");
+  const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleTokenChange = useCallback((token: string | null) => {
+    setTurnstileToken(token);
+  }, []);
+
+  const handleResetReady = useCallback((reset: (() => void) | null) => {
+    resetChallengeRef.current = reset;
+  }, []);
+
+  const handleVerificationFailure = useCallback(() => {
+    setHasError(true);
+    setSentMessage(failureMessages.verification);
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsLoading(true);
+    if (!turnstileToken) return;
 
-    emailjs
-      .sendForm(
-        EMAILJS_CONFIG.SERVICE_ID,
-        EMAILJS_CONFIG.TEMPLATE_ID,
-        formRef.current!,
-        { publicKey: EMAILJS_CONFIG.PUBLIC_KEY }
-      )
-      .then(
-        () => {
-          setIsLoading(false);
-          setSentMessage("Your message has been sent!");
-          setTimeout(() => setSentMessage(""), EMAIL_MESSAGE_TIMEOUT);
-          formRef.current?.reset();
-        },
-        error => {
-          setIsLoading(false);
-          setSentMessage("Failed to send message. Please try again.");
-          setTimeout(() => setSentMessage(""), EMAIL_MESSAGE_TIMEOUT);
-          console.error("EmailJS Error:", error);
-        }
-      );
+    setIsLoading(true);
+    setSentMessage("");
+    setHasError(false);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const idempotencyKey = idempotencyKeyRef.current ?? crypto.randomUUID();
+    idempotencyKeyRef.current = idempotencyKey;
+
+    try {
+      await submitEnquiry({
+        type: "contact",
+        name: String(formData.get("name") ?? "").trim(),
+        email: String(formData.get("email") ?? "").trim(),
+        message: String(formData.get("message") ?? "").trim(),
+        sponsorshipTier: null,
+        sourcePage: "home",
+        turnstileToken,
+        idempotencyKey,
+      });
+      idempotencyKeyRef.current = null;
+      form.reset();
+      setHasError(false);
+      setSentMessage("Your message has been sent!");
+    } catch (error) {
+      const category =
+        error instanceof EnquirySubmissionError ? error.category : "unknown";
+      if (category !== "temporary") idempotencyKeyRef.current = null;
+      setHasError(true);
+      setSentMessage(failureMessages[category]);
+    } finally {
+      setIsLoading(false);
+      setTurnstileToken(null);
+      resetChallengeRef.current?.();
+      setTimeout(() => setSentMessage(""), EMAIL_MESSAGE_TIMEOUT);
+    }
   };
 
   return (
@@ -120,11 +165,19 @@ export default function ContactSection() {
                   />
                 </div>
 
+                <TurnstileWidget
+                  onTokenChange={handleTokenChange}
+                  onFailure={handleVerificationFailure}
+                  onResetReady={handleResetReady}
+                />
+
                 {/* Success/Error Message */}
                 {sentMessage && (
                   <div
+                    role="status"
+                    aria-live="polite"
                     className={`p-3 rounded-sm text-center font-medium transition-all duration-300 ${
-                      sentMessage.startsWith("Failed")
+                      hasError
                         ? "bg-red-500/10 border border-red-500/30 text-red-400"
                         : "bg-green-500/10 border border-green-500/30 text-green-400"
                     }`}
@@ -135,7 +188,7 @@ export default function ContactSection() {
 
                 <button
                   type="submit"
-                  disabled={isLoading}
+                  disabled={isLoading || !turnstileToken}
                   className="px-8 py-3.5 bg-gradient-to-r from-saffron to-gold text-charcoal font-semibold rounded-sm tracking-wide hover:shadow-lg hover:shadow-saffron/20 transition-all duration-300 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isLoading
