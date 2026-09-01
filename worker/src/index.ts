@@ -84,11 +84,11 @@ export const createWorker = (
         await createEnquiryRepository(env.DB).deleteExpired(
           now().toISOString()
         );
-      } catch (error) {
+      } catch {
         console.error(
           JSON.stringify({ event: "retention_purge_failed", eventId })
         );
-        throw error;
+        throw new Error(`Retention purge failed (${eventId})`);
       }
     },
   } satisfies ExportedHandler<WorkerEnv>;

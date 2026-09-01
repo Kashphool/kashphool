@@ -232,13 +232,15 @@ describe("Worker retention schedule", () => {
       }),
     });
 
-    await expect(
-      retentionWorker.scheduled?.(
-        { cron: "17 2 * * *", scheduledTime: 1_788_228_220_000 },
-        env,
-        executionContext
-      )
-    ).rejects.toThrow();
+    const scheduled = retentionWorker.scheduled?.(
+      { cron: "17 2 * * *", scheduledTime: 1_788_228_220_000 },
+      env,
+      executionContext
+    );
+
+    await expect(scheduled).rejects.toThrow(
+      /^Retention purge failed \(9c8f278f-af94-4a5b-b4b3-fdb34497fe58\)$/
+    );
 
     expect(errorSpy).toHaveBeenCalledOnce();
     expect(errorSpy).toHaveBeenCalledWith(

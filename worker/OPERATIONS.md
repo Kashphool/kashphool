@@ -15,7 +15,7 @@ Copy the safe examples once, then start the full local stack:
 ```sh
 cp worker/.dev.vars.example worker/.dev.vars
 printf '%s\n' 'KASHPHOOL_LOCAL_ADMIN_TOKEN=local-development-only-change-me' > .env.local
-pnpm exec wrangler d1 migrations apply kashphool --local --config worker/wrangler.jsonc
+pnpm exec wrangler d1 migrations apply kashphool-local --local --config worker/wrangler.jsonc
 pnpm dev
 ```
 
