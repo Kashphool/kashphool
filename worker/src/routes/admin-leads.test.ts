@@ -135,6 +135,8 @@ describe("handleAdminLeads", () => {
 
   it.each([
     "cursor=not-a-cursor",
+    "cursor=2026-99-01T12:00:00.000Z|d95f48a8-bd88-4c57-bf02-306f75ccdd4a",
+    "cursor=2026-02-30T12:00:00.000Z|d95f48a8-bd88-4c57-bf02-306f75ccdd4a",
     "from=not-a-date",
     "to=2026-02-30",
     "type=donation",

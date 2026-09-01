@@ -62,6 +62,14 @@ const isValidDate = (value: string): boolean => {
   return !Number.isNaN(date.getTime()) && date.toISOString().startsWith(value);
 };
 
+const isCanonicalTimestamp = (value: string): boolean => {
+  const milliseconds = Date.parse(value);
+  return (
+    Number.isFinite(milliseconds) &&
+    new Date(milliseconds).toISOString() === value
+  );
+};
+
 const parseListFilters = (
   url: URL
 ): Parameters<EnquiryRepository["list"]>[0] | null => {
@@ -71,8 +79,11 @@ const parseListFilters = (
   if (!Number.isSafeInteger(limit) || limit < 1 || limit > 100) return null;
 
   const cursor = url.searchParams.get("cursor")?.trim();
-  if (cursor && (cursor.length > 128 || !CURSOR_PATTERN.test(cursor))) {
-    return null;
+  if (cursor) {
+    const match = CURSOR_PATTERN.exec(cursor);
+    if (cursor.length > 128 || !match || !isCanonicalTimestamp(match[1])) {
+      return null;
+    }
   }
 
   const query = url.searchParams.get("q")?.trim();
