@@ -156,6 +156,7 @@ describe("SponsorEnquiryModal", () => {
   });
 
   it("requires verification and submits the selected sponsorship mapping", async () => {
+    const onOpenChange = vi.fn();
     let resolveSubmission!: (receipt: {
       id: string;
       status: "received";
@@ -174,7 +175,7 @@ describe("SponsorEnquiryModal", () => {
           open
           tier="Premium"
           tierDetails={null}
-          onOpenChange={() => undefined}
+          onOpenChange={onOpenChange}
         />
       );
     });
@@ -208,6 +209,7 @@ describe("SponsorEnquiryModal", () => {
       idempotencyKey: expect.any(String),
     });
     expect(resetChallenge).toHaveBeenCalledTimes(1);
+    expect(onOpenChange).toHaveBeenCalledWith(false);
     expect(container.querySelector('[role="status"]')?.textContent).toBe(
       "Your sponsorship enquiry has been sent!"
     );

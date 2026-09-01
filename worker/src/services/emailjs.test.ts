@@ -8,11 +8,13 @@ const config: Pick<
   | "EMAILJS_TEMPLATE_ID"
   | "EMAILJS_PUBLIC_KEY"
   | "EMAILJS_PRIVATE_KEY"
+  | "EMAILJS_ORIGIN"
   | "EMAILJS_SEND_URL"
 > = {
   EMAILJS_SERVICE_ID: "service-existing",
   EMAILJS_TEMPLATE_ID: "template-existing",
   EMAILJS_PUBLIC_KEY: "public-existing",
+  EMAILJS_ORIGIN: "https://www.kashphool.co.uk",
   EMAILJS_SEND_URL: "https://api.emailjs.com/api/v1.0/email/send",
 };
 
@@ -42,6 +44,9 @@ describe("sendEnquiryEmail", () => {
     expect(request?.url).toBe(config.EMAILJS_SEND_URL);
     expect(request?.method).toBe("POST");
     expect(request?.headers.get("content-type")).toBe("application/json");
+    expect(request?.headers.get("origin")).toBe(
+      "https://www.kashphool.co.uk"
+    );
     expect(JSON.parse((await request?.text()) ?? "")).toEqual({
       service_id: "service-existing",
       template_id: "template-existing",

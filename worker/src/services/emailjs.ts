@@ -9,6 +9,7 @@ type EmailJsConfig = Pick<
   | "EMAILJS_TEMPLATE_ID"
   | "EMAILJS_PUBLIC_KEY"
   | "EMAILJS_PRIVATE_KEY"
+  | "EMAILJS_ORIGIN"
   | "EMAILJS_SEND_URL"
 >;
 
@@ -34,7 +35,10 @@ export async function sendEnquiryEmail(
   try {
     const response = await fetcher(config.EMAILJS_SEND_URL, {
       method: "POST",
-      headers: { "content-type": "application/json" },
+      headers: {
+        "content-type": "application/json",
+        origin: config.EMAILJS_ORIGIN,
+      },
       body: JSON.stringify(payload),
     });
 

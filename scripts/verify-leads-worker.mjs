@@ -41,6 +41,7 @@ EMAILJS_SERVICE_ID=local_service
 EMAILJS_TEMPLATE_ID=local_template
 EMAILJS_PUBLIC_KEY=local_public_key
 EMAILJS_SEND_URL=http://127.0.0.1:8790/emailjs
+EMAILJS_ORIGIN=http://localhost:3000
 ACCESS_TEAM_DOMAIN=local.invalid
 ACCESS_AUD=local-audience
 LOCAL_ADMIN_TOKEN=${LOCAL_ADMIN_TOKEN}

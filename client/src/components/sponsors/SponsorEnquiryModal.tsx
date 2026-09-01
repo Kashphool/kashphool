@@ -117,6 +117,7 @@ export default function SponsorEnquiryModal({
       setNote("");
       setHasError(false);
       setSentMessage("Your sponsorship enquiry has been sent!");
+      onOpenChange(false);
     } catch (error) {
       const category =
         error instanceof EnquirySubmissionError ? error.category : "unknown";

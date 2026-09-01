@@ -1,12 +1,15 @@
 ENVIRONMENT=development
-ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
+ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000,http://localhost:3001,http://127.0.0.1:3001
 TURNSTILE_SECRET=1x0000000000000000000000000000000AA
 TURNSTILE_EXPECTED_HOSTNAME=localhost
 TURNSTILE_VERIFY_URL=https://challenges.cloudflare.com/turnstile/v0/siteverify
 EMAILJS_SERVICE_ID=local_service
 EMAILJS_TEMPLATE_ID=local_template
 EMAILJS_PUBLIC_KEY=local_public_key
-EMAILJS_SEND_URL=http://127.0.0.1:8790/emailjs
+# Use the real provider endpoint locally to catch account and domain restrictions
+# before deployment. These placeholder IDs must be replaced in worker/.dev.vars.
+EMAILJS_SEND_URL=https://api.emailjs.com/api/v1.0/email/send
+EMAILJS_ORIGIN=https://www.kashphool.co.uk
 ACCESS_TEAM_DOMAIN=local.invalid
 ACCESS_AUD=local-audience
 LOCAL_ADMIN_TOKEN=local-development-only-change-me
