@@ -278,4 +278,48 @@ describe("SponsorEnquiryModal", () => {
     });
     expect(resetChallenge).toHaveBeenCalledTimes(2);
   });
+
+  it("replaces a retained idempotency key when the normalized sponsorship payload changes", async () => {
+    const { EnquirySubmissionError } = await import("@/lib/enquiryApi");
+    submitEnquiry
+      .mockRejectedValueOnce(new EnquirySubmissionError("temporary"))
+      .mockResolvedValueOnce({ id: "lead-1", status: "received" });
+    container = document.createElement("div");
+    document.body.append(container);
+    root = createRoot(container);
+    await act(async () => {
+      root.render(
+        <SponsorEnquiryModal
+          open
+          tier="Premium"
+          tierDetails={null}
+          onOpenChange={() => undefined}
+        />
+      );
+    });
+    await act(async () => {
+      change("#sponsor-name", "Asha");
+      change("#sponsor-email", "asha@example.com");
+      change("#sponsor-note", "Original note");
+      container
+        .querySelector<HTMLButtonElement>('[data-testid="turnstile"]')!
+        .click();
+    });
+    await submit();
+    const firstKey = submitEnquiry.mock.calls[0][0].idempotencyKey;
+
+    await act(async () => {
+      change("#sponsor-note", "Changed note");
+      container
+        .querySelector<HTMLButtonElement>('[data-testid="turnstile"]')!
+        .click();
+    });
+    await submit();
+
+    expect(submitEnquiry.mock.calls[1][0]).toMatchObject({
+      message: "Asha is interested in Premium. Message: Changed note",
+      turnstileToken: "sponsor-token-2",
+    });
+    expect(submitEnquiry.mock.calls[1][0].idempotencyKey).not.toBe(firstKey);
+  });
 });

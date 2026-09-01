@@ -43,11 +43,16 @@ const loadTurnstile = (): Promise<TurnstileApi> => {
     );
     const script = existing ?? document.createElement("script");
 
+    const rejectLoad = (message: string) => {
+      script.remove();
+      reject(new Error(message));
+    };
+
     const handleLoad = () => {
       if (window.turnstile) resolve(window.turnstile);
-      else reject(new Error("Turnstile did not initialise"));
+      else rejectLoad("Turnstile did not initialise");
     };
-    const handleError = () => reject(new Error("Turnstile failed to load"));
+    const handleError = () => rejectLoad("Turnstile failed to load");
 
     script.addEventListener("load", handleLoad, { once: true });
     script.addEventListener("error", handleError, { once: true });

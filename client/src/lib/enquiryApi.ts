@@ -15,6 +15,16 @@ export interface EnquiryInput {
   idempotencyKey: string;
 }
 
+export type EnquiryPayload = Omit<
+  EnquiryInput,
+  "turnstileToken" | "idempotencyKey"
+>;
+
+export interface EnquiryAttempt {
+  idempotencyKey: string;
+  payloadFingerprint: string;
+}
+
 export interface EnquiryReceipt {
   id: string;
   status: "received";
@@ -26,6 +36,15 @@ export class EnquirySubmissionError extends Error {
     this.name = "EnquirySubmissionError";
   }
 }
+
+export const enquiryAttemptFor = (
+  payload: EnquiryPayload,
+  current: EnquiryAttempt | null
+): EnquiryAttempt => {
+  const payloadFingerprint = JSON.stringify(payload);
+  if (current?.payloadFingerprint === payloadFingerprint) return current;
+  return { idempotencyKey: crypto.randomUUID(), payloadFingerprint };
+};
 
 const categoryForStatus = (status: number): EnquiryErrorCategory => {
   if (status === 403) return "verification";

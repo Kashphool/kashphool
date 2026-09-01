@@ -8,8 +8,10 @@ import {
 import TurnstileWidget from "@/components/shared/TurnstileWidget";
 import { buildSponsorEnquiryMessage } from "@/lib/sponsorEnquiry";
 import {
+  enquiryAttemptFor,
   EnquirySubmissionError,
   submitEnquiry,
+  type EnquiryAttempt,
   type EnquiryErrorCategory,
 } from "@/lib/enquiryApi";
 import { sponsorPageContent } from "@/content";
@@ -46,7 +48,7 @@ export default function SponsorEnquiryModal({
 }: SponsorEnquiryModalProps) {
   const { enquiryModal } = sponsorPageContent;
   const formRef = useRef<HTMLFormElement>(null);
-  const idempotencyKeyRef = useRef<string | null>(null);
+  const pendingAttemptRef = useRef<EnquiryAttempt | null>(null);
   const resetChallengeRef = useRef<(() => void) | null>(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -64,7 +66,7 @@ export default function SponsorEnquiryModal({
       setSentMessage("");
       setHasError(false);
       setTurnstileToken(null);
-      idempotencyKeyRef.current = null;
+      pendingAttemptRef.current = null;
     }
   }, [open, tier]);
 
@@ -92,21 +94,24 @@ export default function SponsorEnquiryModal({
     setIsLoading(true);
     setSentMessage("");
     setHasError(false);
-    const idempotencyKey = idempotencyKeyRef.current ?? crypto.randomUUID();
-    idempotencyKeyRef.current = idempotencyKey;
+    const payload = {
+      type: "sponsorship" as const,
+      name: name.trim(),
+      email: email.trim(),
+      message: buildSponsorEnquiryMessage({ name, note, tier }),
+      sponsorshipTier: tier,
+      sourcePage: "sponsors" as const,
+    };
+    const attempt = enquiryAttemptFor(payload, pendingAttemptRef.current);
+    pendingAttemptRef.current = attempt;
 
     try {
       await submitEnquiry({
-        type: "sponsorship",
-        name: name.trim(),
-        email: email.trim(),
-        message: buildSponsorEnquiryMessage({ name, note, tier }),
-        sponsorshipTier: tier,
-        sourcePage: "sponsors",
+        ...payload,
         turnstileToken,
-        idempotencyKey,
+        idempotencyKey: attempt.idempotencyKey,
       });
-      idempotencyKeyRef.current = null;
+      pendingAttemptRef.current = null;
       setName("");
       setEmail("");
       setNote("");
@@ -115,7 +120,7 @@ export default function SponsorEnquiryModal({
     } catch (error) {
       const category =
         error instanceof EnquirySubmissionError ? error.category : "unknown";
-      if (category !== "temporary") idempotencyKeyRef.current = null;
+      if (category !== "temporary") pendingAttemptRef.current = null;
       setHasError(true);
       setSentMessage(failureMessages[category]);
     } finally {

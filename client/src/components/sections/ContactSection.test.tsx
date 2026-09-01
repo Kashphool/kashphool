@@ -191,6 +191,33 @@ describe("ContactSection enquiry submission", () => {
     expect(submitEnquiry.mock.calls[2][0].idempotencyKey).not.toBe(firstKey);
   });
 
+  it("replaces a retained idempotency key when the normalized contact payload changes", async () => {
+    submitEnquiry
+      .mockRejectedValueOnce(new EnquirySubmissionError("temporary"))
+      .mockResolvedValueOnce({ id: "lead-1", status: "received" });
+
+    await act(async () => {
+      change('input[name="name"]', "Asha");
+      change('input[name="email"]', "asha@example.com");
+      change('textarea[name="message"]', "Original message");
+      click('[data-testid="turnstile"]');
+    });
+    await submit();
+    const firstKey = submitEnquiry.mock.calls[0][0].idempotencyKey;
+
+    await act(async () => {
+      change('textarea[name="message"]', "Changed message");
+      click('[data-testid="turnstile"]');
+    });
+    await submit();
+
+    expect(submitEnquiry.mock.calls[1][0]).toMatchObject({
+      message: "Changed message",
+      turnstileToken: "token-2",
+    });
+    expect(submitEnquiry.mock.calls[1][0].idempotencyKey).not.toBe(firstKey);
+  });
+
   it.each([
     ["verification", "Verification failed. Please try again."],
     ["validation", "Please check your details and try again."],

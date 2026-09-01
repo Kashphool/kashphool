@@ -13,8 +13,10 @@ import { IMAGES } from "@/config";
 import { homePageContent, siteContent } from "@/content";
 import TurnstileWidget from "@/components/shared/TurnstileWidget";
 import {
+  enquiryAttemptFor,
   EnquirySubmissionError,
   submitEnquiry,
+  type EnquiryAttempt,
   type EnquiryErrorCategory,
 } from "@/lib/enquiryApi";
 
@@ -31,7 +33,7 @@ export default function ContactSection() {
   const { ref, isInView } = useInView();
   const { ref: ref2, isInView: isInView2 } = useInView();
   const formRef = useRef<HTMLFormElement>(null);
-  const idempotencyKeyRef = useRef<string | null>(null);
+  const pendingAttemptRef = useRef<EnquiryAttempt | null>(null);
   const resetChallengeRef = useRef<(() => void) | null>(null);
   const [sentMessage, setSentMessage] = useState("");
   const [hasError, setHasError] = useState(false);
@@ -60,28 +62,31 @@ export default function ContactSection() {
     setHasError(false);
     const form = e.currentTarget;
     const formData = new FormData(form);
-    const idempotencyKey = idempotencyKeyRef.current ?? crypto.randomUUID();
-    idempotencyKeyRef.current = idempotencyKey;
+    const payload = {
+      type: "contact" as const,
+      name: String(formData.get("name") ?? "").trim(),
+      email: String(formData.get("email") ?? "").trim(),
+      message: String(formData.get("message") ?? "").trim(),
+      sponsorshipTier: null,
+      sourcePage: "home" as const,
+    };
+    const attempt = enquiryAttemptFor(payload, pendingAttemptRef.current);
+    pendingAttemptRef.current = attempt;
 
     try {
       await submitEnquiry({
-        type: "contact",
-        name: String(formData.get("name") ?? "").trim(),
-        email: String(formData.get("email") ?? "").trim(),
-        message: String(formData.get("message") ?? "").trim(),
-        sponsorshipTier: null,
-        sourcePage: "home",
+        ...payload,
         turnstileToken,
-        idempotencyKey,
+        idempotencyKey: attempt.idempotencyKey,
       });
-      idempotencyKeyRef.current = null;
+      pendingAttemptRef.current = null;
       form.reset();
       setHasError(false);
       setSentMessage("Your message has been sent!");
     } catch (error) {
       const category =
         error instanceof EnquirySubmissionError ? error.category : "unknown";
-      if (category !== "temporary") idempotencyKeyRef.current = null;
+      if (category !== "temporary") pendingAttemptRef.current = null;
       setHasError(true);
       setSentMessage(failureMessages[category]);
     } finally {

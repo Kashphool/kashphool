@@ -41,6 +41,9 @@ beforeEach(() => {
 afterEach(() => {
   act(() => root.unmount());
   container.remove();
+  document
+    .querySelectorAll('script[src*="challenges.cloudflare.com/turnstile"]')
+    .forEach(script => script.remove());
   vi.restoreAllMocks();
   vi.unstubAllEnvs();
   delete window.turnstile;
@@ -123,5 +126,46 @@ describe("TurnstileWidget", () => {
 
     expect(container.textContent).toContain("Verification is unavailable");
     expect(window.turnstile?.render).not.toHaveBeenCalled();
+  });
+
+  it("removes a failed script so a remount can load Turnstile successfully", async () => {
+    delete window.turnstile;
+
+    await act(async () => {
+      root.render(<TurnstileWidget onTokenChange={() => undefined} />);
+    });
+    const failedScript = document.querySelector<HTMLScriptElement>(
+      'script[src*="challenges.cloudflare.com/turnstile"]'
+    )!;
+
+    await act(async () => {
+      failedScript.dispatchEvent(new Event("error"));
+    });
+
+    expect(container.textContent).toContain("Verification is unavailable");
+    act(() => root.unmount());
+    root = createRoot(container);
+
+    await act(async () => {
+      root.render(<TurnstileWidget onTokenChange={() => undefined} />);
+    });
+    const retryScript = document.querySelector<HTMLScriptElement>(
+      'script[src*="challenges.cloudflare.com/turnstile"]'
+    )!;
+    expect(retryScript).not.toBe(failedScript);
+
+    window.turnstile = {
+      render: vi.fn(() => "widget-2"),
+      reset,
+      remove,
+    };
+    await act(async () => {
+      retryScript.dispatchEvent(new Event("load"));
+    });
+
+    expect(window.turnstile.render).toHaveBeenCalledWith(
+      expect.any(HTMLDivElement),
+      expect.objectContaining({ action: "enquiry" })
+    );
   });
 });
