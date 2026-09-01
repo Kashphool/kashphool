@@ -7,6 +7,7 @@
     <title>Contacts &amp; Leads | Kashphool Content Manager</title>
     <link rel="icon" href="/images/favicon.ico" />
     <link rel="stylesheet" href="/admin/guide.css" />
+    <link rel="stylesheet" href="/admin/contacts.css" />
   </head>
   <body>
     <header class="guide-topbar">
@@ -22,46 +23,163 @@
     </header>
 
     <main class="contacts-main">
-      <section class="construction-panel">
-        <div class="construction-mark" aria-hidden="true">◇</div>
-        <p class="eyebrow">Future admin workspace</p>
-        <p class="construction-status">Under construction</p>
-        <h1>Contacts &amp; leads</h1>
-        <p class="construction-intro">
-          This area is reserved for a future database-backed workspace for
-          sponsorship enquiries, contact messages and team follow-ups.
-        </p>
+      <header class="contacts-heading">
+        <div>
+          <p class="eyebrow">Private admin workspace</p>
+          <h1>Contacts &amp; leads</h1>
+        </div>
+        <p>Review website enquiries. This inbox is read-only.</p>
+      </header>
 
-        <div class="future-grid" aria-label="Planned capabilities">
-          <article>
-            <span aria-hidden="true">01</span>
-            <strong>Enquiry inbox</strong>
-            <p>See website and sponsorship enquiries together.</p>
-          </article>
-          <article>
-            <span aria-hidden="true">02</span>
-            <strong>Lead progress</strong>
-            <p>Track ownership, status and the next follow-up.</p>
-          </article>
-          <article>
-            <span aria-hidden="true">03</span>
-            <strong>Contact history</strong>
-            <p>Keep useful context for future conversations.</p>
-          </article>
+      <section class="summary-grid" aria-label="Enquiry summary">
+        <article>
+          <span data-summary="all">—</span>
+          <p>Total enquiries</p>
+        </article>
+        <article>
+          <span data-summary="contact">—</span>
+          <p>Contact</p>
+        </article>
+        <article>
+          <span data-summary="sponsorship">—</span>
+          <p>Sponsorship</p>
+        </article>
+        <article class="summary-card--failed">
+          <span data-summary="failed">—</span>
+          <p>Notification failed</p>
+        </article>
+      </section>
+
+      <section class="inbox-panel" aria-labelledby="inbox-heading">
+        <div class="inbox-title">
+          <div>
+            <p class="eyebrow">Enquiry inbox</p>
+            <h2 id="inbox-heading">Recent messages</h2>
+          </div>
+          <p data-result-count>Loading enquiries…</p>
         </div>
 
-        <aside class="construction-note">
-          <strong>No contact or lead data is stored here yet.</strong>
-          <span
-            >The existing website contact and sponsorship forms continue to work
-            as they do today.</span
-          >
-        </aside>
+        <form class="filter-grid" data-lead-filters>
+          <label class="filter-search">
+            <span>Search</span>
+            <input
+              type="search"
+              data-filter="search"
+              name="q"
+              autocomplete="off"
+              placeholder="Name, email or message"
+            />
+          </label>
+          <label>
+            <span>Type</span>
+            <select data-filter="type" name="type">
+              <option value="">All types</option>
+              <option value="contact">Contact</option>
+              <option value="sponsorship">Sponsorship</option>
+            </select>
+          </label>
+          <label>
+            <span>Notification</span>
+            <select data-filter="notification" name="notification">
+              <option value="">All statuses</option>
+              <option value="pending">Pending</option>
+              <option value="sent">Sent</option>
+              <option value="failed">Failed</option>
+            </select>
+          </label>
+          <label
+            ><span>From</span><input type="date" data-filter="from" name="from"
+          /></label>
+          <label
+            ><span>To</span><input type="date" data-filter="to" name="to"
+          /></label>
+        </form>
 
-        <a class="construction-back" href="/admin/"
-          >Return to website content</a
+        <div class="lead-state" data-lead-status aria-live="polite"></div>
+        <a class="state-action" data-reauth href="/admin/contacts.html" hidden
+          >Sign in again</a
         >
+        <button class="state-action" data-retry type="button" hidden>
+          Try again
+        </button>
+
+        <div class="lead-table-wrap" data-lead-results hidden>
+          <table class="lead-table">
+            <thead>
+              <tr>
+                <th scope="col">Enquiry</th>
+                <th scope="col">Type</th>
+                <th scope="col">Received</th>
+                <th scope="col">Notification</th>
+                <th scope="col"><span class="visually-hidden">View</span></th>
+              </tr>
+            </thead>
+            <tbody data-lead-list></tbody>
+          </table>
+        </div>
+
+        <nav class="pagination" aria-label="Enquiry pages">
+          <button type="button" data-page="previous" disabled>
+            ← Previous
+          </button>
+          <button type="button" data-page="next" disabled>Next →</button>
+        </nav>
       </section>
     </main>
+
+    <dialog
+      class="lead-dialog"
+      data-lead-dialog
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="lead-dialog-title"
+      hidden
+    >
+      <div class="dialog-heading">
+        <div>
+          <p class="eyebrow">Enquiry detail</p>
+          <h2 id="lead-dialog-title" data-lead-title>Message</h2>
+        </div>
+        <button
+          type="button"
+          data-dialog-close
+          aria-label="Close enquiry detail"
+        >
+          ×
+        </button>
+      </div>
+      <dl class="detail-list">
+        <div>
+          <dt>Name</dt>
+          <dd data-lead-name>—</dd>
+        </div>
+        <div>
+          <dt>Email</dt>
+          <dd data-lead-email>—</dd>
+        </div>
+        <div>
+          <dt>Type</dt>
+          <dd data-lead-type>—</dd>
+        </div>
+        <div>
+          <dt>Received</dt>
+          <dd data-lead-created>—</dd>
+        </div>
+        <div>
+          <dt>Notification</dt>
+          <dd data-lead-notification>—</dd>
+        </div>
+        <div data-lead-tier-row hidden>
+          <dt>Sponsorship tier</dt>
+          <dd data-lead-tier>—</dd>
+        </div>
+      </dl>
+      <section class="message-detail" aria-labelledby="message-heading">
+        <h3 id="message-heading">Message</h3>
+        <p data-lead-message>Loading complete message…</p>
+      </section>
+    </dialog>
+
+    <script type="module" src="/admin/contacts.js"></script>
   </body>
 </html>

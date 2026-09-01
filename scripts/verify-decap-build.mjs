@@ -11,6 +11,8 @@ const expected = [
   "admin/admin.css",
   "admin/guide.html",
   "admin/contacts.html",
+  "admin/contacts.css",
+  "admin/contacts.js",
   "admin/guide.css",
   "admin/previews.js",
   "admin/preview.css",
@@ -44,6 +46,13 @@ assert.match(adminHtml, /href=["']\/["']/);
 assert.match(adminHtml, /href=["']\/admin\/guide\.html["']/);
 assert.match(adminHtml, /href=["']\/admin\/contacts\.html["']/);
 assert.match(adminHtml, /src=["']\/admin\/previews\.js["']/);
+
+const contactsHtml = await readFile(
+  path.join(output, "admin/contacts.html"),
+  "utf8"
+);
+assert.match(contactsHtml, /href=["']\/admin\/contacts\.css["']/);
+assert.match(contactsHtml, /src=["']\/admin\/contacts\.js["']/);
 
 const previews = await readFile(path.join(output, "admin/previews.js"), "utf8");
 for (const name of [

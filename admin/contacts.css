@@ -1,0 +1,472 @@
+.contacts-main {
+  width: min(1380px, calc(100% - 40px));
+  min-height: calc(100vh - 69px);
+  display: block;
+  padding: clamp(34px, 5vw, 64px) 0 72px;
+}
+
+.contacts-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.contacts-heading h1 {
+  margin: 0;
+  color: #fffaf2;
+  font:
+    700 clamp(38px, 5vw, 62px) / 1 Georgia,
+    serif;
+  letter-spacing: -0.035em;
+}
+
+.contacts-heading > p {
+  max-width: 390px;
+  margin: 0 0 5px;
+  color: #c7bdb1;
+  font-size: 14px;
+  line-height: 1.55;
+  text-align: right;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.summary-grid article {
+  padding: 20px 22px;
+  background: linear-gradient(145deg, #1b1816, #241719);
+  border: 1px solid #563034;
+  border-radius: 12px;
+  box-shadow: 0 14px 28px rgb(0 0 0 / 20%);
+}
+
+.summary-grid span {
+  color: #f4c45c;
+  font:
+    700 34px/1 Georgia,
+    serif;
+}
+
+.summary-grid p {
+  margin: 8px 0 0;
+  color: #bfb4a9;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.summary-grid .summary-card--failed {
+  border-color: #84353a;
+}
+
+.summary-card--failed span,
+.lead-status--failed {
+  color: #ff9b9b;
+}
+
+.inbox-panel {
+  margin-top: 20px;
+  padding: clamp(20px, 3vw, 30px);
+  background: #181615;
+  border: 1px solid #4e2d30;
+  border-radius: 15px;
+  box-shadow: 0 24px 54px rgb(0 0 0 / 28%);
+}
+
+.inbox-title {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.inbox-title h2 {
+  margin: 0;
+  color: #fffaf2;
+  font:
+    700 28px/1.1 Georgia,
+    serif;
+}
+
+.inbox-title > p {
+  margin: 0;
+  color: #d4c8bb;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.filter-grid {
+  display: grid;
+  grid-template-columns: minmax(220px, 1.7fr) repeat(4, minmax(130px, 1fr));
+  gap: 10px;
+  margin-top: 24px;
+  padding: 16px;
+  background: #211c19;
+  border: 1px solid #62462c;
+  border-radius: 10px;
+}
+
+.filter-grid label {
+  display: grid;
+  gap: 6px;
+  color: #e4b44a;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.filter-grid input,
+.filter-grid select {
+  width: 100%;
+  min-height: 40px;
+  padding: 8px 10px;
+  color: #f8f1e8;
+  background: #100f0e;
+  border: 1px solid #5e5045;
+  border-radius: 7px;
+  font: inherit;
+  font-size: 13px;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.filter-grid input:focus-visible,
+.filter-grid select:focus-visible,
+button:focus-visible,
+.state-action:focus-visible {
+  border-color: #f0bc4e;
+  outline: 3px solid rgb(240 188 78 / 30%);
+  outline-offset: 2px;
+}
+
+.lead-state {
+  min-height: 20px;
+  margin-top: 17px;
+  color: #c7bdb1;
+  font-size: 13px;
+}
+
+.state-action,
+.pagination button,
+[data-lead-detail] {
+  padding: 8px 12px;
+  color: #2b1c09;
+  background: #f0bc4e;
+  border: 1px solid #f0bc4e;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 800;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.state-action {
+  display: inline-block;
+  margin-top: 8px;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.lead-table-wrap {
+  margin-top: 12px;
+  overflow-x: auto;
+  border: 1px solid #463538;
+  border-radius: 10px;
+}
+
+.lead-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: #d9cec2;
+  font-size: 12px;
+}
+
+.lead-table th {
+  padding: 11px 14px;
+  color: #c79b3e;
+  background: #241d1a;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.lead-table td {
+  padding: 13px 14px;
+  border-top: 1px solid #392d2e;
+  vertical-align: middle;
+}
+
+.lead-table tbody tr:hover {
+  background: #211a18;
+}
+
+.lead-table td:first-child {
+  min-width: 270px;
+}
+
+.lead-table td:first-child strong,
+.lead-table td:first-child span {
+  display: block;
+}
+
+.lead-table td:first-child strong {
+  color: #fff7ea;
+  font-size: 13px;
+}
+
+.lead-table td:first-child span {
+  max-width: 42rem;
+  margin-top: 3px;
+  overflow: hidden;
+  color: #a99e94;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lead-table td:first-child span:last-child {
+  color: #c6b9ad;
+}
+
+.lead-type,
+.lead-status {
+  font-weight: 800;
+}
+
+.lead-status--pending {
+  color: #edc56e;
+}
+
+.lead-status--sent {
+  color: #9ed2a6;
+}
+
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+  gap: 9px;
+  margin-top: 16px;
+}
+
+.pagination button:disabled {
+  color: #81766b;
+  background: #272321;
+  border-color: #3d3732;
+  cursor: not-allowed;
+}
+
+.lead-dialog {
+  width: min(680px, calc(100% - 30px));
+  max-height: min(82vh, 760px);
+  padding: 0;
+  color: #f4ede4;
+  background: #171513;
+  border: 1px solid #784047;
+  border-radius: 15px;
+  box-shadow: 0 30px 90px rgb(0 0 0 / 60%);
+}
+
+.lead-dialog::backdrop {
+  background: rgb(5 4 4 / 78%);
+  backdrop-filter: blur(3px);
+}
+
+.dialog-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px 24px;
+  background: linear-gradient(110deg, #251717, #541d21);
+  border-bottom: 2px solid #d79d31;
+}
+
+.dialog-heading h2 {
+  margin: 0;
+  font:
+    700 28px/1.1 Georgia,
+    serif;
+}
+
+.dialog-heading button {
+  width: 38px;
+  height: 38px;
+  color: #f7e4bd;
+  background: #211817;
+  border: 1px solid #8c585b;
+  border-radius: 50%;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.detail-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0;
+  padding: 1px 24px 0;
+  background: #3b302d;
+}
+
+.detail-list > div {
+  min-width: 0;
+  padding: 14px;
+  background: #171513;
+}
+
+.detail-list dt,
+.message-detail h3 {
+  color: #d4a23e;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.detail-list dd {
+  margin: 5px 0 0;
+  overflow-wrap: anywhere;
+  color: #eee5da;
+  font-size: 13px;
+}
+
+.message-detail {
+  margin: 20px 24px 24px;
+}
+
+.message-detail h3 {
+  margin: 0 0 8px;
+}
+
+.message-detail p {
+  max-height: 260px;
+  margin: 0;
+  overflow-y: auto;
+  padding: 16px;
+  color: #e1d7cd;
+  background: #0e0d0c;
+  border: 1px solid #443536;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (max-width: 980px) {
+  .filter-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .filter-search {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 720px) {
+  .contacts-main {
+    width: min(100% - 22px, 1380px);
+  }
+
+  .contacts-heading {
+    display: block;
+  }
+
+  .contacts-heading > p {
+    margin-top: 12px;
+    text-align: left;
+  }
+
+  .summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .lead-table-wrap {
+    overflow: visible;
+    border: 0;
+  }
+
+  .lead-table,
+  .lead-table tbody,
+  .lead-table tr,
+  .lead-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .lead-table thead {
+    display: none;
+  }
+
+  .lead-table tr {
+    margin-top: 10px;
+    padding: 12px 14px;
+    background: #100f0e;
+    border: 1px solid #463538;
+    border-radius: 9px;
+  }
+
+  .lead-table td {
+    display: grid;
+    grid-template-columns: 100px minmax(0, 1fr);
+    gap: 10px;
+    padding: 7px 0;
+    border: 0;
+  }
+
+  .lead-table td::before {
+    content: attr(data-label);
+    color: #b88b35;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .lead-table td:first-child {
+    min-width: 0;
+  }
+
+  .lead-table td:first-child span {
+    white-space: normal;
+  }
+
+  .lead-table td:last-child {
+    display: block;
+    padding-top: 10px;
+  }
+}
+
+@media (max-width: 500px) {
+  .filter-grid,
+  .detail-list {
+    grid-template-columns: 1fr;
+  }
+
+  .inbox-title {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .lead-dialog {
+    max-height: 90vh;
+  }
+}

@@ -12,6 +12,7 @@
     "check:content": "node scripts/validate-content.mjs",
     "check:cms-build": "node scripts/verify-decap-build.mjs",
     "check:cms-dev": "node scripts/verify-decap-dev.mjs",
+    "check:leads": "node --test admin/contacts.test.mjs",
     "check": "tsc --noEmit",
     "format": "prettier --write ."
   },

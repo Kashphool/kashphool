@@ -120,6 +120,8 @@ try {
   const adminAssets = [
     ["/admin/guide.html", /^text\/html/],
     ["/admin/contacts.html", /^text\/html/],
+    ["/admin/contacts.css", /^text\/css/],
+    ["/admin/contacts.js", /^(application|text)\/javascript/],
     ["/admin/admin.css", /^text\/css/],
     ["/admin/guide.css", /^text\/css/],
     ["/admin/previews.js", /^(application|text)\/javascript/],
