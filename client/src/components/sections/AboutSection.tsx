@@ -8,6 +8,7 @@
 
 import { useInView } from "@/hooks/useInView";
 import { IMAGES } from "@/config";
+import { homePageContent } from "@/content";
 
 export default function AboutSection() {
   const { ref, isInView } = useInView();
@@ -33,10 +34,12 @@ export default function AboutSection() {
             }`}
           >
             <span className="text-saffron/80 text-sm font-medium tracking-[0.3em] uppercase">
-              Our Story
+              {homePageContent.about.eyebrow}
             </span>
             <h2 className="font-[var(--font-display)] text-4xl md:text-5xl lg:text-6xl font-bold mt-3 mb-4">
-              <span className="text-gold-gradient">About Us</span>
+              <span className="text-gold-gradient">
+                {homePageContent.about.heading}
+              </span>
             </h2>
             <div className="h-[2px] w-20 bg-gradient-to-r from-saffron to-transparent" />
           </div>
@@ -55,26 +58,18 @@ export default function AboutSection() {
                 : "opacity-0 translate-y-8"
             }`}
           >
-            <p className="text-ivory/80 text-lg leading-relaxed">
-              Kashphool is a Bengali cultural and community association based in
-              North Kent, dedicated to preserving and celebrating our rich
-              cultural heritage. We are a vibrant community organisation that brings
-              together Bengali families and friends to honor our traditions and
-              create lasting connections.
-            </p>
-            <p className="text-ivory/70 text-lg leading-relaxed">
-              Established in 2025, Kashphool organizes various Hindu festivals
-              and community events throughout the year. Our mission is to keep
-              our cultural traditions alive while building a strong, supportive
-              community in North Kent. We celebrated our first Durga Pujo in
-              2025, marking a significant milestone in our journey.
-            </p>
-            <p className="text-ivory/70 text-lg leading-relaxed">
-              Through our events and celebrations, we aim to foster a sense of
-              belonging, share our cultural values with future generations, and
-              create a welcoming space for all members of our community. Join us
-              as we continue to grow and celebrate our shared heritage together.
-            </p>
+            {homePageContent.about.paragraphs.map((paragraph, index) => (
+              <p
+                key={paragraph}
+                className={
+                  index === 0
+                    ? "text-ivory/80 text-lg leading-relaxed"
+                    : "text-ivory/70 text-lg leading-relaxed"
+                }
+              >
+                {paragraph}
+              </p>
+            ))}
 
             <div className="mt-4 text-center">
               <span className="text-3xl text-saffron/40 font-[var(--font-bengali)]">
@@ -84,24 +79,14 @@ export default function AboutSection() {
 
             {/* Stats Row */}
             <div className="grid grid-cols-3 gap-6 pt-8 border-t border-gold/10">
-              <div>
-                <div className="font-[var(--font-display)] text-3xl md:text-4xl font-bold text-saffron">
-                  2025
+              {homePageContent.about.stats.map(stat => (
+                <div key={stat.label}>
+                  <div className="font-[var(--font-display)] text-3xl md:text-4xl font-bold text-saffron">
+                    {stat.value}
+                  </div>
+                  <div className="text-ivory/50 text-sm mt-1">{stat.label}</div>
                 </div>
-                <div className="text-ivory/50 text-sm mt-1">Established</div>
-              </div>
-              <div>
-                <div className="font-[var(--font-display)] text-3xl md:text-4xl font-bold text-saffron">
-                  5+
-                </div>
-                <div className="text-ivory/50 text-sm mt-1">Annual Events</div>
-              </div>
-              <div>
-                <div className="font-[var(--font-display)] text-3xl md:text-4xl font-bold text-saffron">
-                  North Kent
-                </div>
-                <div className="text-ivory/50 text-sm mt-1">Based In</div>
-              </div>
+              ))}
             </div>
           </div>
 

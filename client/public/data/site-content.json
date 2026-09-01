@@ -1,0 +1,39 @@
+{
+  "navigation": {
+    "home": { "label": "Home" },
+    "about": { "label": "About" },
+    "events": { "label": "Events" },
+    "gallery": { "label": "Gallery" },
+    "sponsors": { "label": "Sponsors" },
+    "constitution": { "label": "Constitution" },
+    "contact": { "label": "Contact" },
+    "donate": { "label": "Donate" }
+  },
+  "footer": {
+    "description": "A Bengali cultural and community association in North Kent, celebrating heritage, connection and community.",
+    "quickLinksHeading": "Quick Links",
+    "connectHeading": "Connect",
+    "followHeading": "Follow",
+    "location": "North Kent, United Kingdom",
+    "established": "Established 2025",
+    "email": "info@kashphool.co.uk",
+    "supportLabel": "Support Our Mission →",
+    "copyrightSuffix": "All rights reserved.",
+    "closingLine": "Preserving Bengali Heritage in North Kent",
+    "navigation": {
+      "home": { "label": "Home" },
+      "about": { "label": "About" },
+      "events": { "label": "Events" },
+      "gallery": { "label": "Gallery" },
+      "sponsors": { "label": "Sponsor Us" },
+      "constitution": { "label": "Constitution" },
+      "contact": { "label": "Contact" }
+    }
+  },
+  "links": {
+    "donate": "https://pay.lopay.com/request/906de5de-220b-4f34-bc56-776c0993ec32",
+    "instagram": "https://www.instagram.com/kashphoolutsav/",
+    "facebook": "https://www.facebook.com/share/1Fp7GKadQg/?mibextid=wwXIfr",
+    "youtube": "https://www.youtube.com/@KashphoolUtsav"
+  }
+}

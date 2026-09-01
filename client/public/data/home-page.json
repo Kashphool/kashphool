@@ -1,0 +1,74 @@
+{
+  "hero": {
+    "welcome": "Welcome to",
+    "name": "Kashphool",
+    "description": "A Bengali cultural and community association in North Kent, celebrating heritage, connection and community.",
+    "eventsCta": "Upcoming Events",
+    "aboutCta": "Learn More"
+  },
+  "about": {
+    "eyebrow": "Our Story",
+    "heading": "About Us",
+    "paragraphs": [
+      "Kashphool is a Bengali cultural and community association based in North Kent, dedicated to preserving and celebrating our rich cultural heritage. We are a vibrant community organisation that brings together Bengali families and friends to honor our traditions and create lasting connections.",
+      "Established in 2025, Kashphool organizes various Hindu festivals and community events throughout the year. Our mission is to keep our cultural traditions alive while building a strong, supportive community in North Kent. We celebrated our first Durga Pujo in 2025, marking a significant milestone in our journey.",
+      "Through our events and celebrations, we aim to foster a sense of belonging, share our cultural values with future generations, and create a welcoming space for all members of our community. Join us as we continue to grow and celebrate our shared heritage together."
+    ],
+    "stats": [
+      { "value": "2025", "label": "Established" },
+      { "value": "5+", "label": "Annual Events" },
+      { "value": "North Kent", "label": "Based In" }
+    ]
+  },
+  "events": {
+    "eyebrow": "Celebrations",
+    "heading": "Upcoming Events",
+    "loading": "Loading events...",
+    "registrationCta": "Pre-Registration"
+  },
+  "gallery": {
+    "eyebrow": "Memories",
+    "heading": "Photo Gallery",
+    "intro": "Memories from our past events"
+  },
+  "sponsors": {
+    "eyebrow": "Our Partners &",
+    "heading": "Sponsors",
+    "intro": "Thank you to our generous sponsors who make our events possible",
+    "loading": "Loading sponsors...",
+    "prompt": "Interested in connecting your organisation with our growing community?",
+    "cta": "Partner with Us"
+  },
+  "contact": {
+    "eyebrow": "Get in Touch",
+    "heading": "Contact Us",
+    "form": {
+      "nameLabel": "Your Name",
+      "namePlaceholder": "Enter your name",
+      "emailLabel": "Email Address",
+      "emailPlaceholder": "Enter your email",
+      "messageLabel": "Message",
+      "messagePlaceholder": "Your message...",
+      "submit": "Send Message",
+      "submitting": "Sending..."
+    },
+    "supportEyebrow": "Make a Difference",
+    "supportHeading": "Support Us",
+    "supportIntro": "Your contribution helps us make a bigger impact. Thank you for your generous support!",
+    "supportCards": [
+      {
+        "title": "Community Events",
+        "description": "Fund our Durga Pujo, Saraswati Pujo, and other cultural celebrations"
+      },
+      {
+        "title": "Cultural Preservation",
+        "description": "Help us keep Bengali traditions alive for future generations"
+      },
+      {
+        "title": "Venue & Logistics",
+        "description": "Support venue bookings, decorations, and event logistics"
+      }
+    ],
+    "donateCta": "Donate Now"
+  }
+}

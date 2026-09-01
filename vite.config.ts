@@ -16,6 +16,27 @@ const PROJECT_ROOT = import.meta.dirname;
 const LOG_DIR = path.join(PROJECT_ROOT, ".manus-logs");
 const MAX_LOG_SIZE_BYTES = 1 * 1024 * 1024; // 1MB per log file
 const TRIM_TARGET_BYTES = Math.floor(MAX_LOG_SIZE_BYTES * 0.6); // Trim to 60% to avoid constant re-trimming
+const ADMIN_DIRECTORY = path.join(PROJECT_ROOT, "admin");
+const UPLOADS_DIRECTORY = path.join(PROJECT_ROOT, "assets", "uploads");
+
+const contentTypes: Record<string, string> = {
+  ".avif": "image/avif",
+  ".gif": "image/gif",
+  ".html": "text/html; charset=utf-8",
+  ".jpeg": "image/jpeg",
+  ".jpg": "image/jpeg",
+  ".json": "application/json; charset=utf-8",
+  ".mov": "video/quicktime",
+  ".mp4": "video/mp4",
+  ".pdf": "application/pdf",
+  ".png": "image/png",
+  ".svg": "image/svg+xml",
+  ".txt": "text/plain; charset=utf-8",
+  ".webm": "video/webm",
+  ".webp": "image/webp",
+  ".yaml": "application/x-yaml; charset=utf-8",
+  ".yml": "application/x-yaml; charset=utf-8",
+};
 
 type LogSource = "browserConsole" | "networkRequests" | "sessionReplay";
 
@@ -57,7 +78,7 @@ function writeToLogFile(source: LogSource, entries: unknown[]) {
   const logPath = path.join(LOG_DIR, `${source}.log`);
 
   // Format entries with timestamps
-  const lines = entries.map((entry) => {
+  const lines = entries.map(entry => {
     const ts = new Date().toISOString();
     return `[${ts}] ${JSON.stringify(entry)}`;
   });
@@ -67,6 +88,113 @@ function writeToLogFile(source: LogSource, entries: unknown[]) {
 
   // Trim if exceeds max size
   trimLogFile(logPath, MAX_LOG_SIZE_BYTES);
+}
+
+function getStaticFile(directory: string, relativePath: string) {
+  const candidate = path.resolve(directory, relativePath);
+  const candidateRelativePath = path.relative(directory, candidate);
+  if (
+    candidateRelativePath === "" ||
+    candidateRelativePath === ".." ||
+    candidateRelativePath.startsWith(`..${path.sep}`) ||
+    path.isAbsolute(candidateRelativePath)
+  ) {
+    return { status: 403 as const };
+  }
+
+  try {
+    const realDirectory = fs.realpathSync(directory);
+    const realCandidate = fs.realpathSync(candidate);
+    const realCandidateRelativePath = path.relative(
+      realDirectory,
+      realCandidate
+    );
+    if (
+      realCandidateRelativePath === ".." ||
+      realCandidateRelativePath.startsWith(`..${path.sep}`) ||
+      path.isAbsolute(realCandidateRelativePath)
+    ) {
+      return { status: 403 as const };
+    }
+
+    if (!fs.statSync(realCandidate).isFile()) {
+      return { status: 404 as const };
+    }
+
+    return { status: 200 as const, path: realCandidate };
+  } catch {
+    return { status: 404 as const };
+  }
+}
+
+function vitePluginDecapDevAssets(): Plugin {
+  return {
+    name: "decap-dev-assets",
+    apply: "serve",
+    configureServer(server: ViteDevServer) {
+      server.middlewares.use((req, res, next) => {
+        if (req.method !== "GET" && req.method !== "HEAD") {
+          return next();
+        }
+
+        const requestPath = req.url?.split("?", 1)[0] ?? "/";
+        let directory: string;
+        let relativePath: string;
+
+        if (requestPath === "/admin") {
+          res.writeHead(302, { Location: "/admin/" });
+          res.end();
+          return;
+        }
+
+        if (
+          requestPath === "/admin/" ||
+          requestPath === "/admin/index.html"
+        ) {
+          directory = ADMIN_DIRECTORY;
+          relativePath = "index.html";
+        } else if (requestPath === "/admin/config.yml") {
+          directory = ADMIN_DIRECTORY;
+          relativePath = "config.yml";
+        } else if (requestPath.startsWith("/assets/uploads/")) {
+          directory = UPLOADS_DIRECTORY;
+          try {
+            relativePath = decodeURIComponent(
+              requestPath.slice("/assets/uploads/".length)
+            );
+          } catch {
+            res.statusCode = 400;
+            res.end();
+            return;
+          }
+        } else {
+          return next();
+        }
+
+        const file = getStaticFile(directory, relativePath);
+        if (file.status !== 200) {
+          res.statusCode = file.status;
+          res.end();
+          return;
+        }
+
+        let contents = fs.readFileSync(file.path);
+        if (requestPath === "/admin/config.yml") {
+          contents = Buffer.from(
+            `${contents.toString("utf8").trimEnd()}\n\n# Use the working tree when the CMS is served by Vite.\nlocal_backend: true\n`,
+            "utf8"
+          );
+        }
+        res.writeHead(200, {
+          "Content-Length": contents.byteLength,
+          "Content-Type":
+            contentTypes[path.extname(file.path).toLowerCase()] ??
+            "application/octet-stream",
+        });
+        res.end(req.method === "HEAD" ? undefined : contents);
+      });
+    },
+  };
 }
 
 /**
@@ -133,7 +261,7 @@ function vitePluginManusDebugCollector(): Plugin {
         }
 
         let body = "";
-        req.on("data", (chunk) => {
+        req.on("data", chunk => {
           body += chunk.toString();
         });
 
@@ -157,6 +285,7 @@ const plugins = [
   jsxLocPlugin(),
   vitePluginManusRuntime(),
   vitePluginManusDebugCollector(),
+  vitePluginDecapDevAssets(),
   fixOklabScientificNotation(), // Fix scientific notation in oklab colors
 ];
 
@@ -170,7 +299,7 @@ export default defineConfig({
     },
   },
   css: {
-    transformer: 'postcss',
+    transformer: "postcss",
   },
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),

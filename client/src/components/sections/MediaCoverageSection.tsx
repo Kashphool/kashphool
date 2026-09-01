@@ -1,43 +1,12 @@
 import { ExternalLink, Newspaper, Tv } from "lucide-react";
-import coverageData from "../../../public/data/media-coverage.json";
+import { mediaCoverageContent } from "@/content";
+import type { VideoCoverage } from "@/types";
+import { getVideoMimeType } from "@/lib/mediaPresentation";
 
-interface VideoCoverage {
-  id: string;
-  type: "video";
-  featured?: boolean;
-  outlet: string;
-  title: string;
-  src: string;
-  poster: string;
-}
-
-interface ArticleCoverage {
-  id: string;
-  type: "article";
-  outlet: string;
-  title: string;
-  previewImage: string;
-  fullImage: string;
-}
-
-type CoverageItem = VideoCoverage | ArticleCoverage;
-
-interface MediaCoverageData {
-  year: number;
-  intro: string;
-  items: CoverageItem[];
-}
-
-const coverage = coverageData as MediaCoverageData;
-const featuredVideo = coverage.items.find(
-  (item): item is VideoCoverage => item.type === "video" && item.featured === true,
-);
-const article = coverage.items.find(
-  (item): item is ArticleCoverage => item.type === "article",
-);
-const supportingVideos = coverage.items.filter(
-  (item): item is VideoCoverage => item.type === "video" && !item.featured,
-);
+const coverage = mediaCoverageContent;
+const featuredVideo = coverage.featuredVideo;
+const article = coverage.article;
+const supportingVideos = coverage.supportingVideos;
 
 function VideoCard({
   item,
@@ -61,7 +30,7 @@ function VideoCard({
         className="aspect-video w-full bg-black object-cover"
         aria-label={`${item.outlet}: ${item.title}`}
       >
-        <source src={item.src} type="video/mp4" />
+        <source src={item.src} type={getVideoMimeType(item.src)} />
         Your browser does not support video playback.
       </video>
       <div className={featured ? "p-6 md:p-7" : "p-4"}>
@@ -75,7 +44,9 @@ function VideoCard({
             className="shrink-0 text-gold/70"
           />
         </div>
-        <h3 className={`${featured ? "mt-3 text-2xl" : "mt-2 text-base"} font-semibold text-ivory/90`}>
+        <h3
+          className={`${featured ? "mt-3 text-2xl" : "mt-2 text-base"} font-semibold text-ivory/90`}
+        >
           {item.title}
         </h3>
       </div>
@@ -89,63 +60,68 @@ export default function MediaCoverageSection() {
       <div className="container">
         <div className="mx-auto mb-14 max-w-3xl text-center">
           <span className="text-sm font-medium uppercase tracking-[0.3em] text-saffron/80">
-            Recognition
+            {coverage.eyebrow}
           </span>
           <h2 className="mt-3 text-4xl font-bold md:text-6xl">
-            In the <span className="text-gold-gradient">Media</span>
+            {coverage.headingPrefix}{" "}
+            <span className="text-gold-gradient">{coverage.headingAccent}</span>
           </h2>
-          <p className="mt-5 text-lg leading-relaxed text-ivory/55">{coverage.intro}</p>
+          <p className="mt-5 text-lg leading-relaxed text-ivory/55">
+            {coverage.intro}
+          </p>
         </div>
 
         <div
           data-media-layout="featured-article-video-stack"
           className="grid gap-5 md:grid-cols-2 lg:grid-cols-12 lg:items-stretch"
         >
-          {featuredVideo && (
-            <VideoCard
-              item={featuredVideo}
-              featured
-              className="md:col-span-2 lg:col-span-6"
-            />
-          )}
+          <VideoCard
+            item={featuredVideo}
+            featured
+            className="md:col-span-2 lg:col-span-6"
+          />
 
-          {article && (
-            <a
-              data-media-size="compact"
-              href={article.fullImage}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex min-h-[22rem] flex-col overflow-hidden rounded-sm border border-gold/10 bg-charcoal-light/45 transition-colors hover:border-gold/30 lg:col-span-3 lg:min-h-0"
-              aria-label={`Read the full ${article.outlet} article: ${article.title}`}
-            >
-              <div className="relative min-h-0 flex-1 overflow-hidden bg-ivory">
-                <img
-                  src={article.previewImage}
-                  alt={`${article.outlet} coverage of Kashphool's 2025 Durga Pujo`}
-                  loading="lazy"
-                  className="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
+          <a
+            data-media-size="compact"
+            href={article.fullImage}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex min-h-[22rem] flex-col overflow-hidden rounded-sm border border-gold/10 bg-charcoal-light/45 transition-colors hover:border-gold/30 lg:col-span-3 lg:min-h-0"
+            aria-label={`Read the full ${article.outlet} article: ${article.title}`}
+          >
+            <div className="relative min-h-0 flex-1 overflow-hidden bg-ivory">
+              <img
+                src={article.previewImage}
+                alt={article.title}
+                loading="lazy"
+                className="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
+              />
+            </div>
+            <div className="p-5">
+              <div className="flex items-center justify-between gap-3">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-saffron/80">
+                  {article.outlet} · {coverage.year}
+                </p>
+                <Newspaper
+                  aria-hidden="true"
+                  size={18}
+                  className="text-gold/70"
                 />
               </div>
-              <div className="p-5">
-                <div className="flex items-center justify-between gap-3">
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-saffron/80">
-                    {article.outlet} · {coverage.year}
-                  </p>
-                  <Newspaper aria-hidden="true" size={18} className="text-gold/70" />
-                </div>
-                <h3 className="mt-2 text-base font-semibold text-ivory/90">{article.title}</h3>
-                <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-saffron">
-                  Read full article <ExternalLink aria-hidden="true" size={14} />
-                </span>
-              </div>
-            </a>
-          )}
-
+              <h3 className="mt-2 text-base font-semibold text-ivory/90">
+                {article.title}
+              </h3>
+              <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-saffron">
+                {coverage.articleLinkLabel}{" "}
+                <ExternalLink aria-hidden="true" size={14} />
+              </span>
+            </div>
+          </a>
           <div
             data-media-stack="supporting-videos"
             className="grid gap-5 md:col-span-2 md:grid-cols-2 lg:col-span-3 lg:grid-cols-1 lg:grid-rows-2"
           >
-            {supportingVideos.map((item) => (
+            {supportingVideos.map(item => (
               <VideoCard key={item.id} item={item} />
             ))}
           </div>

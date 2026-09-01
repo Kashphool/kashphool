@@ -8,15 +8,17 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { IMAGES } from "@/config";
+import { siteContent } from "@/content";
 
+const navLabels = siteContent.navigation;
 const navLinks = [
-  { label: "Home", href: "/" },
-  { label: "About", href: "/#about" },
-  { label: "Events", href: "/#events" },
-  { label: "Gallery", href: "/#gallery" },
-  { label: "Sponsors", href: "/#sponsors" },
-  { label: "Constitution", href: "/constitution" },
-  { label: "Contact", href: "/#contact" },
+  { label: navLabels.home.label, href: "/" },
+  { label: navLabels.about.label, href: "/#about" },
+  { label: navLabels.events.label, href: "/#events" },
+  { label: navLabels.gallery.label, href: "/#gallery" },
+  { label: navLabels.sponsors.label, href: "/#sponsors" },
+  { label: navLabels.constitution.label, href: "/constitution" },
+  { label: navLabels.contact.label, href: "/#contact" },
 ];
 
 export default function Navbar() {
@@ -39,15 +41,12 @@ export default function Navbar() {
     >
       <div className="container flex items-center justify-between h-16 md:h-20">
         {/* Logo */}
-        <a
-          href="/"
-          className="flex items-center gap-3 group"
-        >
+        <a href="/" className="flex items-center gap-3 group">
           <img
             src={IMAGES.LOGO}
             alt="Kashphool Logo"
             className="w-10 h-10 md:w-12 md:h-12 transition-transform duration-300 group-hover:scale-105 object-contain"
-            style={{ background: 'transparent' }}
+            style={{ background: "transparent" }}
           />
           <span className="font-[var(--font-display)] text-xl md:text-2xl font-bold text-gold-gradient">
             Kashphool
@@ -56,7 +55,7 @@ export default function Navbar() {
 
         {/* Desktop Nav */}
         <div className="hidden lg:flex items-center gap-5 xl:gap-7">
-          {navLinks.map((link) => (
+          {navLinks.map(link => (
             <a
               key={link.href}
               href={link.href}
@@ -66,12 +65,12 @@ export default function Navbar() {
             </a>
           ))}
           <a
-            href="https://pay.lopay.com/request/906de5de-220b-4f34-bc56-776c0993ec32"
+            href={siteContent.links.donate}
             target="_blank"
             rel="noopener noreferrer"
             className="px-5 py-2 bg-gradient-to-r from-saffron to-gold text-charcoal font-semibold text-sm rounded tracking-wide uppercase hover:shadow-lg hover:shadow-saffron/20 transition-all duration-300 hover:scale-105"
           >
-            Donate
+            {navLabels.donate.label}
           </a>
         </div>
 
@@ -92,7 +91,7 @@ export default function Navbar() {
         }`}
       >
         <div className="bg-charcoal/98 backdrop-blur-md border-t border-gold/10 px-6 py-6 space-y-4">
-          {navLinks.map((link) => (
+          {navLinks.map(link => (
             <a
               key={link.href}
               href={link.href}
@@ -103,12 +102,12 @@ export default function Navbar() {
             </a>
           ))}
           <a
-            href="https://pay.lopay.com/request/906de5de-220b-4f34-bc56-776c0993ec32"
+            href={siteContent.links.donate}
             target="_blank"
             rel="noopener noreferrer"
             className="block w-full text-center px-5 py-3 bg-gradient-to-r from-saffron to-gold text-charcoal font-semibold text-sm rounded tracking-wide uppercase mt-4"
           >
-            Donate
+            {navLabels.donate.label}
           </a>
         </div>
       </div>

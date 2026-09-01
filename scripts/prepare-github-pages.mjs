@@ -1,4 +1,4 @@
-import { copyFile, mkdir } from "node:fs/promises";
+import { copyFile, cp, mkdir } from "node:fs/promises";
 import path from "node:path";
 
 const outputDirectory = path.resolve("dist/public");
@@ -13,3 +13,13 @@ for (const route of appRoutes) {
 
 await copyFile(indexFile, path.join(outputDirectory, "404.html"));
 
+await cp(path.resolve("admin"), path.join(outputDirectory, "admin"), {
+  recursive: true,
+});
+await cp(
+  path.resolve("assets/uploads"),
+  path.join(outputDirectory, "assets/uploads"),
+  {
+    recursive: true,
+  }
+);

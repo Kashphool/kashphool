@@ -1,9 +1,7 @@
 import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
+import { constitutionPageContent } from "@/content";
 import { Download, ExternalLink, FileText } from "lucide-react";
-
-const constitutionPath =
-  "/documents/constitution/Kashphool - North Kent Bengali Association Constitution v1.0.pdf";
 
 export default function Constitution() {
   return (
@@ -17,14 +15,16 @@ export default function Constitution() {
           <div className="container relative z-10">
             <div className="max-w-3xl">
               <span className="text-saffron/80 text-sm font-medium tracking-[0.3em] uppercase">
-                Governance &amp; purpose
+                {constitutionPageContent.eyebrow}
               </span>
               <h1 className="font-[var(--font-display)] text-5xl md:text-7xl font-bold mt-4 mb-6">
-                Our <span className="text-gold-gradient">Constitution</span>
+                {constitutionPageContent.headingPrefix}{" "}
+                <span className="text-gold-gradient">
+                  {constitutionPageContent.headingAccent}
+                </span>
               </h1>
               <p className="max-w-2xl text-lg md:text-xl leading-relaxed text-ivory/60">
-                The principles, responsibilities and shared commitments that guide
-                Kashphool and the community we serve.
+                {constitutionPageContent.intro}
               </p>
             </div>
           </div>
@@ -38,41 +38,52 @@ export default function Constitution() {
                   <FileText aria-hidden="true" size={22} />
                 </div>
                 <div>
-                  <h2 className="text-lg font-semibold text-ivory/90">Kashphool Constitution</h2>
-                  <p className="mt-1 text-sm text-ivory/45">Read below or save a copy for your records.</p>
+                  <h2 className="text-lg font-semibold text-ivory/90">
+                    {constitutionPageContent.documentTitle}
+                  </h2>
+                  <p className="mt-1 text-sm text-ivory/45">
+                    {constitutionPageContent.documentDescription}
+                  </p>
                 </div>
               </div>
               <div className="flex flex-wrap gap-3">
                 <a
-                  href={constitutionPath}
+                  href={constitutionPageContent.pdf}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 rounded border border-gold/30 px-4 py-2.5 text-sm font-semibold text-gold transition-colors hover:bg-gold/10"
                 >
-                  <ExternalLink aria-hidden="true" size={16} /> Open PDF
+                  <ExternalLink aria-hidden="true" size={16} />{" "}
+                  {constitutionPageContent.openLabel}
                 </a>
                 <a
-                  href={constitutionPath}
+                  href={constitutionPageContent.pdf}
                   download
                   className="inline-flex items-center gap-2 rounded bg-gradient-to-r from-saffron to-gold px-4 py-2.5 text-sm font-semibold text-charcoal transition-transform hover:scale-[1.02]"
                 >
-                  <Download aria-hidden="true" size={16} /> Download
+                  <Download aria-hidden="true" size={16} />{" "}
+                  {constitutionPageContent.downloadLabel}
                 </a>
               </div>
             </div>
 
             <div className="overflow-hidden rounded-sm border border-gold/15 bg-charcoal-light shadow-2xl shadow-black/20">
               <object
-                data={constitutionPath}
+                data={constitutionPageContent.pdf}
                 type="application/pdf"
                 aria-label="Kashphool constitution PDF"
                 className="h-[70vh] min-h-[560px] w-full bg-ivory"
               >
                 <div className="flex min-h-[560px] flex-col items-center justify-center p-8 text-center text-charcoal">
                   <FileText aria-hidden="true" size={44} />
-                  <p className="mt-5 max-w-md text-lg font-semibold">The PDF cannot be displayed in this browser.</p>
-                  <a href={constitutionPath} className="mt-4 font-semibold text-vermillion underline">
-                    Open the constitution directly
+                  <p className="mt-5 max-w-md text-lg font-semibold">
+                    {constitutionPageContent.fallback}
+                  </p>
+                  <a
+                    href={constitutionPageContent.pdf}
+                    className="mt-4 font-semibold text-vermillion underline"
+                  >
+                    {constitutionPageContent.fallbackLinkLabel}
                   </a>
                 </div>
               </object>

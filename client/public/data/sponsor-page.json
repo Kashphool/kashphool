@@ -1,0 +1,191 @@
+{
+  "hero": {
+    "eyebrow": "Grow with our community",
+    "headingPrefix": "Partner with",
+    "headingAccent": "Kashphool",
+    "description": "Help us create joyful, inclusive cultural experiences while introducing your organisation to families and communities across North Kent.",
+    "cta": "Start a conversation"
+  },
+  "highlights": [
+    { "value": "1,000+", "label": "Visitors last year" },
+    { "value": "North Kent's", "label": "Biggest Durga Pujo" },
+    { "value": "4 days", "label": "Of event visibility" },
+    { "value": "Wide reach", "label": "Bengali and UK media coverage" }
+  ],
+  "tiersSection": {
+    "eyebrow": "Ways to partner",
+    "headingPrefix": "Sponsorship",
+    "headingAccent": "tiers",
+    "intro": "Choose a package or speak with us about shaping a bespoke partnership around your preferences."
+  },
+  "tiers": [
+    {
+      "name": "Coupon Sponsor",
+      "guide": "£100",
+      "description": "Your branding will feature on approximately 1,500 complimentary lunch and dinner coupons distributed to visitors across the four-day celebration.",
+      "benefits": [
+        "Visible branding on complimentary lunch and dinner coupons"
+      ],
+      "enquiryLabel": "Enquire"
+    },
+    {
+      "name": "Banner Sponsor",
+      "guide": "£250",
+      "description": "Build consistent visibility for your organisation throughout the celebration.",
+      "benefits": ["High visibility across the venue"],
+      "enquiryLabel": "Enquire"
+    },
+    {
+      "name": "Title Sponsor",
+      "guide": "£800",
+      "description": "Take the leading sponsorship position for Kashphool's 2026 Durga Pujo.",
+      "benefits": [
+        "Premium venue branding",
+        "Stage acknowledgements",
+        "Prominent digital and social-media inclusion",
+        "Sponsor spotlight",
+        "Flyer and QR-code distribution",
+        "Promotional stall",
+        "Potential category exclusivity, subject to agreement"
+      ],
+      "featured": true,
+      "badge": "Premium",
+      "enquiryLabel": "Enquire"
+    },
+    {
+      "name": "Event Stalls",
+      "guide": "£200",
+      "guidePrefix": "Starting from",
+      "guideSuffix": "for all four days",
+      "description": "Meet visitors in person and bring your food, products, services or organisation into the heart of the four-day celebration.",
+      "benefits": [
+        "A dedicated venue space to showcase your brand, promote your services or sell your products."
+      ],
+      "enquiryLabel": "Enquire"
+    }
+  ],
+  "bespoke": {
+    "heading": "Bespoke partnership possibilities",
+    "intro": "Depending on the agreed partnership level, we can combine selected opportunities into a package that supports your objectives.",
+    "possibilities": [
+      "Prominent branding across the venue over all four days",
+      "Stage acknowledgements during cultural programmes",
+      "Inclusion in our digital and social-media promotion",
+      "A dedicated promotional or information presence at the event",
+      "Distribution of QR codes, offers, subscriptions or service-related promotional material",
+      "Branding on complimentary lunch and dinner coupons distributed to visitors"
+    ],
+    "cta": "Tailored to your goals"
+  },
+  "eventInfo": {
+    "eyebrow": "Upcoming event",
+    "headingSuffix": "event & stall information",
+    "datesLabel": "Event dates",
+    "venueLabel": "Venue",
+    "stallHoursLabel": "Stall opening hours",
+    "stallHoursFallback": "To be confirmed",
+    "emailLabel": "Contact",
+    "mapLinkLabel": "Open in Google Maps",
+    "optionalStartPrefix": "Optional start from"
+  },
+  "sponsors": {
+    "eyebrow": "Our Partners &",
+    "heading": "Sponsors",
+    "intro": "We are grateful to the organisations whose support helps us bring our community celebrations to life."
+  },
+  "pastCelebrations": {
+    "eyebrow": "Past celebrations",
+    "headingPrefix": "See the",
+    "headingAccent": "experience",
+    "intro": "A glimpse of the colour, devotion and togetherness that our partners help make possible.",
+    "video": "/assets/uploads/celebration-kashphool-durga-pujo-2025.mov",
+    "poster": "/assets/uploads/celebration-durga-pujo-2025-01.jpg",
+    "photos": [
+      {
+        "image": "/assets/uploads/celebration-durga-pujo-2025-01.jpg",
+        "alt": "Kashphool Durga Pujo celebration 1"
+      },
+      {
+        "image": "/assets/uploads/celebration-durga-pujo-2025-02.jpg",
+        "alt": "Kashphool Durga Pujo celebration 2"
+      },
+      {
+        "image": "/assets/uploads/celebration-durga-pujo-2025-03.jpg",
+        "alt": "Kashphool Durga Pujo celebration 3"
+      },
+      {
+        "image": "/assets/uploads/celebration-durga-pujo-2025-04.jpg",
+        "alt": "Kashphool Durga Pujo celebration 4"
+      },
+      {
+        "image": "/assets/uploads/celebration-durga-pujo-2025-05.jpg",
+        "alt": "Community celebration moment 5"
+      },
+      {
+        "image": "/assets/uploads/celebration-durga-pujo-2025-06.jpg",
+        "alt": "Community celebration moment 6"
+      },
+      {
+        "image": "/assets/uploads/celebration-durga-pujo-2025-07.jpg",
+        "alt": "Community celebration moment 7"
+      },
+      {
+        "image": "/assets/uploads/celebration-durga-pujo-2025-08.jpg",
+        "alt": "Community celebration moment 8"
+      },
+      {
+        "image": "/assets/uploads/celebration-durga-pujo-2025-09.jpg",
+        "alt": "Community celebration moment 9"
+      },
+      {
+        "image": "/assets/uploads/celebration-durga-pujo-2025-10.jpg",
+        "alt": "Community celebration moment 10"
+      }
+    ]
+  },
+  "eventTypesSection": {
+    "eyebrow": "What we create",
+    "headingPrefix": "Events with",
+    "headingAccent": "heart",
+    "intro": "Our events celebrate heritage, nurture local talent and build meaningful connections."
+  },
+  "eventTypes": [
+    {
+      "icon": "sparkles",
+      "title": "Durga Pujo",
+      "description": "Our flagship celebration brings together worship, performance, food and a warm community welcome."
+    },
+    {
+      "icon": "music",
+      "title": "Cultural programmes",
+      "description": "Music, dance and creative performances give local talent a stage and Bengali traditions a living voice."
+    },
+    {
+      "icon": "users",
+      "title": "Community gatherings",
+      "description": "Inclusive social events help families, neighbours and generations form lasting connections across North Kent."
+    }
+  ],
+  "finalCta": {
+    "headingPrefix": "Let’s create something",
+    "headingAccent": "meaningful",
+    "description": "Tell us what matters to your organisation. We’ll explore a partnership that feels authentic, useful and memorable.",
+    "button": "Contact our team"
+  },
+  "enquiryModal": {
+    "eyebrow": "Sponsorship enquiry",
+    "tierTitlePrefix": "Enquire about",
+    "generalTitle": "Start a conversation",
+    "tierDescription": "Tell us a little about your organisation and what you would like to discuss.",
+    "generalDescription": "Tell us how you would like to partner with Kashphool.",
+    "selectedPackageLabel": "Selected sponsorship package",
+    "nameLabel": "Your name",
+    "namePlaceholder": "Enter your name",
+    "emailLabel": "Email address",
+    "emailPlaceholder": "Enter your email",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Tell us what you would like to discuss...",
+    "submit": "Send enquiry",
+    "submitting": "Sending..."
+  }
+}
