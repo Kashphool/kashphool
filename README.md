@@ -133,6 +133,10 @@ Output will be in `dist/` folder.
 
 ## 🚢 Deployment
 
+Backend architecture, Cloudflare provisioning, local end-to-end testing and
+recovery are documented in the
+[backend and Cloudflare recreation guide](docs/backend-cloudflare-setup.md).
+
 ### Automatic Deployment
 
 - **Trigger**: Push to `main` (including merged pull requests and direct CMS commits)

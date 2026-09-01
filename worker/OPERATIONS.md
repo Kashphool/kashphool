@@ -1,5 +1,9 @@
 # Lead Worker operations
 
+For architecture, first-time provisioning, Cloudflare Access setup and full
+disaster recreation, see
+[`docs/backend-cloudflare-setup.md`](../docs/backend-cloudflare-setup.md).
+
 Run commands from the repository root. Production commands require an authenticated Wrangler session and an explicit change approval. Never paste secret values into a command, terminal history, ticket or log.
 
 Production is the explicit named Wrangler environment. Never deploy the default local profile. The approved deployment form is:
@@ -14,10 +18,17 @@ Copy the safe examples once, then start the full local stack:
 
 ```sh
 cp worker/.dev.vars.example worker/.dev.vars
-printf '%s\n' 'KASHPHOOL_LOCAL_ADMIN_TOKEN=local-development-only-change-me' > .env.local
-pnpm exec wrangler d1 migrations apply kashphool-local --local --config worker/wrangler.jsonc
+cat > .env.local <<'EOF'
+VITE_TURNSTILE_SITE_KEY=1x00000000000000000000AA
+KASHPHOOL_LOCAL_ADMIN_TOKEN=local-development-only-change-me
+EOF
+pnpm exec wrangler d1 migrations apply DB --local --config worker/wrangler.jsonc
 pnpm dev
 ```
+
+Replace the EmailJS placeholders in `worker/.dev.vars` before testing real
+delivery. That test sends a real notification; the bounded
+`pnpm check:leads-worker` smoke test uses a fake local email endpoint instead.
 
 The local D1 database and `.dev.vars` are ignored. `pnpm check:leads-worker` instead uses isolated temporary D1 state and removes it after the bounded smoke test.
 
