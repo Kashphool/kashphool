@@ -106,6 +106,168 @@ body.cms-page {
   min-height: calc(100vh - 64px);
 }
 
+/* Decap file-collection cards do not expose a thumbnail configuration API.
+   These entry URL selectors add a visual index without changing content data. */
+#nc-root a[href*="/entries/"] {
+  --kp-entry-icon: "•";
+  --kp-entry-thumb:
+    url("/images/logo.png"), linear-gradient(135deg, #1b1412, #6b2025);
+  --kp-entry-thumb-size: 66px 66px, cover;
+  --kp-entry-thumb-position: center, center;
+}
+
+#nc-root a[href$="/entries/home_page"] {
+  --kp-entry-icon: "⌂";
+  --kp-entry-thumb: url("/admin/assets/guide-home.jpg");
+  --kp-entry-thumb-size: cover;
+  --kp-entry-thumb-position: center top;
+}
+
+#nc-root a[href$="/entries/constitution_page"] {
+  --kp-entry-icon: "§";
+  --kp-entry-thumb:
+    url("/images/logo.png"),
+    linear-gradient(135deg, #171312, #512024 62%, #8a352c);
+}
+
+#nc-root a[href$="/entries/not_found_page"] {
+  --kp-entry-icon: "404";
+  --kp-entry-thumb:
+    url("/images/logo.png"),
+    linear-gradient(135deg, #171312, #352723 58%, #9b6722);
+}
+
+#nc-root a[href$="/entries/events"] {
+  --kp-entry-icon: "17";
+  --kp-entry-thumb: url("/admin/assets/guide-events.jpg");
+  --kp-entry-thumb-size: cover;
+  --kp-entry-thumb-position: center top;
+}
+
+#nc-root a[href$="/entries/sponsors"] {
+  --kp-entry-icon: "★";
+  --kp-entry-thumb:
+    url("/images/logo.png"),
+    linear-gradient(135deg, #181412, #68431c 54%, #9d7429);
+}
+
+#nc-root a[href$="/entries/sponsor_page"] {
+  --kp-entry-icon: "£";
+  --kp-entry-thumb: url("/admin/assets/guide-sponsors.jpg");
+  --kp-entry-thumb-size: cover;
+  --kp-entry-thumb-position: center top;
+}
+
+#nc-root a[href$="/entries/gallery"] {
+  --kp-entry-icon: "▦";
+  --kp-entry-thumb: url("/admin/assets/guide-media.jpg");
+  --kp-entry-thumb-size: cover;
+  --kp-entry-thumb-position: center top;
+}
+
+#nc-root a[href$="/entries/media_coverage"] {
+  --kp-entry-icon: "▶";
+  --kp-entry-thumb: url("/admin/assets/guide-media.jpg");
+  --kp-entry-thumb-size: cover;
+  --kp-entry-thumb-position: center 68%;
+}
+
+#nc-root a[href$="/entries/site_content"] {
+  --kp-entry-icon: "⚙";
+  --kp-entry-thumb:
+    url("/images/logo.png"),
+    linear-gradient(135deg, #171312, #492226 58%, #866227);
+}
+
+#nc-root a[class*="GridCardLink"][href*="/entries/"] {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  background: #fffdf9;
+  border: 1px solid rgb(92 51 43 / 14%);
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+#nc-root a[class*="GridCardLink"][href*="/entries/"]::before {
+  content: "";
+  width: 100%;
+  height: 148px;
+  flex: 0 0 148px;
+  background-color: #2b1717;
+  background-image: var(--kp-entry-thumb);
+  background-repeat: no-repeat;
+  background-position: var(--kp-entry-thumb-position);
+  background-size: var(--kp-entry-thumb-size);
+  border-bottom: 3px solid #d79d31;
+}
+
+#nc-root a[class*="GridCardLink"][href*="/entries/"]::after {
+  content: var(--kp-entry-icon);
+  position: absolute;
+  top: 112px;
+  right: 14px;
+  min-width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  padding-inline: 7px;
+  color: #2a1b0a;
+  background: #f0bc4e;
+  border: 2px solid #fff8eb;
+  border-radius: 999px;
+  box-shadow: 0 5px 14px rgb(20 13 9 / 28%);
+  font-size: 12px;
+  font-weight: 850;
+  line-height: 1;
+}
+
+#nc-root a[class*="GridCardLink"][href*="/entries/"] > h2 {
+  width: 100%;
+  margin: 0;
+  padding: 19px 20px;
+  color: #302a25;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 18px;
+}
+
+#nc-root a[class*="GridCardLink"][href*="/entries/"]:hover,
+#nc-root a[class*="GridCardLink"][href*="/entries/"]:focus-visible {
+  transform: translateY(-2px);
+  border-color: #c58b27;
+  box-shadow: 0 13px 30px rgb(63 41 30 / 18%);
+  outline: none;
+}
+
+#nc-root a[class*="ListCardLink"][href*="/entries/"] > h2 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 16px;
+}
+
+#nc-root a[class*="ListCardLink"][href*="/entries/"] > h2::before {
+  content: var(--kp-entry-icon);
+  width: 30px;
+  height: 30px;
+  display: grid;
+  flex: 0 0 30px;
+  place-items: center;
+  color: #f7d88f;
+  background: linear-gradient(135deg, #351719, #7b282e);
+  border: 1px solid #b5792b;
+  border-radius: 7px;
+  font-family: Inter, sans-serif;
+  font-size: 10px;
+  font-weight: 850;
+  line-height: 1;
+}
+
 @media (max-width: 620px) {
   .cms-brandbar {
     min-height: 58px;
@@ -132,5 +294,14 @@ body.cms-page {
 
   .cms-brandbar nav a:last-child {
     display: none;
+  }
+
+  #nc-root a[class*="GridCardLink"][href*="/entries/"]::before {
+    height: 125px;
+    flex-basis: 125px;
+  }
+
+  #nc-root a[class*="GridCardLink"][href*="/entries/"]::after {
+    top: 90px;
   }
 }
