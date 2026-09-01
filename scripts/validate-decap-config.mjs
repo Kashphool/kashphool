@@ -387,14 +387,53 @@ const timePattern = [
 
 const config = parse(await readFile("admin/config.yml", "utf8"));
 
-assert.equal(config.backend.name, "github");
-assert.equal(config.backend.repo, "Kashphool/kashphool");
-assert.equal(config.backend.branch, "main");
-assert.equal(config.backend.auth_endpoint, "/auth");
-assert.match(
+assert.equal(config.backend.name, "git-gateway", "backend.name");
+assert.equal(config.backend.repo, "Kashphool/kashphool", "backend.repo");
+assert.equal(config.backend.branch, "main", "backend.branch");
+assert.equal(config.backend.auth_type, "pkce", "backend.auth_type");
+assert.equal(
   config.backend.base_url,
-  /^https:\/\/kashphool-decap-oauth\.[a-z0-9-]+\.workers\.dev$/
+  "https://auth.decapbridge.com",
+  "backend.base_url"
 );
+assert.equal(
+  config.backend.auth_endpoint,
+  "/sites/5aa95ccd-2c42-4223-893e-4434208c1266/pkce",
+  "backend.auth_endpoint"
+);
+assert.equal(
+  config.backend.auth_token_endpoint,
+  "/sites/5aa95ccd-2c42-4223-893e-4434208c1266/token",
+  "backend.auth_token_endpoint"
+);
+assert.equal(
+  config.backend.gateway_url,
+  "https://gateway.decapbridge.com",
+  "backend.gateway_url"
+);
+assert.deepEqual(config.backend.commit_messages, {
+  create:
+    'Create {{collection}} "{{slug}}" - {{author-name}} <{{author-login}}> via DecapBridge',
+  update:
+    'Update {{collection}} "{{slug}}" - {{author-name}} <{{author-login}}> via DecapBridge',
+  delete:
+    'Delete {{collection}} "{{slug}}" - {{author-name}} <{{author-login}}> via DecapBridge',
+  uploadMedia:
+    'Upload "{{path}}" - {{author-name}} <{{author-login}}> via DecapBridge',
+  deleteMedia:
+    'Delete "{{path}}" - {{author-name}} <{{author-login}}> via DecapBridge',
+  openAuthoring:
+    "Message {{message}} - {{author-name}} <{{author-login}}> via DecapBridge",
+});
+assert.deepEqual(config.auth, {
+  email_claim: "email",
+  first_name_claim: "first_name",
+  last_name_claim: "last_name",
+  avatar_url_claim: "avatar_url",
+});
+assert.equal(config.site_url, "https://kashphool.co.uk");
+assert.equal(config.display_url, "https://kashphool.co.uk");
+assert.equal(config.logo_url, "/images/logo.png");
 assert.equal(config.media_folder, "assets/uploads");
 assert.equal(config.public_folder, "/assets/uploads");
 assert.equal(config.publish_mode, undefined);

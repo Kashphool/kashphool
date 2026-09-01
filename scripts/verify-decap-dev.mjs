@@ -148,7 +148,12 @@ try {
 
   const productionConfig = parse(await readFile("admin/config.yml", "utf8"));
   assert.equal(productionConfig.local_backend, undefined);
-  assert.equal(productionConfig.backend.name, "github");
+  assert.equal(productionConfig.backend.name, "git-gateway");
+  assert.equal(productionConfig.backend.auth_type, "pkce");
+  assert.equal(
+    productionConfig.backend.auth_endpoint,
+    "/sites/5aa95ccd-2c42-4223-893e-4434208c1266/pkce"
+  );
 
   const configHeadResponse = await fetch(`${baseUrl}/admin/config.yml`, {
     method: "HEAD",

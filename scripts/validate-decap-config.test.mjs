@@ -107,6 +107,54 @@ test("accepts the complete production schema", async () => {
   assert.equal(result.status, 0, result.stderr);
 });
 
+test("uses DecapBridge PKCE authentication with attributed commits", () => {
+  assert.deepEqual(sourceConfig.backend, {
+    name: "git-gateway",
+    repo: "Kashphool/kashphool",
+    branch: "main",
+    auth_type: "pkce",
+    base_url: "https://auth.decapbridge.com",
+    auth_endpoint: "/sites/5aa95ccd-2c42-4223-893e-4434208c1266/pkce",
+    auth_token_endpoint: "/sites/5aa95ccd-2c42-4223-893e-4434208c1266/token",
+    gateway_url: "https://gateway.decapbridge.com",
+    commit_messages: {
+      create:
+        'Create {{collection}} "{{slug}}" - {{author-name}} <{{author-login}}> via DecapBridge',
+      update:
+        'Update {{collection}} "{{slug}}" - {{author-name}} <{{author-login}}> via DecapBridge',
+      delete:
+        'Delete {{collection}} "{{slug}}" - {{author-name}} <{{author-login}}> via DecapBridge',
+      uploadMedia:
+        'Upload "{{path}}" - {{author-name}} <{{author-login}}> via DecapBridge',
+      deleteMedia:
+        'Delete "{{path}}" - {{author-name}} <{{author-login}}> via DecapBridge',
+      openAuthoring:
+        "Message {{message}} - {{author-name}} <{{author-login}}> via DecapBridge",
+    },
+  });
+  assert.deepEqual(sourceConfig.auth, {
+    email_claim: "email",
+    first_name_claim: "first_name",
+    last_name_claim: "last_name",
+    avatar_url_claim: "avatar_url",
+  });
+  assert.equal(sourceConfig.logo_url, "/images/logo.png");
+});
+
+test("rejects the retired GitHub OAuth Worker backend", async () => {
+  const config = completeBaseline();
+  config.backend = {
+    name: "github",
+    repo: "Kashphool/kashphool",
+    branch: "main",
+    base_url:
+      "https://kashphool-decap-oauth.kashphoolbengaliassociation.workers.dev",
+    auth_endpoint: "/auth",
+  };
+
+  assertRejected(await runValidator(config), /backend\.name/);
+});
+
 test("organises documents into clear editorial collections", () => {
   const actualGroups = Object.fromEntries(
     sourceConfig.collections.map(collection => [
