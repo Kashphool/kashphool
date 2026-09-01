@@ -181,6 +181,20 @@ export async function handlePublicEnquiry(
   try {
     await dependencies.repository.create(enquiry);
   } catch {
+    try {
+      receipt = await dependencies.repository.findReceipt(input.idempotencyKey);
+    } catch {
+      return errorResponse("service_unavailable", 503, requestId);
+    }
+
+    if (receipt) {
+      return jsonResponse(
+        { id: receipt.id, status: "received" },
+        200,
+        requestId
+      );
+    }
+
     return errorResponse("service_unavailable", 503, requestId);
   }
 

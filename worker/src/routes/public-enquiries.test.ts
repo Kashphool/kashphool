@@ -127,6 +127,35 @@ describe("handlePublicEnquiry", () => {
     });
   });
 
+  it("returns the competing receipt when another request stores the idempotency key first", async () => {
+    const calls: string[] = [];
+    let receiptLookup = 0;
+    const deps = dependencies(calls);
+    deps.repository.findReceipt = async () => {
+      calls.push("findReceipt");
+      receiptLookup += 1;
+      return receiptLookup === 1 ? null : { id: "competing-enquiry-id" };
+    };
+    deps.repository.create = async () => {
+      calls.push("create");
+      throw new Error("UNIQUE constraint failed: enquiries.idempotency_key");
+    };
+
+    const response = await handlePublicEnquiry(request(), env, deps);
+
+    expect(calls).toEqual([
+      "findReceipt",
+      "turnstile",
+      "create",
+      "findReceipt",
+    ]);
+    expect(response.status).toBe(200);
+    await expect(response.json()).resolves.toEqual({
+      id: "competing-enquiry-id",
+      status: "received",
+    });
+  });
+
   it("keeps a stored enquiry received when notification delivery fails", async () => {
     const emailFailureCalls: string[] = [];
     const deps = dependencies(emailFailureCalls, {
@@ -194,7 +223,12 @@ describe("handlePublicEnquiry", () => {
     const response = await handlePublicEnquiry(request(), env, deps);
     const body = JSON.stringify(await response.json());
 
-    expect(calls).toEqual(["findReceipt", "turnstile", "create"]);
+    expect(calls).toEqual([
+      "findReceipt",
+      "turnstile",
+      "create",
+      "findReceipt",
+    ]);
     expect(response.status).toBe(503);
     expect(body).toBe('{"error":{"code":"service_unavailable"}}');
     expect(body).not.toMatch(/Asha|asha@example|next event|upstream-body/);
