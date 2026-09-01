@@ -57,7 +57,7 @@
         "TURNSTILE_VERIFY_URL": "https://challenges.cloudflare.com/turnstile/v0/siteverify",
         "EMAILJS_SEND_URL": "https://api.emailjs.com/api/v1.0/email/send",
         "ACCESS_TEAM_DOMAIN": "kashphool.cloudflareaccess.com",
-        "ACCESS_AUD": "configure-with-cloudflare-access-application-audience",
+        "ACCESS_AUD": "6973b8a0f27404f9a125ddc0067bf90f09be4dfde3b3033194a14cc15703b878",
       },
       "secrets": {
         "required": [
