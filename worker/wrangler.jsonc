@@ -1,0 +1,68 @@
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "kashphool-api",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-09-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": false,
+  "observability": {
+    "enabled": true,
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 0.1,
+      "invocation_logs": true,
+    },
+    "traces": {
+      "enabled": true,
+      "head_sampling_rate": 0.01,
+    },
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "kashphool",
+      "database_id": "e03f609f-81b6-4c05-9ecd-6ff70a0b9aac",
+      "migrations_dir": "migrations",
+    },
+  ],
+  "env": {
+    "production": {
+      "name": "kashphool-api",
+      "routes": [
+        {
+          "pattern": "kashphool.co.uk/api/*",
+          "zone_name": "kashphool.co.uk",
+          "custom_domain": false,
+        },
+      ],
+      "triggers": {
+        "crons": ["17 2 * * *"],
+      },
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "kashphool",
+          "database_id": "e03f609f-81b6-4c05-9ecd-6ff70a0b9aac",
+          "migrations_dir": "migrations",
+        },
+      ],
+      "vars": {
+        "ENVIRONMENT": "production",
+        "ALLOWED_ORIGINS": "https://kashphool.co.uk,https://www.kashphool.co.uk",
+        "TURNSTILE_EXPECTED_HOSTNAME": "kashphool.co.uk,www.kashphool.co.uk",
+        "TURNSTILE_VERIFY_URL": "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+        "EMAILJS_SEND_URL": "https://api.emailjs.com/api/v1.0/email/send",
+        "ACCESS_TEAM_DOMAIN": "kashphool.cloudflareaccess.com",
+        "ACCESS_AUD": "configure-with-cloudflare-access-application-audience",
+      },
+      "secrets": {
+        "required": [
+          "TURNSTILE_SECRET",
+          "EMAILJS_SERVICE_ID",
+          "EMAILJS_TEMPLATE_ID",
+          "EMAILJS_PUBLIC_KEY",
+        ],
+      },
+    },
+  },
+}

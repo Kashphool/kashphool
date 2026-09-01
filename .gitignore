@@ -44,6 +44,8 @@ pids
 *.pid
 *.seed
 *.pid.lock
+.wrangler/
+worker/.dev.vars
 
 # Coverage directory used by tools like istanbul
 coverage/

@@ -9,8 +9,14 @@ export type TurnstileResult =
 
 type TurnstileConfig = Pick<
   WorkerEnv,
-  "TURNSTILE_SECRET" | "TURNSTILE_EXPECTED_HOSTNAME" | "TURNSTILE_VERIFY_URL"
+  | "ENVIRONMENT"
+  | "TURNSTILE_SECRET"
+  | "TURNSTILE_EXPECTED_HOSTNAME"
+  | "TURNSTILE_VERIFY_URL"
 >;
+
+const CLOUDFLARE_ALWAYS_PASS_SECRET = "1x0000000000000000000000000000000AA";
+const CLOUDFLARE_DUMMY_TOKEN = "XXXX.DUMMY.TOKEN.XXXX";
 
 interface TurnstileResponse {
   success?: unknown;
@@ -40,7 +46,20 @@ export async function verifyTurnstile(
 
     const result = (await response.json()) as TurnstileResponse;
     if (result.success !== true) return { ok: false, reason: "rejected" };
-    if (result.hostname !== config.TURNSTILE_EXPECTED_HOSTNAME) {
+    if (
+      config.ENVIRONMENT === "development" &&
+      config.TURNSTILE_SECRET === CLOUDFLARE_ALWAYS_PASS_SECRET &&
+      input.token === CLOUDFLARE_DUMMY_TOKEN
+    ) {
+      return { ok: true };
+    }
+    const expectedHostnames = config.TURNSTILE_EXPECTED_HOSTNAME.split(",")
+      .map(hostname => hostname.trim())
+      .filter(Boolean);
+    if (
+      typeof result.hostname !== "string" ||
+      !expectedHostnames.includes(result.hostname)
+    ) {
       return { ok: false, reason: "hostname" };
     }
     if (result.action !== "enquiry") {

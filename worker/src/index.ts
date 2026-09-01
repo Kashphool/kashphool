@@ -1,4 +1,5 @@
 import type { WorkerEnv } from "./contracts";
+import { EnquiryRepository } from "./repositories/enquiries";
 import { handleAdminLeads } from "./routes/admin-leads";
 import { handlePublicEnquiry } from "./routes/public-enquiries";
 
@@ -28,34 +29,71 @@ const errorResponse = (
   });
 };
 
-const worker = {
-  async fetch(request, env): Promise<Response> {
-    const { pathname } = new URL(request.url);
+interface RetentionRepository {
+  deleteExpired(now: string): Promise<number>;
+}
 
-    if (pathname === "/api/enquiries") {
-      if (request.method !== "POST") {
-        return errorResponse("method_not_allowed", 405, { allow: "POST" });
+interface WorkerDependencies {
+  now: () => Date;
+  createEventId: () => string;
+  createEnquiryRepository: (db: D1Database) => RetentionRepository;
+}
+
+const defaultDependencies: WorkerDependencies = {
+  now: () => new Date(),
+  createEventId: () => crypto.randomUUID(),
+  createEnquiryRepository: db => new EnquiryRepository(db),
+};
+
+export const createWorker = (
+  dependencies: Partial<WorkerDependencies> = {}
+): ExportedHandler<WorkerEnv> => {
+  const { now, createEventId, createEnquiryRepository } = {
+    ...defaultDependencies,
+    ...dependencies,
+  };
+
+  return {
+    async fetch(request, env): Promise<Response> {
+      const { pathname } = new URL(request.url);
+
+      if (pathname === "/api/enquiries") {
+        if (request.method !== "POST") {
+          return errorResponse("method_not_allowed", 405, { allow: "POST" });
+        }
+        return handlePublicEnquiry(request, env);
       }
-      return handlePublicEnquiry(request, env);
-    }
 
-    if (
-      pathname === "/api/admin/leads" ||
-      ADMIN_LEAD_DETAIL_PATTERN.test(pathname)
-    ) {
-      return handleAdminLeads(request, env);
-    }
+      if (
+        pathname === "/api/admin/leads" ||
+        ADMIN_LEAD_DETAIL_PATTERN.test(pathname)
+      ) {
+        return handleAdminLeads(request, env);
+      }
 
-    if (pathname === "/api/admin" || pathname.startsWith("/api/admin/")) {
+      if (pathname === "/api/admin" || pathname.startsWith("/api/admin/")) {
+        return errorResponse("not_found", 404);
+      }
+
       return errorResponse("not_found", 404);
-    }
+    },
 
-    return errorResponse("not_found", 404);
-  },
+    async scheduled(_controller, env): Promise<void> {
+      const eventId = createEventId();
+      try {
+        await createEnquiryRepository(env.DB).deleteExpired(
+          now().toISOString()
+        );
+      } catch (error) {
+        console.error(
+          JSON.stringify({ event: "retention_purge_failed", eventId })
+        );
+        throw error;
+      }
+    },
+  } satisfies ExportedHandler<WorkerEnv>;
+};
 
-  scheduled(_controller, _env, _context): void {
-    // Reserved for the retention task implemented in a later slice.
-  },
-} satisfies ExportedHandler<WorkerEnv>;
+const worker = createWorker();
 
 export default worker;

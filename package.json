@@ -4,7 +4,7 @@
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "dev": "concurrently --kill-others-on-fail --names vite,cms \"vite --host\" \"decap-server\"",
+    "dev": "concurrently --kill-others-on-fail --names vite,cms,worker \"vite --host\" \"decap-server\" \"wrangler dev --cwd worker --config wrangler.jsonc --local\"",
     "build": "pnpm check:content && vite build && node scripts/prepare-github-pages.mjs && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
     "start": "NODE_ENV=production node dist/index.js",
     "preview": "vite preview --host",
@@ -13,6 +13,8 @@
     "check:cms-build": "node scripts/verify-decap-build.mjs",
     "check:cms-dev": "node scripts/verify-decap-dev.mjs",
     "check:leads": "node --test admin/contacts.test.mjs",
+    "check:leads-worker": "node scripts/verify-leads-worker.mjs",
+    "types:worker": "wrangler types worker/src/worker-configuration.d.ts --config worker/wrangler.jsonc --env production --include-runtime false --strict-vars false",
     "check": "tsc --noEmit",
     "format": "prettier --write ."
   },

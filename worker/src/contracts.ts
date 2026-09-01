@@ -32,19 +32,8 @@ export interface LeadPage {
   totals: { all: number; contact: number; sponsorship: number; failed: number };
 }
 
-export interface WorkerEnv {
-  DB: D1Database;
-  ALLOWED_ORIGINS: string;
-  TURNSTILE_SECRET: string;
-  TURNSTILE_EXPECTED_HOSTNAME: string;
-  TURNSTILE_VERIFY_URL: string;
-  EMAILJS_SERVICE_ID: string;
-  EMAILJS_TEMPLATE_ID: string;
-  EMAILJS_PUBLIC_KEY: string;
-  EMAILJS_PRIVATE_KEY?: string;
-  EMAILJS_SEND_URL: string;
-  ACCESS_TEAM_DOMAIN: string;
-  ACCESS_AUD: string;
+export type WorkerEnv = Omit<Env, "ENVIRONMENT"> & {
   ENVIRONMENT: "development" | "production";
+  EMAILJS_PRIVATE_KEY?: string;
   LOCAL_ADMIN_TOKEN?: string;
-}
+};

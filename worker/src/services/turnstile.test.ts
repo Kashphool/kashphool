@@ -4,8 +4,12 @@ import { verifyTurnstile } from "./turnstile";
 
 const config: Pick<
   WorkerEnv,
-  "TURNSTILE_SECRET" | "TURNSTILE_EXPECTED_HOSTNAME" | "TURNSTILE_VERIFY_URL"
+  | "ENVIRONMENT"
+  | "TURNSTILE_SECRET"
+  | "TURNSTILE_EXPECTED_HOSTNAME"
+  | "TURNSTILE_VERIFY_URL"
 > = {
+  ENVIRONMENT: "production",
   TURNSTILE_SECRET: "turnstile-secret",
   TURNSTILE_EXPECTED_HOSTNAME: "kashphool.co.uk",
   TURNSTILE_VERIFY_URL:
@@ -77,6 +81,78 @@ describe("verifyTurnstile", () => {
       verifyTurnstile(
         { token: "turnstile-token", remoteIp: "203.0.113.10" },
         config,
+        fetcher
+      )
+    ).resolves.toEqual({ ok: false, reason: "hostname" });
+  });
+
+  it.each(["kashphool.co.uk", "www.kashphool.co.uk"])(
+    "accepts the exact production hostname %s from the configured host list",
+    async hostname => {
+      const fetcher: typeof fetch = async () =>
+        response({ success: true, hostname, action: "enquiry" });
+
+      await expect(
+        verifyTurnstile(
+          { token: "turnstile-token", remoteIp: "203.0.113.10" },
+          {
+            ...config,
+            TURNSTILE_EXPECTED_HOSTNAME: "kashphool.co.uk,www.kashphool.co.uk",
+          },
+          fetcher
+        )
+      ).resolves.toEqual({ ok: true });
+    }
+  );
+
+  it("rejects a suffix-match hostname outside the exact configured host list", async () => {
+    const fetcher: typeof fetch = async () =>
+      response({
+        success: true,
+        hostname: "attacker.www.kashphool.co.uk",
+        action: "enquiry",
+      });
+
+    await expect(
+      verifyTurnstile(
+        { token: "turnstile-token", remoteIp: "203.0.113.10" },
+        {
+          ...config,
+          TURNSTILE_EXPECTED_HOSTNAME: "kashphool.co.uk,www.kashphool.co.uk",
+        },
+        fetcher
+      )
+    ).resolves.toEqual({ ok: false, reason: "hostname" });
+  });
+
+  it("accepts Cloudflare's always-pass test response only in development", async () => {
+    const fetcher: typeof fetch = async () =>
+      response({ success: true, hostname: "example.com" });
+    const testConfig = {
+      ...config,
+      ENVIRONMENT: "development",
+      TURNSTILE_SECRET: "1x0000000000000000000000000000000AA",
+      TURNSTILE_EXPECTED_HOSTNAME: "localhost",
+    } satisfies Pick<
+      WorkerEnv,
+      | "ENVIRONMENT"
+      | "TURNSTILE_SECRET"
+      | "TURNSTILE_EXPECTED_HOSTNAME"
+      | "TURNSTILE_VERIFY_URL"
+    >;
+
+    await expect(
+      verifyTurnstile(
+        { token: "XXXX.DUMMY.TOKEN.XXXX", remoteIp: "127.0.0.1" },
+        testConfig,
+        fetcher
+      )
+    ).resolves.toEqual({ ok: true });
+
+    await expect(
+      verifyTurnstile(
+        { token: "XXXX.DUMMY.TOKEN.XXXX", remoteIp: "127.0.0.1" },
+        { ...testConfig, ENVIRONMENT: "production" },
         fetcher
       )
     ).resolves.toEqual({ ok: false, reason: "hostname" });

@@ -1,6 +1,6 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import type { PublicEnquiryInput, WorkerEnv } from "./contracts";
-import worker from "./index";
+import worker, { createWorker } from "./index";
 
 const input: PublicEnquiryInput = {
   idempotencyKey: "30d90187-8e87-4dd3-95ce-6098bd2598b7",
@@ -196,5 +196,58 @@ describe("Worker router", () => {
     const response = await fetchLocalAdmin(pathname);
 
     expect(response.status).toBe(404);
+  });
+});
+
+describe("Worker retention schedule", () => {
+  it("deletes enquiries expired at the fixed execution time exactly once", async () => {
+    const deleteExpired = vi.fn(async () => 2);
+    const retentionWorker = createWorker({
+      now: () => new Date("2026-09-01T02:17:00.000Z"),
+      createEnquiryRepository: () => ({ deleteExpired }),
+    });
+
+    await retentionWorker.scheduled?.(
+      { cron: "17 2 * * *", scheduledTime: 1_788_228_220_000 },
+      env,
+      executionContext
+    );
+
+    expect(deleteExpired).toHaveBeenCalledOnce();
+    expect(deleteExpired).toHaveBeenCalledWith("2026-09-01T02:17:00.000Z");
+  });
+
+  it("logs a retention failure with only the event name and event ID", async () => {
+    const privateRecord = "asha@example.com Please delete this message";
+    const errorSpy = vi
+      .spyOn(console, "error")
+      .mockImplementation(() => undefined);
+    const retentionWorker = createWorker({
+      now: () => new Date("2026-09-01T02:17:00.000Z"),
+      createEventId: () => "9c8f278f-af94-4a5b-b4b3-fdb34497fe58",
+      createEnquiryRepository: () => ({
+        deleteExpired: async () => {
+          throw new Error(privateRecord);
+        },
+      }),
+    });
+
+    await expect(
+      retentionWorker.scheduled?.(
+        { cron: "17 2 * * *", scheduledTime: 1_788_228_220_000 },
+        env,
+        executionContext
+      )
+    ).rejects.toThrow();
+
+    expect(errorSpy).toHaveBeenCalledOnce();
+    expect(errorSpy).toHaveBeenCalledWith(
+      JSON.stringify({
+        event: "retention_purge_failed",
+        eventId: "9c8f278f-af94-4a5b-b4b3-fdb34497fe58",
+      })
+    );
+    expect(JSON.stringify(errorSpy.mock.calls)).not.toContain(privateRecord);
+    errorSpy.mockRestore();
   });
 });
