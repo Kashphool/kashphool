@@ -3,7 +3,7 @@ import path from "node:path";
 
 const outputDirectory = path.resolve("dist/public");
 const indexFile = path.join(outputDirectory, "index.html");
-const appRoutes = ["sponsors", "constitution"];
+const appRoutes = ["sponsors", "constitution", "privacy"];
 
 for (const route of appRoutes) {
   const routeDirectory = path.join(outputDirectory, route);

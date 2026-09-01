@@ -49,6 +49,8 @@
       "emailPlaceholder": "Enter your email",
       "messageLabel": "Message",
       "messagePlaceholder": "Your message...",
+      "privacyNotice": "We use your details to respond to your enquiry.",
+      "privacyLinkLabel": "Read our Privacy Notice.",
       "submit": "Send Message",
       "submitting": "Sending..."
     },

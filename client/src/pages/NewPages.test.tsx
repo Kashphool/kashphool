@@ -1,5 +1,6 @@
 import { renderToStaticMarkup } from "react-dom/server";
-import { describe, expect, it } from "vitest";
+import type { ReactNode } from "react";
+import { describe, expect, it, vi } from "vitest";
 import { Route, Router } from "wouter";
 import {
   constitutionPageContent,
@@ -18,6 +19,7 @@ import GallerySection from "@/components/sections/GallerySection";
 import HeroSection from "@/components/sections/HeroSection";
 import Navbar from "@/components/layout/Navbar";
 import SponsorsSection from "@/components/sections/SponsorsSection";
+import ContactSection from "@/components/sections/ContactSection";
 import { getNextEvent } from "@/lib/eventData";
 import {
   formatEventDate,
@@ -27,6 +29,23 @@ import {
 import Constitution from "./Constitution";
 import NotFound from "./NotFound";
 import * as sponsorsPageModule from "./Sponsors";
+
+vi.mock("@/components/ui/dialog", () => ({
+  Dialog: ({ open, children }: { open: boolean; children: ReactNode }) =>
+    open ? <>{children}</> : null,
+  DialogContent: ({ children }: { children: ReactNode }) => (
+    <div>{children}</div>
+  ),
+  DialogDescription: ({ children }: { children: ReactNode }) => (
+    <p>{children}</p>
+  ),
+  DialogHeader: ({ children }: { children: ReactNode }) => (
+    <header>{children}</header>
+  ),
+  DialogTitle: ({ children }: { children: ReactNode }) => <h2>{children}</h2>,
+}));
+
+import SponsorEnquiryModal from "@/components/sponsors/SponsorEnquiryModal";
 
 const Sponsors = sponsorsPageModule.default;
 
@@ -523,6 +542,29 @@ describe("site navigation", () => {
     expect(footer).toContain('href="/sponsors"');
     expect(navbar).toContain('href="/constitution"');
     expect(footer).toContain('href="/constitution"');
+  });
+
+  it("links the footer and both enquiry forms to the privacy notice", () => {
+    const footer = renderToStaticMarkup(<Footer />);
+    const contact = renderToStaticMarkup(<ContactSection />);
+    const sponsorEnquiry = renderToStaticMarkup(
+      <SponsorEnquiryModal
+        open
+        tier={null}
+        tierDetails={null}
+        onOpenChange={() => undefined}
+      />
+    );
+
+    expect(footer).toContain('href="/privacy"');
+    expect(contact).toContain('href="/privacy"');
+    expect(contact.indexOf('href="/privacy"')).toBeLessThan(
+      contact.indexOf('type="submit"')
+    );
+    expect(sponsorEnquiry).toContain('href="/privacy"');
+    expect(sponsorEnquiry.indexOf('href="/privacy"')).toBeLessThan(
+      sponsorEnquiry.indexOf('type="submit"')
+    );
   });
 
   it("offers a partnership link below the homepage sponsor showcase", () => {

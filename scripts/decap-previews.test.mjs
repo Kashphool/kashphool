@@ -186,6 +186,8 @@ test("homepage preview represents every editable public section", async () => {
         emailPlaceholder: "Contact email placeholder",
         messageLabel: "Contact message label",
         messagePlaceholder: "Contact message placeholder",
+        privacyNotice: "Contact privacy notice",
+        privacyLinkLabel: "Contact privacy action",
         submit: "Contact submit action",
       },
       supportEyebrow: "Support eyebrow",
@@ -207,6 +209,8 @@ test("homepage preview represents every editable public section", async () => {
     "Sponsors prompt",
     "Contact name label",
     "Contact message placeholder",
+    "Contact privacy notice",
+    "Contact privacy action",
     "Support card",
     "Donate action",
   ]) {
@@ -314,6 +318,8 @@ test("sponsor preview represents every page section and its shared data", async 
       emailPlaceholder: "Enquiry email placeholder",
       messageLabel: "Enquiry message label",
       messagePlaceholder: "Enquiry message placeholder",
+      privacyNotice: "Enquiry privacy notice",
+      privacyLinkLabel: "Enquiry privacy action",
       submit: "Enquiry submit action",
     },
   });
@@ -332,6 +338,8 @@ test("sponsor preview represents every page section and its shared data", async 
     "Event type description",
     "Final action button",
     "Enquiry name placeholder",
+    "Enquiry privacy notice",
+    "Enquiry privacy action",
     "Enquiry submit action",
   ]) {
     assert.match(output, new RegExp(value));
@@ -374,6 +382,43 @@ test("media preview represents year, playable files and article action", async (
     "/assets/uploads/supporting.mp4",
     "/assets/uploads/article-full.jpg",
     "Read full article action",
+  ]) {
+    assert.match(output, new RegExp(value.replaceAll("/", "\\/")));
+  }
+});
+
+test("privacy preview represents every editable section", async () => {
+  const output = await renderPreview("privacy_page", {
+    eyebrow: "Privacy eyebrow",
+    heading: "Privacy heading",
+    intro: "Privacy introduction",
+    lastUpdated: "Privacy updated date",
+    sections: [
+      {
+        heading: "Privacy section heading",
+        paragraphs: ["Privacy first paragraph", "Privacy second paragraph"],
+      },
+    ],
+    contactHeading: "Privacy contact heading",
+    contactText: "Privacy contact text",
+    contactEmail: "privacy@example.com",
+    icoText: "Privacy regulator text",
+    icoUrl: "https://ico.example/complaint",
+  });
+
+  for (const value of [
+    "Privacy eyebrow",
+    "Privacy heading",
+    "Privacy introduction",
+    "Privacy updated date",
+    "Privacy section heading",
+    "Privacy first paragraph",
+    "Privacy second paragraph",
+    "Privacy contact heading",
+    "Privacy contact text",
+    "privacy@example.com",
+    "Privacy regulator text",
+    "https://ico.example/complaint",
   ]) {
     assert.match(output, new RegExp(value.replaceAll("/", "\\/")));
   }

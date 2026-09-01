@@ -176,6 +176,16 @@ export default function ContactSection() {
                   onResetReady={handleResetReady}
                 />
 
+                <p className="text-sm leading-relaxed text-ivory/50">
+                  {homePageContent.contact.form.privacyNotice}{" "}
+                  <a
+                    href="/privacy"
+                    className="text-saffron underline underline-offset-4 hover:text-gold"
+                  >
+                    {homePageContent.contact.form.privacyLinkLabel}
+                  </a>
+                </p>
+
                 {/* Success/Error Message */}
                 {sentMessage && (
                   <div

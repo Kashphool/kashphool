@@ -1,0 +1,58 @@
+{
+  "eyebrow": "Privacy",
+  "heading": "Privacy notice",
+  "intro": "This notice explains how Kashphool uses personal information submitted through its website contact and sponsorship enquiry forms.",
+  "lastUpdated": "1 September 2026",
+  "sections": [
+    {
+      "heading": "Who we are",
+      "paragraphs": [
+        "Kashphool | North Kent Bengali Association is responsible for personal information submitted through this website."
+      ]
+    },
+    {
+      "heading": "Information we collect",
+      "paragraphs": [
+        "We collect your name, email address, message, relevant sponsorship tier, submission time, source page and notification status.",
+        "Cloudflare may temporarily process the Turnstile response and connection information for spam and abuse protection. Kashphool does not store Turnstile tokens or IP addresses in its lead database."
+      ]
+    },
+    {
+      "heading": "How and why we use it",
+      "paragraphs": [
+        "We use personal information to respond to enquiries, follow up sponsorship interest, administer enquiries and protect our forms.",
+        "Our lawful basis is legitimate interests: responding to people who contact Kashphool, managing sponsorship opportunities and organising community activities.",
+        "We use your information only for the reason you contacted us. We will not add you to a general marketing list without separate permission."
+      ]
+    },
+    {
+      "heading": "Who can access it",
+      "paragraphs": [
+        "Authorised members of the Kashphool management team can access your information.",
+        "Cloudflare provides form security, application hosting and database services. EmailJS delivers enquiry notifications.",
+        "Kashphool does not sell personal information. Where providers process personal information outside the UK, the required UK data-protection safeguards apply."
+      ]
+    },
+    {
+      "heading": "How long we keep it",
+      "paragraphs": [
+        "Enquiry records and notification emails are retained for up to 24 months, then deleted, except where a particular record is required for a legal or dispute-related reason."
+      ]
+    },
+    {
+      "heading": "Your rights",
+      "paragraphs": [
+        "You may ask for a copy of your information, correction, deletion, restriction or object to its use where applicable. We may need to confirm your identity."
+      ]
+    },
+    {
+      "heading": "Automated decisions",
+      "paragraphs": ["We do not use automated decision-making or profiling."]
+    }
+  ],
+  "contactHeading": "Contact and complaints",
+  "contactText": "To exercise your rights, ask about this notice or raise a complaint, contact Kashphool first at",
+  "contactEmail": "info@kashphool.co.uk",
+  "icoText": "You can also complain to the Information Commissioner's Office (ICO).",
+  "icoUrl": "https://ico.org.uk/make-a-complaint/data-protection-complaints/"
+}

@@ -185,6 +185,8 @@
     "emailPlaceholder": "Enter your email",
     "messageLabel": "Message",
     "messagePlaceholder": "Tell us what you would like to discuss...",
+    "privacyNotice": "We use your details to respond to your enquiry.",
+    "privacyLinkLabel": "Read our Privacy Notice.",
     "submit": "Send enquiry",
     "submitting": "Sending..."
   }

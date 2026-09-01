@@ -73,6 +73,7 @@ export interface SiteContent {
       gallery: LinkLabel;
       sponsors: LinkLabel;
       constitution: LinkLabel;
+      privacy: LinkLabel;
       contact: LinkLabel;
     };
   };
@@ -127,6 +128,8 @@ export interface HomePageContent {
       emailPlaceholder: string;
       messageLabel: string;
       messagePlaceholder: string;
+      privacyNotice: string;
+      privacyLinkLabel: string;
       submit: string;
       submitting: string;
     };
@@ -232,6 +235,8 @@ export interface SponsorPageContent {
     emailPlaceholder: string;
     messageLabel: string;
     messagePlaceholder: string;
+    privacyNotice: string;
+    privacyLinkLabel: string;
     submit: string;
     submitting: string;
   };
@@ -261,4 +266,17 @@ export interface NotFoundPageContent {
   homeLabel: string;
   contactLabel: string;
   identityLine: string;
+}
+
+export interface PrivacyPageContent {
+  eyebrow: string;
+  heading: string;
+  intro: string;
+  lastUpdated: string;
+  sections: Array<{ heading: string; paragraphs: string[] }>;
+  contactHeading: string;
+  contactText: string;
+  contactEmail: string;
+  icoText: string;
+  icoUrl: string;
 }

@@ -134,6 +134,16 @@ collections:
                       name: "messagePlaceholder",
                       widget: "string",
                     }
+                  - {
+                      label: "Privacy notice",
+                      name: "privacyNotice",
+                      widget: "string",
+                    }
+                  - {
+                      label: "Privacy link label",
+                      name: "privacyLinkLabel",
+                      widget: "string",
+                    }
                   - { label: "Submit label", name: "submit", widget: "string" }
                   - {
                       label: "Submitting state",
@@ -196,6 +206,39 @@ collections:
               name: "fallbackLinkLabel",
               widget: "string",
             }
+      - name: "privacy_page"
+        label: "Privacy Page"
+        file: "client/public/data/privacy-page.json"
+        format: "json"
+        fields:
+          - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+          - { label: "Heading", name: "heading", widget: "string" }
+          - { label: "Introduction", name: "intro", widget: "text" }
+          - { label: "Last updated", name: "lastUpdated", widget: "string" }
+          - label: "Sections"
+            name: "sections"
+            widget: "list"
+            collapsed: true
+            summary: "{{fields.heading}}"
+            min: 1
+            max: 10
+            fields:
+              - { label: "Heading", name: "heading", widget: "string" }
+              - label: "Paragraphs"
+                name: "paragraphs"
+                widget: "list"
+                min: 1
+                max: 5
+                field: { label: "Paragraph", name: "paragraph", widget: "text" }
+          - {
+              label: "Contact heading",
+              name: "contactHeading",
+              widget: "string",
+            }
+          - { label: "Contact text", name: "contactText", widget: "text" }
+          - { label: "Contact email", name: "contactEmail", widget: "string" }
+          - { label: "ICO text", name: "icoText", widget: "text" }
+          - { label: "ICO URL", name: "icoUrl", widget: "string" }
       - name: "not_found_page"
         label: "Not Found Page"
         editor:
@@ -629,6 +672,16 @@ collections:
                   name: "messagePlaceholder",
                   widget: "string",
                 }
+              - {
+                  label: "Privacy notice",
+                  name: "privacyNotice",
+                  widget: "string",
+                }
+              - {
+                  label: "Privacy link label",
+                  name: "privacyLinkLabel",
+                  widget: "string",
+                }
               - { label: "Submit label", name: "submit", widget: "string" }
               - {
                   label: "Submitting state",
@@ -856,6 +909,13 @@ collections:
                   - {
                       label: "Constitution label",
                       name: "constitution",
+                      widget: "object",
+                      fields:
+                        [{ label: "Label", name: "label", widget: "string" }],
+                    }
+                  - {
+                      label: "Privacy label",
+                      name: "privacy",
                       widget: "object",
                       fields:
                         [{ label: "Label", name: "label", widget: "string" }],

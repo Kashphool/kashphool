@@ -258,6 +258,16 @@ export default function SponsorEnquiryModal({
             onResetReady={handleResetReady}
           />
 
+          <p className="text-sm leading-relaxed text-ivory/50">
+            {enquiryModal.privacyNotice}{" "}
+            <a
+              href="/privacy"
+              className="text-saffron underline underline-offset-4 hover:text-gold"
+            >
+              {enquiryModal.privacyLinkLabel}
+            </a>
+          </p>
+
           {sentMessage && (
             <div
               role="status"

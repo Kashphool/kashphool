@@ -18,6 +18,7 @@ const navLinks = [
   { label: navLabels.gallery.label, href: "/#gallery" },
   { label: navLabels.sponsors.label, href: "/sponsors" },
   { label: navLabels.constitution.label, href: "/constitution" },
+  { label: navLabels.privacy.label, href: "/privacy" },
   { label: navLabels.contact.label, href: "/#contact" },
 ];
 

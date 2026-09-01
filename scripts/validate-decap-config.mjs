@@ -30,6 +30,7 @@ const documentManifest = {
         "footer.navigation.gallery",
         "footer.navigation.sponsors",
         "footer.navigation.constitution",
+        "footer.navigation.privacy",
         "footer.navigation.contact",
         "links",
       ]),
@@ -57,6 +58,7 @@ const documentManifest = {
         "footer.navigation.gallery.label",
         "footer.navigation.sponsors.label",
         "footer.navigation.constitution.label",
+        "footer.navigation.privacy.label",
         "footer.navigation.contact.label",
         "links.donate",
         "links.instagram",
@@ -108,6 +110,8 @@ const documentManifest = {
         "contact.form.emailPlaceholder",
         "contact.form.messageLabel",
         "contact.form.messagePlaceholder",
+        "contact.form.privacyNotice",
+        "contact.form.privacyLinkLabel",
         "contact.form.submit",
         "contact.supportEyebrow",
         "contact.supportHeading",
@@ -259,6 +263,8 @@ const documentManifest = {
         "enquiryModal.emailPlaceholder",
         "enquiryModal.messageLabel",
         "enquiryModal.messagePlaceholder",
+        "enquiryModal.privacyNotice",
+        "enquiryModal.privacyLinkLabel",
         "enquiryModal.submit",
       ]),
       ...optional("string", ["tiers.guidePrefix", "tiers.guideSuffix"]),
@@ -342,6 +348,28 @@ const documentManifest = {
       ...required("file", ["pdf"]),
     },
   },
+  privacy_page: {
+    file: "client/public/data/privacy-page.json",
+    format: "json",
+    fields: {
+      ...required("list", ["sections", "sections.paragraphs"]),
+      ...required("string", [
+        "eyebrow",
+        "heading",
+        "lastUpdated",
+        "sections.heading",
+        "contactHeading",
+        "contactEmail",
+        "icoUrl",
+      ]),
+      ...required("text", [
+        "intro",
+        "sections.paragraphs.field",
+        "contactText",
+        "icoText",
+      ]),
+    },
+  },
   not_found_page: {
     file: "client/public/data/not-found-page.json",
     format: "json",
@@ -363,6 +391,8 @@ const capacities = {
   "gallery.images": [1, 9],
   "home_page.about.stats": [3, 3],
   "home_page.contact.supportCards": [3, 3],
+  "privacy_page.sections": [1, 10],
+  "privacy_page.sections.paragraphs": [1, 5],
   "media_coverage.supportingVideos": [2, 2],
   "sponsor_page.highlights": [4, 4],
   "sponsor_page.tiers": [4, 4],
@@ -440,7 +470,7 @@ assert.equal(config.publish_mode, undefined);
 assert.equal(config.local_backend, undefined);
 
 const collectionManifest = {
-  pages: ["home_page", "constitution_page", "not_found_page"],
+  pages: ["home_page", "constitution_page", "privacy_page", "not_found_page"],
   events: ["events"],
   sponsors: ["sponsors", "sponsor_page"],
   media: ["gallery", "media_coverage"],
@@ -468,6 +498,7 @@ for (const collection of config.collections) {
 const documents = config.collections.flatMap(collection => collection.files);
 const previewDocuments = new Set([
   "home_page",
+  "privacy_page",
   "events",
   "sponsor_page",
   "gallery",

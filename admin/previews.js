@@ -220,6 +220,14 @@
                   )
                 )
               ),
+              h(
+                "p",
+                {},
+                text(getValue(entry, ["contact", "form", "privacyNotice"])),
+                ` ${text(
+                  getValue(entry, ["contact", "form", "privacyLinkLabel"])
+                )}`
+              ),
               action(getValue(entry, ["contact", "form", "submit"]))
             ),
             h(
@@ -767,6 +775,12 @@
                 )
               )
             ),
+            h(
+              "p",
+              {},
+              text(getValue(entry, ["enquiryModal", "privacyNotice"])),
+              ` ${text(getValue(entry, ["enquiryModal", "privacyLinkLabel"]))}`
+            ),
             action(getValue(entry, ["enquiryModal", "submit"]))
           )
         ),
@@ -837,10 +851,60 @@
     },
   });
 
+  const PrivacyPreview = createClass({
+    render() {
+      const { entry } = this.props;
+      const sections = getList(entry, ["sections"]);
+      return frame("Privacy notice", [
+        h(
+          "section",
+          { className: "kp-preview-hero" },
+          h(
+            "p",
+            { className: "kp-preview-eyebrow" },
+            text(getValue(entry, ["eyebrow"]))
+          ),
+          h("h1", {}, text(getValue(entry, ["heading"]))),
+          h(
+            "p",
+            { className: "kp-preview-lead" },
+            text(getValue(entry, ["intro"]))
+          ),
+          h("p", {}, text(getValue(entry, ["lastUpdated"])))
+        ),
+        ...sections.map((section, index) =>
+          h(
+            "section",
+            { className: "kp-preview-section", key: index },
+            h("h2", {}, text(section.heading)),
+            ...(Array.isArray(section.paragraphs)
+              ? section.paragraphs.map((paragraph, paragraphIndex) =>
+                  h("p", { key: paragraphIndex }, text(paragraph))
+                )
+              : [])
+          )
+        ),
+        h(
+          "section",
+          { className: "kp-preview-section kp-preview-section-muted" },
+          h("h2", {}, text(getValue(entry, ["contactHeading"]))),
+          h("p", {}, text(getValue(entry, ["contactText"]))),
+          action(
+            getValue(entry, ["contactEmail"]),
+            `mailto:${text(getValue(entry, ["contactEmail"]))}`
+          ),
+          h("p", {}, text(getValue(entry, ["icoText"]))),
+          action(getValue(entry, ["icoUrl"]), text(getValue(entry, ["icoUrl"])))
+        ),
+      ]);
+    },
+  });
+
   CMS.registerPreviewStyle("/admin/preview.css");
   CMS.registerPreviewTemplate("home_page", HomePreview);
   CMS.registerPreviewTemplate("events", EventsPreview);
   CMS.registerPreviewTemplate("sponsor_page", SponsorPreview);
   CMS.registerPreviewTemplate("gallery", GalleryPreview);
   CMS.registerPreviewTemplate("media_coverage", MediaPreview);
+  CMS.registerPreviewTemplate("privacy_page", PrivacyPreview);
 })();

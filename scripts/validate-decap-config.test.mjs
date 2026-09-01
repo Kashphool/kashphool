@@ -164,7 +164,7 @@ test("organises documents into clear editorial collections", () => {
   );
 
   assert.deepEqual(actualGroups, {
-    pages: ["home_page", "constitution_page", "not_found_page"],
+    pages: ["home_page", "constitution_page", "privacy_page", "not_found_page"],
     events: ["events"],
     sponsors: ["sponsors", "sponsor_page"],
     media: ["gallery", "media_coverage"],
@@ -186,6 +186,7 @@ test("long repeatable sections open collapsed with recognisable summaries", () =
     ["sponsors", ["sponsors"], "{{fields.name}}"],
     ["sponsor_page", ["tiers"], "{{fields.name}} — {{fields.guide}}"],
     ["sponsor_page", ["pastCelebrations", "photos"], "{{fields.alt}}"],
+    ["privacy_page", ["sections"], "{{fields.heading}}"],
     [
       "media_coverage",
       ["supportingVideos"],
@@ -231,7 +232,7 @@ test("long page sections open collapsed so editors can scan the form", () => {
   }
 });
 
-test("schema-projected JSON round trips preserve code-controlled fields", async () => {
+test("schema-projected JSON round trips preserve every configured field", async () => {
   const hiddenFields = [
     ["home_page", ["hero", "name"]],
     ["home_page", ["events", "loading"]],
@@ -254,7 +255,12 @@ test("schema-projected JSON round trips preserve code-controlled fields", async 
     );
   }
 
-  for (const documentName of ["home_page", "sponsor_page", "media_coverage"]) {
+  for (const documentName of [
+    "home_page",
+    "sponsor_page",
+    "privacy_page",
+    "media_coverage",
+  ]) {
     const document = findDocument(sourceConfig, documentName);
     const source = JSON.parse(
       await readFile(join(repositoryRoot, document.file), "utf8")

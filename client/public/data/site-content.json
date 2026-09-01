@@ -27,6 +27,7 @@
       "gallery": { "label": "Gallery" },
       "sponsors": { "label": "Sponsor Us" },
       "constitution": { "label": "Constitution" },
+      "privacy": { "label": "Privacy" },
       "contact": { "label": "Contact" }
     }
   },
